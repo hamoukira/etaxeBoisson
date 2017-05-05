@@ -38,7 +38,7 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Add Position" for="position" />
-                        <p:commandButton  id="position" icon="fa fa-map-marker"  action="#{localeController.toAddPosition()}" />
+                        <p:commandButton  id="position" icon="fa fa-map-marker"  action="#{localeController.toEditPosition()}" />
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{localeController.update}" value="#{bundle.Save}" update="display,:growl,:LocalListForm:datalist" oncomplete="handleSubmit(args, 'LocaleEditDialog');"/>

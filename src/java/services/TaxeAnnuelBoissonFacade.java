@@ -13,14 +13,22 @@ import bean.Rue;
 import bean.Secteur;
 import bean.TaxeAnnuelBoisson;
 import bean.TaxeTrimBoisson;
+import controller.util.FrenchNumberToWords;
+import controller.util.PdfUtil;
 import controller.util.SearchUtil;
+import controller.util.SessionUtil;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -146,6 +154,55 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         }
         System.out.println("facade :: findByCriteria :: Querry :: " + query);
         return em.createQuery(query).getResultList();
+    }
+
+    public void printPdf(TaxeAnnuelBoisson taxeAnnuelBoisson) throws JRException, IOException {
+        List myList = taxeTrimFacade.findByTaxeAnnuel(taxeAnnuelBoisson);
+        if (myList != null) {
+            Map<String, Object> params = prepareParams(taxeAnnuelBoisson);
+            PdfUtil.generatePdf(myList, params, "bordereauAnnuel" + taxeAnnuelBoisson.getId() + ".pdf", "jasper/taxeAnnuelleRapport.jasper");
+        }
+    }
+
+    private Map<String, Object> prepareParams(TaxeAnnuelBoisson taxeAnnuelBoisson) {
+        String nature;
+        String status = "NoN";
+        String cinOuRcRedevable;
+        String adresse = taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName() + " "
+                + taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " "
+                + taxeAnnuelBoisson.getLocale().getRue().getName() + " " + taxeAnnuelBoisson.getLocale().getComplementAdress();
+        if (taxeAnnuelBoisson.getRedevable().getNature() == 1) {
+            nature = "Gerant";
+        } else {
+            nature = "proprietaire";
+        }
+        if (taxeAnnuelBoisson.getRedevable().getCin() != null || !taxeAnnuelBoisson.getRedevable().getCin().equals("")) {
+            cinOuRcRedevable = taxeAnnuelBoisson.getRedevable().getCin();
+        } else {
+            cinOuRcRedevable = taxeAnnuelBoisson.getRedevable().getRc();
+        }
+
+        if (taxeAnnuelBoisson.getFinished() == 1) {
+            status = "Terminer";
+        } else if (taxeAnnuelBoisson.getFinished() == -1 || taxeAnnuelBoisson.getFinished() == 0) {
+            status = "Non Termine";
+        }
+
+        Map<String, Object> params = new HashMap();
+        params.put("redevableName", taxeAnnuelBoisson.getRedevable().getNom());
+        params.put("activite", taxeAnnuelBoisson.getLocale().getTypeLocal().getNom());
+        params.put("taxYear", taxeAnnuelBoisson.getAnnee());
+        params.put("montantAnnuel", taxeAnnuelBoisson.getMontantTaxeannuel());
+        params.put("idRedevable", taxeAnnuelBoisson.getRedevable().getId());
+        params.put("cinOrRcRedevable", cinOuRcRedevable);
+        params.put("nomLocale", taxeAnnuelBoisson.getLocale().getNom());
+        params.put("natureRedevable", nature);
+        params.put("adresseLocale", adresse);
+        params.put("idTaxeAnn", taxeAnnuelBoisson.getId());
+        params.put("totalEnLettre", FrenchNumberToWords.convert(taxeAnnuelBoisson.getMontantTaxeannuel()));
+        params.put("status", status);
+        params.put("userName", SessionUtil.getConnectedUser().getNom());
+        return params;
     }
 
 }

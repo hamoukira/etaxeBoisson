@@ -66,7 +66,7 @@ public class TaxeTrimBoissonController implements Serializable {
     private BarChartModel barModel;
     private LineChartModel lineModel;
     private DonutChartModel donutModel;
-    private int typeGraphe=1;
+    private int typeGraphe;
     private int anneeDeb;
     private int anneeFin;
     private Rue rue;
@@ -110,6 +110,8 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public BarChartModel getBarModel() {
+        if(barModel==null)
+            barModel=new BarChartModel();
         return barModel;
     }
 
@@ -118,6 +120,8 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public LineChartModel getLineModel() {
+        if(lineModel==null)
+            lineModel=new LineChartModel();
         return lineModel;
     }
 
@@ -126,6 +130,8 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public DonutChartModel getDonutModel() {
+        if(donutModel==null)
+            donutModel=new DonutChartModel();
         return donutModel;
     }
 
@@ -383,6 +389,8 @@ public class TaxeTrimBoissonController implements Serializable {
 
     public void prepareCreate() {
         setIsSimulation(false);
+        propCode="";
+        gerantCode="";
         selected =null;
         items=null;
     }

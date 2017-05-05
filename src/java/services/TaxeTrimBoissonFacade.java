@@ -370,7 +370,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         List myList = new ArrayList();
         myList.add(taxeTrim);
         Map<String, Object> params = prepareParams(taxeTrim);
-        PdfUtil.generatePdf(myList, params, "bordereau" + taxeTrim.getId() + ".pdf", "jasper/NewRepport.jasper");
+        PdfUtil.generatePdf(myList, params, "bordereau" + taxeTrim.getId() + ".pdf", "jasper/taxeTrimRapport.jasper");
     }
 
 
@@ -394,7 +394,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         }
         Map<String, Object> params = new HashMap();
         params.put("redevableName", taxeTrim.getRedevable().getNom());
-//        params.put("numTrim", taxeTrim.getNumeroTrim());
+        params.put("activite", taxeTrim.getLocal().getTypeLocal().getNom());
         params.put("taxYear", taxeTrim.getTaxeYear().getYear());
         params.put("dateEffectationTaxe", taxeTrim.getDateActuel().toString());
         params.put("idRedevable", taxeTrim.getRedevable().getId());
@@ -403,6 +403,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         params.put("natureRedevable", nature);
         params.put("adresseLocale", adresse);
         params.put("totalEnLettre", FrenchNumberToWords.convert(taxeTrim.getMontantTotalTaxe()));
+        params.put("userName", taxeTrim.getUser().getNom());
         return params;
     }
 }

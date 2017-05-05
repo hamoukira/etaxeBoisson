@@ -19,7 +19,7 @@
 
         <ui:define name="body">
             <!-- tab view hya lli kat3tina ndiro jouj dyal les view f page w7da -->
-            <p:tabView>
+            <p:tabView >
                 <!--<br/>-->
                 <!--
                 *
@@ -38,7 +38,7 @@
                             <div class="ui-grid-col-4">
                                 <h:form id="createPropritaireForm">
                                     <!--<h1><h:outputText value="#{bundle.Propritaire}"/></h1>-->
-                                    <p:fieldset legend="#{bundle.Propritaire}">
+                                    <p:fieldset legend="#{bundle.Propritaire}" style="margin-top: 20px !important">
                                         <h:panelGrid id="propritairePanel" columns="2" cellpadding="6" >
 
                                             <p:outputLabel value="#{bundle.NatureDuPropritaire}:" for="naturePropritaire" />
@@ -99,7 +99,7 @@
                             <div class="ui-grid-col-4">
                                 <h:form id="createGerantForm">
                                     <!--<h1><h:outputText value="#{bundle.Gerant}"/></h1>-->
-                                    <p:fieldset legend="#{bundle.Gerant}">
+                                    <p:fieldset legend="#{bundle.Gerant}" style="margin-top: 20px !important">
                                         <h:panelGrid id="gerantPanel" columns="2" cellpadding="6" >
 
                                             <p:outputLabel value="#{bundle.NatureDuGerant}:" for="natureGerant" />
@@ -162,7 +162,7 @@
                 <p:tab  title="#{bundle.TableViewLocal}">
                     <!--hanane ktbi lformulaire dyal local fhad lblasa -->
                                 <h:form id="localeCreateForm">
-                                    <p:fieldset legend="#{bundle.CreateLocaleTitle}">
+                                    <p:fieldset legend="#{bundle.CreateLocaleTitle}" style="margin-top: 35px !important" >
                                         <h:panelGrid columns="2" cellspacing="15">
                                             <p:outputLabel value="Gerant:" for="gerant" />
                                             <h:panelGroup>

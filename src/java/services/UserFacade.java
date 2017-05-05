@@ -64,9 +64,6 @@ public class UserFacade extends AbstractFacade<Userr> {
         } else {
             Userr loadedUser = null;
             loadedUser = find(user.getLogin());
-//            System.out.println("loadedUser.getPasswrd() " + loadedUser.getPasswrd());
-//            System.out.println("user.getPasswrd : " + user.getPasswrd());
-//            System.out.println("user.HashPasswrd : " + HashageUtil.sha256(user.getPasswrd()));
             if (loadedUser == null) {
                 return -4;
             } else if (loadedUser.isBlocked() == true) {
@@ -81,7 +78,6 @@ public class UserFacade extends AbstractFacade<Userr> {
                 return -3;
             } else {
                 loadedUser.setNbrCnx(0);
-//                loadedUser.setConnected(true);
                 edit(loadedUser);
                 user = clone(loadedUser);
                 if (SessionUtil.registerUser(user)) {

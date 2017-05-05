@@ -28,6 +28,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import net.sf.jasperreports.engine.JRException;
 
 @Named("taxeAnnuelBoissonController")
 @SessionScoped
@@ -165,10 +166,15 @@ public class TaxeAnnuelBoissonController implements Serializable {
         return ejbFacade;
     }
 
-    public TaxeAnnuelBoisson prepareCreate() {
-        selected = new TaxeAnnuelBoisson();
-        initializeEmbeddableKey();
-        return selected;
+    public void prepareCreate() {
+        items=null;
+        thisCommune=null;
+        paiement=0;
+        gerantCode="";
+        propCode="";
+        anneeMin="";
+        anneeMax="";
+        yearlyTaxeTrims=null;
     }
 
     public Rue getRue() {
@@ -254,10 +260,9 @@ public class TaxeAnnuelBoissonController implements Serializable {
         }
     }
 
-    public void redirectToTaxeTrim() throws IOException{
+    public void redirectToTaxeTrim() throws IOException {
         SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/taxeTrimBoisson/List");
     }
-   
 
     public int getTrimMin() {
         return trimMin;
@@ -337,34 +342,34 @@ public class TaxeAnnuelBoissonController implements Serializable {
         return ejbFacadeC.findAll();
     }
 
-    //jasper
-//    public void generatPdf() throws JRException, IOException {
-//        System.out.println("print pdf controller");
-//        taxeTrimBoissonFacade.printPdf(selectedTaxe);
-//        FacesContext.getCurrentInstance().responseComplete();
-//    }
+    public void generatPdf(TaxeAnnuelBoisson taxeAnnuelBoisson) throws JRException, IOException {
+        System.out.println("print pdf controller");
+        ejbFacade.printPdf(taxeAnnuelBoisson);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+
     public List<Redevable> getRedevablessAvaibleSelectOne() {
         return redevableFacade.findAll();
     }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
+//
+//    public void create() {
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonCreated"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
+//
+//    public void update() {
+//        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonUpdated"));
+//    }
+//
+//    public void destroy() {
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TaxeAnnuelBoissonDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
 
     public void findTaxeTrim(TaxeAnnuelBoisson taxeAnnuelBoisson) {
         yearlyTaxeTrims = taxeTrimBoissonFacade.findByTaxeAnnuel(taxeAnnuelBoisson);
@@ -382,34 +387,34 @@ public class TaxeAnnuelBoissonController implements Serializable {
         }
         return items;
     }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
+//
+//    private void persist(PersistAction persistAction, String successMessage) {
+//        if (selected != null) {
+//            setEmbeddableKeys();
+//            try {
+//                if (persistAction != PersistAction.DELETE) {
+//                    getFacade().edit(selected);
+//                } else {
+//                    getFacade().remove(selected);
+//                }
+//                JsfUtil.addSuccessMessage(successMessage);
+//            } catch (EJBException ex) {
+//                String msg = "";
+//                Throwable cause = ex.getCause();
+//                if (cause != null) {
+//                    msg = cause.getLocalizedMessage();
+//                }
+//                if (msg.length() > 0) {
+//                    JsfUtil.addErrorMessage(msg);
+//                } else {
+//                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+//                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+//            }
+//        }
+//    }
 
     public TaxeAnnuelBoisson getTaxeAnnuelBoisson(java.lang.Long id) {
         return getFacade().find(id);

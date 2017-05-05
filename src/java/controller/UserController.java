@@ -56,7 +56,6 @@ public class UserController implements Serializable {
             default:
                 try {
                     SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/home/accueil");
-                    System.out.println(SessionUtil.getConnectedUser());
                 } catch (IOException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -66,7 +65,6 @@ public class UserController implements Serializable {
     }
 
     public void seDeConnnecter() throws IOException {
-        System.out.println("seDeConnnecter");
         ejbFacade.seDeConnnecter();
         SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
     }
@@ -85,7 +83,9 @@ public class UserController implements Serializable {
     }
 
     public String canAccesseAdminBar() throws IOException {
+        System.out.println(SessionUtil.getConnectedUser());
         try {
+            System.out.println("canAccesseAdminBar :: "+SessionUtil.getConnectedUser().isAdminn());
             if (SessionUtil.getConnectedUser().isAdminn()) {
                 return "true";
             } else {
@@ -99,7 +99,9 @@ public class UserController implements Serializable {
     }
 
     public String canAccesseRedevable() throws IOException {
+//       
         try {
+             System.out.println("canAccesseRedevable :: "+SessionUtil.getConnectedUser().isRedevable());
             if (SessionUtil.getConnectedUser().isRedevable()) {
                 return "true";
             } else {
@@ -112,7 +114,9 @@ public class UserController implements Serializable {
     }
 
     public String canAccesseTaxes() throws IOException {
+//        
         try {
+            System.out.println("canAccesseTaxes :: "+SessionUtil.getConnectedUser().isTaxes());
             if (SessionUtil.getConnectedUser().isTaxes()) {
                 return "true";
             } else {
@@ -126,7 +130,7 @@ public class UserController implements Serializable {
 
     public String canAccesseAdressage() throws IOException {
         try {
-            System.out.println("canAccesseAdressage :: " + SessionUtil.getConnectedUser().isAdressage());
+//            System.out.println("canAccesseAdressage :: " + SessionUtil.getConnectedUser().isAdressage());
             if (SessionUtil.getConnectedUser().isAdressage()) {
                 return "true";
             } else {
@@ -150,6 +154,10 @@ public class UserController implements Serializable {
             return null;
         }
     }
+    
+//    public void redirect(String path) throws IOException{
+//        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/"+path);
+//    }
 
     public Userr getSelected() {
         if (selected == null) {

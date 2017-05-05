@@ -14,40 +14,46 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="SecteurListForm">
-                <p:panel header="#{bundle.ListSecteurTitle}">
-                    <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="5,10,15,20"
-                                 >
-                        <p:column class="Ncolumn" >
-                            <f:facet name="header">
-                                <h:outputText value="N°"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSecteurTitle_name}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.name}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSecteurTitle_commune}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.commune.name}"/>
-                        </p:column>
-                        
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="fa fa-floppy-o"   value="#{bundle.Create}" actionListener="#{secteurController.prepareCreate}" update=":SecteurCreateForm" oncomplete="PF('SecteurCreateDialog').show()"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+            <div class="ui-grid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3"></div>
+                    <div class="ui-grid-col-6">
+                        <h:form id="SecteurListForm">
+                            <p:panel header="#{bundle.ListSecteurTitle}">
+                                <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="5,10,15,20"
+                                             >
+                                    <p:column class="Ncolumn" sortBy="#{item.id}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column  sortBy="#{item.name}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSecteurTitle_name}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.name}"/>
+                                    </p:column>
+                                    <p:column  sortBy="#{item.commune.name}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSecteurTitle_commune}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.commune.name}"/>
+                                    </p:column>
 
+                                    <f:facet name="footer">
+                                        <p:commandButton id="createButton" icon="fa fa-floppy-o"   value="#{bundle.Create}" actionListener="#{secteurController.prepareCreate}" update=":SecteurCreateForm" oncomplete="PF('SecteurCreateDialog').show()"/>
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
             <ui:include src="Create.xhtml"/>
         </ui:define>
     </ui:composition>

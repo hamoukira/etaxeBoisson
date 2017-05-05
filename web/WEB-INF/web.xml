@@ -21,6 +21,7 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/secured/*</url-pattern>
     </filter-mapping>
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

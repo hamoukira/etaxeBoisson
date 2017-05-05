@@ -40,7 +40,7 @@ public class ActiviteFacade extends AbstractFacade<Activite> {
     public int createActivite(Activite activite, TauxRetardBoisonTrim tauxRetard, TauxTaxeBoisson tauxTaxe) {
         try {
             Activite activiteInDB = findActiviteByName(activite.getNom());
-            if (activiteInDB != null) {
+            if (activiteInDB == null) {
                 create(activite);
                 tauxRetardFacade.create(tauxRetard);
                 tauxTaxeFacade.create(tauxTaxe);

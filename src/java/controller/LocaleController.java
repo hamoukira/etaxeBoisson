@@ -82,6 +82,7 @@ public class LocaleController implements Serializable {
 
     private Double lat = 0D;
     private Double lng = 0D;
+    private boolean activateMarkeMethode=false;
 
     public boolean isIsModification() {
         return isModification;
@@ -93,6 +94,16 @@ public class LocaleController implements Serializable {
      *
      *
      */
+
+    public boolean isActivateMarkeMethode() {
+        return activateMarkeMethode;
+    }
+
+    public void setActivateMarkeMethode(boolean activateMarkeMethode) {
+        this.activateMarkeMethode = activateMarkeMethode;
+    }
+    
+    
     public void setIsModification(boolean isModification) {
         this.isModification = isModification;
     }
@@ -305,6 +316,14 @@ public class LocaleController implements Serializable {
     }
 
     public void toAddPosition() throws IOException {
+        setActivateMarkeMethode(true);
+        setIsModification(false);
+        setDesabeledPosition("false");
+        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap.xhtml");
+    }
+
+    public void toEditPosition() throws IOException {
+        setActivateMarkeMethode(true);
         setIsModification(true);
         setDesabeledPosition("false");
         SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap.xhtml");
@@ -409,25 +428,28 @@ public class LocaleController implements Serializable {
     }
 
     public void marke(boolean modification) throws IOException {
-        getPosition().setLat(getLat());
-        getPosition().setLng(getLng());
+        if (activateMarkeMethode) {
+            setActivateMarkeMethode(false);
+            getPosition().setLat(getLat());
+            getPosition().setLng(getLng());
 //        getPosition().setLocale(getSelected());
 //        System.out.println(getPosition());
 
-        if (modification){
-            positionFacade.remove(getSelected().getPosition());
-            getSelected().setPosition(getPosition());
-            positionFacade.create(getPosition());
-            getFacade().edit(getSelected());
-            cancelCreation();
-            isModification = false;
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/List");
-        } else {
-            getSelected().setPosition(getPosition());
-            positionFacade.create(getPosition());
-            getFacade().edit(getSelected());
-            cancelCreation();
-            redirect();
+            if (modification) {
+                positionFacade.remove(getSelected().getPosition());
+                getSelected().setPosition(getPosition());
+                positionFacade.create(getPosition());
+                getFacade().edit(getSelected());
+                cancelCreation();
+                isModification = false;
+                SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/List");
+            } else {
+                getSelected().setPosition(getPosition());
+                positionFacade.create(getPosition());
+                getFacade().edit(getSelected());
+                cancelCreation();
+                redirect();
+            }
         }
     }
 
@@ -438,9 +460,11 @@ public class LocaleController implements Serializable {
     public void cancelPositionAddition(boolean modification) throws IOException {
         cancelCreation();
         if (modification) {
+            setActivateMarkeMethode(false);
             isModification = false;
             SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/List");
         } else {
+            setActivateMarkeMethode(false);
             redirect();
         }
     }

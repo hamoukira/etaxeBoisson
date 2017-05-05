@@ -12,6 +12,9 @@
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTaxeAnnuelBoissonTitle}"></h:outputText>
         </ui:define>
+        <f:metadata>
+            <f:viewAction action="#{taxeAnnuelBoissonController.prepareCreate()}" />
+        </f:metadata>
 
         <ui:define name="body">
 
@@ -66,7 +69,7 @@
                                     </p:column>
                                     <p:column styleClass="text-font">
                                         <p:selectOneMenu id="paiment" value="#{taxeAnnuelBoissonController.paiement}" >
-                                            <f:selectItem itemValue="0" itemLabel="Tous"/>
+                                            <f:selectItem itemValue="0" itemLabel="--SELECT--"/>
                                             <f:selectItem itemValue="1" itemLabel="Payé"/>
                                             <f:selectItem itemValue="-1" itemLabel="Non-Payé"/>
                                         </p:selectOneMenu>
@@ -94,13 +97,17 @@
                                         <p:outputLabel value="AnneeMin" for="anneeMin" ></p:outputLabel>
                                     </p:column>
                                     <p:column styleClass="text-font">
-                                        <p:inputText id="anneeMin" value="#{taxeAnnuelBoissonController.anneeMin}" title="anneeMin"/>
+                                        <p:inputText id="anneeMin" value="#{taxeAnnuelBoissonController.anneeMin}" title="anneeMin" maxlength="4" >
+                                        <f:validateRegex pattern="[0-9 ]*" />
+                                        </p:inputText>
                                     </p:column>
                                     <p:column styleClass="text-font">
                                         <p:outputLabel value="AnneeMax" for="anneeMax" ></p:outputLabel>
                                     </p:column>
                                     <p:column styleClass="text-font">
-                                        <p:inputText id="anneeMax" value="#{taxeAnnuelBoissonController.anneeMax}" title="anneeMax"/>
+                                        <p:inputText id="anneeMax" value="#{taxeAnnuelBoissonController.anneeMax}" title="anneeMax" maxlength="4" >
+                                            <f:validateRegex pattern="[0-9 ]*" />
+                                        </p:inputText>
                                     </p:column>
                                     <p:column styleClass="text-font">
                                         <p:commandButton value="Search" actionListener="#{taxeAnnuelBoissonController.findByCriteria()}" update=":TaxeAnnuelBoissonListForm:datalist"></p:commandButton>
@@ -145,7 +152,7 @@
                                             <h:outputText value="Options"/>
                                         </f:facet>
                                         <p:commandButton class="OptionButton" id="viewButton"   icon="ui-icon-search" update=":TaxeAnnuelBoissonViewForm" oncomplete="PF('TaxeAnnuelBoissonViewDialog').show()" />
-                                        <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" />-->
+                                        <p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="#{taxeAnnuelBoissonController.generatPdf(item)}" ajax="false"/>
                                         <p:commandButton class="OptionButton" id="findTrims" actionListener="#{taxeAnnuelBoissonController.findTaxeTrim(item)}" update=":TaxeTrimBoissonListForm:datalist"  icon="ui-icon-plus" />
                                     </p:column>
                                 </p:dataTable>
