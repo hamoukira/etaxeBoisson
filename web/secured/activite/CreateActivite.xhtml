@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListActiviteTitle}"></h:outputText>
+        </ui:define>
+        <f:metadata>
+            <f:viewAction action="#{activiteController.prepareView()}" />
+        </f:metadata>
+
+        <ui:define name="body">
+            <div class="ui-grid ui-grid-responsive margFields">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <p:fieldset legend="Activite" style="height: 250px  !important"> 
+                            <h:form id="ActiviteCreateForm">
+                                <h:panelGroup id="display">
+                                    <h:panelGrid columns="2" cellpadding="4" cellspacing="8" >
+                                        <p:outputLabel value="#{bundle.CreateActiviteLabel_nom}" for="nom" />
+                                        <p:inputText disabled="#{activiteController.activiteFinished eq true}"  required="true" id="nom" value="#{activiteController.selected.nom}" title="#{bundle.CreateActiviteTitle_nom}" />
+                                        <p:outputLabel value="#{bundle.CreateActiviteLabel_tva}" for="tva" />
+                                        <p:inputText disabled="#{activiteController.activiteFinished eq true}"  required="true" id="tva" value="#{activiteController.selected.tva}" title="#{bundle.CreateActiviteTitle_tva}" />
+                                    </h:panelGrid>
+                                    <p:commandButton  style="margin-top: 52px !important" disabled="#{activiteController.activiteFinished eq true}"  actionListener="#{activiteController.activiteFinished()}" value="#{bundle.Save}" update=":TauxBoissonTaxeCreateForm:display,display,:TauxRetardBoisonTrimCreateForm:display" />
+                                </h:panelGroup>
+                            </h:form>
+                        </p:fieldset>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <p:fieldset legend="Taux taxe" style="height: 250px  !important">
+                            <h:form id="TauxBoissonTaxeCreateForm">
+                                <h:panelGroup  id="display">
+                                    <h:panelGrid columns="2" cellpadding="4" cellspacing="8" >
+                                        <p:outputLabel  value="#{bundle.CreateTauxBoissonTaxeLabel_activite}" for="activite" />
+                                        <p:inputText disabled="true" id="activite" value="#{activiteController.tauxTaxe.activite.nom}" />
+                                      
+                                        <p:outputLabel value="#{bundle.CreateTauxBoissonTaxeLabel_taux}" for="taux" />
+                                        <p:inputText  disabled="#{activiteController.activiteFinished eq false || activiteController.tauxTaxeFinished eq true}" 
+                                                      required="true"  id="taux" value="#{activiteController.tauxTaxe.taux}" 
+                                                      title="#{bundle.CreateTauxBoissonTaxeTitle_taux}" />
+                                    </h:panelGrid>
+                                    <p:commandButton style="margin-top: 52px !important"  disabled="#{activiteController.activiteFinished eq false || activiteController.tauxTaxeFinished eq true}"  
+                                                      actionListener="#{activiteController.tauxTaxeFinished()}" 
+                                                      value="#{bundle.Save}" update="display,:TauxRetardBoisonTrimCreateForm:display" />
+                                </h:panelGroup>
+                            </h:form>
+                        </p:fieldset> 
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <p:fieldset legend="Taux Retard" style="height: 250px !important"> 
+                            <h:form id="TauxRetardBoisonTrimCreateForm">
+                                <h:panelGroup id="display">
+                                    <h:panelGrid columns="2" cellpadding="4" cellspacing="8" >
+                                        <p:outputLabel value="Activite" for="tauxBoissonTaxe" />
+                                        <p:inputText disabled="true" id="tauxBoissonTaxe" value="#{activiteController.selected.nom}" />
+                                            
+                                        <p:outputLabel value="#{bundle.CreateTauxRetardBoisonTrimLabel_tauxRetardPremierMois}" for="tauxRetardPremierMois" />
+                                        <p:inputText required="true" disabled="#{activiteController.tauxTaxeFinished eq false || activiteController.tauRetardFinished eq true}"
+                                                     id="tauxRetardPremierMois" value="#{activiteController.tauxRetard.tauxRetardPremierMois}" 
+                                                     title="#{bundle.CreateTauxRetardBoisonTrimTitle_tauxRetardPremierMois}" />
+                                        <p:outputLabel value="#{bundle.CreateTauxRetardBoisonTrimLabel_tauxRetardAutreMois}" for="tauxRetardAutreMois" />
+                                        <p:inputText required="true" disabled="#{activiteController.tauxTaxeFinished eq false || activiteController.tauRetardFinished eq true}"
+                                                     id="tauxRetardAutreMois" value="#{activiteController.tauxRetard.tauxRetardAutreMois}"
+                                                     title="#{bundle.CreateTauxRetardBoisonTrimTitle_tauxRetardAutreMois}" />
+                                    </h:panelGrid>
+                                    <p:commandButton disabled="#{activiteController.tauxTaxeFinished eq false || activiteController.tauRetardFinished eq true}" 
+                                                     actionListener="#{activiteController.tauxRetardTaxeFinished()}" value="#{bundle.Save}" update="display,:savingFrom:saveButton" />
+                                </h:panelGroup>
+                            </h:form>
+                        </p:fieldset> 
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-5"></div>
+                    <h:form id="savingFrom">
+                        <p:commandButton disabled="#{activiteController.tauRetardFinished eq false}" id="saveButton" style="margin: 10px" value="#{bundle.Save}" actionListener="#{activiteController.create()}" update="saveButton,:ActiviteCreateForm,:TauxRetardBoisonTrimCreateForm,:TauxBoissonTaxeCreateForm,:growl"   />
+                        <p:commandButton style="margin: 10px" value="#{bundle.Cancel}" actionListener="#{activiteController.prepareView()}" update=":ActiviteCreateForm,:TauxRetardBoisonTrimCreateForm,:TauxBoissonTaxeCreateForm,saveButton" ></p:commandButton>
+                    </h:form>
+                    <div class="ui-grid-col-5"></div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

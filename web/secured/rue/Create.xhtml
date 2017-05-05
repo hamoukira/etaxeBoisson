@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RueCreateDlg" widgetVar="RueCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRueTitle}">
+            <h:form id="RueCreateForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="#{bundle.CreateRueLabel_quartier}" for="quartier" />
+                        <p:selectOneMenu disabled="true" id="quartier" value="#{communeController.thisRue.quartier}" >
+                            <f:selectItems value="#{quartierController.itemsAvailableSelectOne}"
+                                           var="quartierItem"
+                                           itemValue="#{quartierItem}"
+                                           itemLabel="#{quartierItem.name}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRueLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{communeController.thisRue.name}" title="#{bundle.CreateRueTitle_name}" />
+                        
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{communeController.createRue()}" value="#{bundle.Save}" update="display,:RueListForm:datalist,:growl" oncomplete="handleSubmit(args,'RueCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" actionListener="#{communeController.setThisRue(null)}" onclick="RueCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
