@@ -12,12 +12,22 @@
             <h:form id="TaxeAnnuelBoissonViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{taxeAnnuelBoissonController.selected != null}">
-                        <h:outputText value="#{bundle.ViewTaxeAnnuelBoissonLabel_id}"/>
+                        <h:outputText value="N°"/>
                         <h:outputText value="#{taxeAnnuelBoissonController.selected.id}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_id}"/>
                         <h:outputText value="#{bundle.ViewTaxeAnnuelBoissonLabel_locale}"/>
-                        <h:outputText value="#{taxeAnnuelBoissonController.selected.locale}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_locale}"/>
-                        <h:outputText value="#{bundle.ViewTaxeAnnuelBoissonLabel_redevable}"/>
-                        <h:outputText value="#{taxeAnnuelBoissonController.selected.redevable}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_redevable}"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.locale.nom}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_locale}"/>
+                        <h:outputText value="Annee"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.annee}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_locale}"/>
+                        <h:outputText value="Status"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.finished==1?'termine':'No Termine'}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_locale}"/>
+                        <h:outputText value="Montant Total"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.montantTaxeannuel}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_locale}"/>
+                        <h:outputText value="Nom"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.redevable.nom}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_redevable}"/>
+                        <h:outputText value="Cin Ou RC"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.redevable.cin!=null?taxeAnnuelBoissonController.selected.redevable.cin:taxeAnnuelBoissonController.selected.redevable.rc}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_redevable}"/>
+                        <h:outputText value="Nature"/>
+                        <h:outputText value="#{taxeAnnuelBoissonController.selected.redevable.nature==1?'Gerant':'Propritaire'}" title="#{bundle.ViewTaxeAnnuelBoissonTitle_redevable}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TaxeAnnuelBoissonViewDialog.hide()"/>
                 </h:panelGroup>

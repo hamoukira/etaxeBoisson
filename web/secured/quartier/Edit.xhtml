@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
 
@@ -14,14 +15,14 @@
                     <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
                         <p:outputLabel value="#{bundle.EditQuartierLabel_name}" for="name" />
                         <p:inputText id="name" value="#{quartierController.selected.name}" title="#{bundle.EditQuartierTitle_name}" />
-                        <p:outputLabel value="#{bundle.EditQuartierLabel_secteur}" for="secteur" />
-                        <p:selectOneMenu id="secteur" value="#{quartierController.selected.secteur}" >
+                        <p:outputLabel value="#{bundle.EditQuartierLabel_secteur}"  />
+                        <b:selectOneMenu  value="#{quartierController.selected.secteur}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{secteurController.itemsAvailableSelectOne}"
                                            var="secteurItem"
                                            itemValue="#{secteurItem}"
                                            itemLabel="#{secteurItem.name}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
                     </h:panelGrid>
                     <p:commandButton actionListener="#{quartierController.update}" value="#{bundle.Save}" update="display,:QuartierListForm:datalist,:growl" oncomplete="handleSubmit(args, 'QuartierEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" actionListener="#{quartierController.setSelected(null)}" onclick="QuartierEditDialog.hide()"/>

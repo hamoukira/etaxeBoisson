@@ -35,10 +35,7 @@
                         <h:outputText rendered="#{taxeTrimBoissonController.isSimulation eq false}" value="#{taxeTrimBoissonController.anItem.taxeAnnuelBoisson}" title="#{bundle.ViewTaxeTrimBoissonTitle_taxeAnnuelBoisson}"/>
                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_redevable}"/>
                         <h:outputText value="#{taxeTrimBoissonController.anItem.redevable.cin!=null?taxeTrimBoissonController.anItem.redevable.cin:taxeTrimBoissonController.anItem.redevable.rc}" title="#{bundle.ViewTaxeTrimBoissonTitle_redevable}"/>
-                        
-                        
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" actionListener="#{taxeTrimBoissonController.setAnItem(null)}" onclick="TaxeTrimBoissonViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

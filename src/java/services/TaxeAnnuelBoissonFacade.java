@@ -18,7 +18,6 @@ import controller.util.PdfUtil;
 import controller.util.SearchUtil;
 import controller.util.SessionUtil;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +48,8 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         super(TaxeAnnuelBoisson.class);
     }
 
+    @EJB
+    private services.RedevableFacade redevableFacade;
     @EJB
     TaxeTrimBoissonFacade taxeTrimFacade;
 
@@ -120,40 +121,53 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         return taxeAnnuelBoisson;
     }
 
-    public List<TaxeAnnuelBoisson> findByCriteria(String anneeMax, String anneeMin, Rue rue, Quartier quartier, Commune commune, Secteur secteur, Date dateMin, Date dateMax, int trimMin, int triMax, int paiement, Redevable redevable) {
+    public List<TaxeAnnuelBoisson> findByCriteria(String anneeMax, String anneeMin, Rue rue, Quartier quartier, Commune commune,
+            Secteur secteur, Date dateMin, Date dateMax, int trimMin, int triMax, int paiement, String propCode, String gerantCode) {
         System.out.println("facade :: findByCriteria ::");
         String query = "SELECT tax FROM TaxeAnnuelBoisson tax where 1=1 ";
-
+        Redevable gerant;
+        Redevable propr;
         if (anneeMax != null && !"".equals(anneeMax)) {
             query += SearchUtil.addConstraint("tax", "annee", "<=", anneeMax);
         }
         if (anneeMin != null && !"".equals(anneeMin)) {
             query += SearchUtil.addConstraint("tax", "annee", ">=", anneeMin);
         }
-        if (redevable != null) {
-            query += SearchUtil.addConstraint("tax", "redevable.id", "=", redevable.getId());
+        if (propCode != null && !"".equals(propCode)) {
+            propr = redevableFacade.findRedevable(propCode, null);
+            if (propr != null) {
+                query += SearchUtil.addConstraint("tax", "redevable.id", "=", propr.getId());
+            } else {
+                query="SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
+            }
+        }
+        if (gerantCode != null && !"".equals(gerantCode)) {
+            gerant = redevableFacade.findRedevable(null, gerantCode);
+            if (gerant != null) {
+                query += SearchUtil.addConstraint("tax", "redevable.id", "=", gerant.getId());
+            }else {
+                query="SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
+            }
         }
         if (paiement != 0) {
             query += SearchUtil.addConstraint("tax", "finished", "=", paiement);
         }
-        if (rue == null) {
-            if (quartier == null) {
-                if (secteur == null) {
-                    if (commune != null) {
-                        query += SearchUtil.addConstraint("tax.local", "rue.quartier.secteur.commune.id", "=", commune.getId());
-                    }
-                } else {
-                    query += SearchUtil.addConstraint("tax.local", "rue.quartier.secteur.id", "=", secteur.getId());
-                }
-            } else {
-                query += SearchUtil.addConstraint("tax.local", "rue.quartier.id", "=", quartier.getId());
-            }
-        } else {
-            query += SearchUtil.addConstraint("tax.local", "rue.id", "=", rue.getId());
-
+        if (rue != null) {
+            query += " AND tax.locale.rue.id=" + rue.getId();
+//            query += SearchUtil.addConstraint("tax.local", "rue.id", "=", rue.getId());
+        } else if (quartier != null) {
+            query += " AND tax.locale.rue.quartier.id=" + quartier.getId();
+//            query += SearchUtil.addConstraint("tax.local", "rue.quartier.id", "=", quartier.getId());
+        } else if (secteur != null) {
+            query += " AND tax.locale.rue.quartier.secteur.id=" + secteur.getId();
+//            query += SearchUtil.addConstraint("tax.local", "rue.quartier.secteur.id", "=", secteur.getId());
+        } else if (commune != null) {
+            query += " AND tax.locale.rue.quartier.secteur.commune.id=" + commune.getId();
+//            query += SearchUtil.addConstraint("tax.local", "rue.quartier.secteur.commune.id", "=", commune.getId());
         }
+
         System.out.println("facade :: findByCriteria :: Querry :: " + query);
-        return em.createQuery(query).getResultList();
+        return getEntityManager().createQuery(query).getResultList();
     }
 
     public void printPdf(TaxeAnnuelBoisson taxeAnnuelBoisson) throws JRException, IOException {

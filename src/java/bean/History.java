@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -27,8 +26,7 @@ public class History implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private Userr user;
+    private String userLogin;
     private int type;//1:login  2:logout
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime inOutTimeStamp;
@@ -41,12 +39,12 @@ public class History implements Serializable {
         this.id = id;
     }
 
-    public Userr getUser() {
-        return user;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUser(Userr user) {
-        this.user = user;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public int getType() {
@@ -98,8 +96,8 @@ public class History implements Serializable {
             idString = id.toString();
         }
         String userString = "{}";
-        if (user != null) {
-            userString = user.toString();
+        if (userLogin != null) {
+            userString = userLogin.toString();
         }
         String inOutTimeStampString = "{}";
         if (inOutTimeStamp != null) {

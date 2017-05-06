@@ -8,7 +8,6 @@ import bean.Secteur;
 import bean.TaxeAnnuelBoisson;
 import bean.TaxeTrimBoisson;
 import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
 import java.io.IOException;
 import services.TaxeAnnuelBoissonFacade;
@@ -17,11 +16,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -249,15 +246,15 @@ public class TaxeAnnuelBoissonController implements Serializable {
 
     public void findByCriteria() {
         System.out.println("controller :: findByCriteria :: ");
-        items = ejbFacade.findByCriteria(anneeMax, anneeMin, rue, thisQuartier, thisCommune, thisSecteur, dateMin, dateMax, trimMin, trimMax, paiement, redevableFacade.findRedevable(propCode, gerantCode));
+        items = ejbFacade.findByCriteria(anneeMax, anneeMin, rue, thisQuartier, thisCommune, thisSecteur, dateMin, dateMax, trimMin, trimMax, paiement, propCode,gerantCode);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
             System.out.println("n search");
         } else {
             JsfUtil.addSuccessMessage("successe");
             System.out.println("sucess");
-
         }
+        yearlyTaxeTrims=null;
     }
 
     public void redirectToTaxeTrim() throws IOException {
@@ -315,10 +312,10 @@ public class TaxeAnnuelBoissonController implements Serializable {
     public void secteureByCommun() {
         if (thisCommune != null) {
             setSecteurs(secteurFacade.findSecteureByCommun(getThisCommune()));
-            setQuartiers(new ArrayList<Quartier>());
-            setRues(new ArrayList<Rue>());
+            setQuartiers(new ArrayList<>());
+            setRues(new ArrayList<>());
         } else {
-            setSecteurs(new ArrayList<Secteur>());
+            setSecteurs(new ArrayList<>());
         }
     }
 
@@ -326,7 +323,7 @@ public class TaxeAnnuelBoissonController implements Serializable {
         if (thisSecteur != null) {
             setQuartiers(quartierFacade.findBySecteur(getThisSecteur()));
         } else {
-            setQuartiers(new ArrayList<Quartier>());
+            setQuartiers(new ArrayList<>());
         }
     }
 
@@ -334,7 +331,7 @@ public class TaxeAnnuelBoissonController implements Serializable {
         if (thisQuartier != null) {
             setRues(rueFacade.findByQuartier(getThisQuartier()));
         } else {
-            setRues(new ArrayList<Rue>());
+            setRues(new ArrayList<>());
         }
     }
 

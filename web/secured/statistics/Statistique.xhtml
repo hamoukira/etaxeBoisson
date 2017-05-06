@@ -13,61 +13,63 @@
             <h:body>
                 <br></br>
                 <h:form id="form">
-                    <p:outputLabel value="Adresse" />
-                    <p:panelGrid columns="8">
+                    <div  style="margin-top: 1%;padding-left: 13% !important;position: relative;align-self: center;" >
+                        <p:panelGrid columns="8">
+                            <p:outputLabel value="Commune:" for="commune" />
+                            <p:selectOneMenu id="commune"   value="#{taxeTrimBoissonController.thisCommune}" >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="--select--" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{taxeTrimBoissonController.communesAvailableSelectOne()}" var="itemComm" itemValue="#{itemComm}" itemLabel="#{itemComm.name}"/>
+                                <p:ajax listener="#{taxeTrimBoissonController.secteureByCommun()}"  update="secteure,quartier,rue" ></p:ajax>
+                            </p:selectOneMenu>
 
-                        <p:outputLabel value="Commune:" for="commune" />
-                        <p:selectOneMenu id="commune"   value="#{taxeTrimBoissonController.thisCommune}" >
-                            <!-- TODO: update below reference to list of available items-->
-                            <f:selectItem itemLabel="--select--" itemValue=""></f:selectItem>
-                            <f:selectItems value="#{taxeTrimBoissonController.communesAvailableSelectOne()}" var="itemComm" itemValue="#{itemComm}" itemLabel="#{itemComm.name}"/>
-                            <p:ajax listener="#{taxeTrimBoissonController.secteureByCommun()}"  update="secteure,quartier,rue" ></p:ajax>
-                        </p:selectOneMenu>
+                            <p:outputLabel value="Secteure:" for="secteure" />
+                            <p:selectOneMenu   id="secteure"   value="#{taxeTrimBoissonController.thisSecteur}" >
+                                <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                <f:selectItems value="#{taxeTrimBoissonController.thisCommune.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
+                                <p:ajax listener="#{taxeTrimBoissonController.quartierBySecteure()}"  update="quartier"></p:ajax>
+                            </p:selectOneMenu>
 
-                        <p:outputLabel value="Secteure:" for="secteure" />
-                        <p:selectOneMenu   id="secteure"   value="#{taxeTrimBoissonController.thisSecteur}" >
-                            <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                            <f:selectItems value="#{taxeTrimBoissonController.thisCommune.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
-                            <p:ajax listener="#{taxeTrimBoissonController.quartierBySecteure()}"  update="quartier"></p:ajax>
-                        </p:selectOneMenu>
+                            <p:outputLabel value="Quartier:" for="quartier" />
+                            <p:selectOneMenu id="quartier"  value="#{taxeTrimBoissonController.thisQuartier}" >
+                                <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                <f:selectItems value="#{taxeTrimBoissonController.thisSecteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
+                                <p:ajax listener="#{taxeTrimBoissonController.rueByQuartier()}"  update="rue"></p:ajax>
+                            </p:selectOneMenu>
 
-                        <p:outputLabel value="Quartier:" for="quartier" />
-                        <p:selectOneMenu id="quartier"  value="#{taxeTrimBoissonController.thisQuartier}" >
-                            <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                            <f:selectItems value="#{taxeTrimBoissonController.thisSecteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
-                            <p:ajax listener="#{taxeTrimBoissonController.rueByQuartier()}"  update="rue"></p:ajax>
-                        </p:selectOneMenu>
-
-                        <p:outputLabel value="Rue:" for="rue" />
-                        <p:selectOneMenu id="rue" value="#{taxeTrimBoissonController.rue}" >
-                            <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                            <f:selectItems value="#{taxeTrimBoissonController.thisQuartier.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
-                        </p:selectOneMenu>
+                            <p:outputLabel value="Rue:" for="rue" />
+                            <p:selectOneMenu id="rue" value="#{taxeTrimBoissonController.rue}" >
+                                <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                <f:selectItems value="#{taxeTrimBoissonController.thisQuartier.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
+                            </p:selectOneMenu>
 
 
-                        <p:outputLabel value="1eme année" ></p:outputLabel>
-                        <p:inputText id="firstYear" value="#{taxeTrimBoissonController.anneeDeb}" title="1eme année"/>
-                        <p:outputLabel value="2eme année"></p:outputLabel>
-                        <p:inputText id="secondYear" value="#{taxeTrimBoissonController.anneeFin}" title="2eme année"/>
+                            <p:outputLabel value="1eme année" ></p:outputLabel>
+                            <p:inputText id="firstYear" value="#{taxeTrimBoissonController.anneeDeb}" title="1eme année"/>
+                            <p:outputLabel value="2eme année"></p:outputLabel>
+                            <p:inputText id="secondYear" value="#{taxeTrimBoissonController.anneeFin}" title="2eme année"/>
 
-                        <p:outputLabel value="type de graphe" for="type" />
-                        <p:selectOneMenu id="type" value="#{taxeTrimBoissonController.typeGraphe}" >
-                            <f:selectItem itemValue="1" itemLabel="Bar"/>
-                            <f:selectItem itemValue="2" itemLabel="Line"/>
-                            <f:selectItem itemValue="3" itemLabel="Circle"/>
-                            <p:ajax update=":statistique" listener="#{taxeTrimBoissonController.createModel()}"></p:ajax>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
+                            <p:outputLabel value="type de graphe" for="type" />
+                            <p:selectOneMenu id="type" value="#{taxeTrimBoissonController.typeGraphe}" >
+                                <f:selectItem itemValue="1" itemLabel="Bar"/>
+                                <f:selectItem itemValue="2" itemLabel="Line"/>
+                                <f:selectItem itemValue="3" itemLabel="Circle"/>
+                                <p:ajax update=":statistique" listener="#{taxeTrimBoissonController.createModel()}"></p:ajax>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </div>
                     <p:toolbar>
-                        <p:toolbarGroup>
+                        <p:toolbarGroup >
+                            <div  style="padding-left: 60em!important" >
                             <p:commandButton update=":statistique" value="Rechecher" actionListener="#{taxeTrimBoissonController.createModel()}"></p:commandButton>
+                            </div>
                         </p:toolbarGroup>
                     </p:toolbar>
                 </h:form>
                 <h:form id="statistique" >
-                    <p:chart type="bar" id="graphe" model="#{taxeTrimBoissonController.barModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==1}"/>
-                    <p:chart type="donut" id="donut" model="#{taxeTrimBoissonController.donutModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==3}" />
-                    <p:chart type="line" id="line" model="#{taxeTrimBoissonController.lineModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==2}" />
+                    <p:chart responsive="true" type="bar" id="graphe" model="#{taxeTrimBoissonController.barModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==1}"/>
+                    <p:chart responsive="true" type="donut" id="donut" model="#{taxeTrimBoissonController.donutModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==3}" />
+                    <p:chart responsive="true" type="line" id="line" model="#{taxeTrimBoissonController.lineModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==2}" />
                 </h:form>
             </h:body>
         </ui:define>

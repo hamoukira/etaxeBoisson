@@ -15,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -28,8 +27,7 @@ public class Journal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private Userr user;
+    private String userLogin;
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime dateDeModification;
     private int typeDaction;//1:delete 2:edite
@@ -66,12 +64,12 @@ public class Journal implements Serializable {
     }
 
     
-    public Userr getUser() {
-        return user;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUser(Userr user) {
-        this.user = user;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public LocalDateTime getDateDeModification() {
@@ -138,8 +136,8 @@ public class Journal implements Serializable {
             idString = id.toString();
         }
         String userString = "{}";
-        if (user != null) {
-            userString = user.toString();
+        if (userLogin != null) {
+            userString = userLogin.toString();
         }
         String dateDeModificationString = "{}";
         if (dateDeModification != null) {

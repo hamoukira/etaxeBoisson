@@ -4,7 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="../template.xhtml">
 
@@ -15,53 +15,51 @@
 
         <ui:define name="body">
             <h:form id="RedevableListForm">
-                <p:panel header="#{bundle.ListRedevableTitle}">
-                    <p:dataTable id="datalist" value="#{redevableController.items}" var="item"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                 <b:panel look="info"  collapsible="false" title="Redevables" style="margin-top: 2%;position: relative;align-self: center;">
+                    <b:dataTable id="datalist" value="#{redevableController.items}" var="item"
                                  >
-                        <p:column>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_cin}"/>
                             </f:facet>
                             <h:outputText value="#{item.cin!=null?item.cin:'NoN'}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_rc}"/>
                             </f:facet>
                             <h:outputText value="#{item.rc!=null?item.rc:'NoN'}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData"  >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_nom}"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_prenom}"/>
                             </f:facet>
                             <h:outputText value="#{item.prenom}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_nature}"/>
                             </f:facet>
                             <h:outputText value="#{item.nature==1?'Gerant':'Propritaire'}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="Options"/>
                             </f:facet>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" actionListener="#{redevableController.setSelected(item)}" update=":RedevableViewForm" oncomplete="PF('RedevableViewDialog').show()" disabled="#{empty redevableController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{redevableController.setSelected(item)}" update=":RedevableEditForm" oncomplete="PF('RedevableEditDialog').show()" disabled="#{empty redevableController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{redevableController.destroy(item)}" update=":growl,datalist" disabled="#{empty redevableController.selected}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"   actionListener="#{redevableController.setSelected(item)}" update=":RedevableViewForm" oncomplete="PF('RedevableViewDialog').show()" disabled="#{empty redevableController.selected}"/>
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{redevableController.setSelected(item)}" update=":RedevableEditForm" oncomplete="PF('RedevableEditDialog').show()" disabled="#{empty redevableController.selected}"/>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                    <f:facet name="footer">
+                        <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o"   value="#{bundle.Create}" action="CreateNewRedevable?faces-redirect=true" />
+                    </f:facet>
+                </b:panel>
             </h:form>
 
             <!--<ui:include src="Create.xhtml"/>-->

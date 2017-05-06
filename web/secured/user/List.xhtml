@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="../template.xhtml">
 
@@ -19,57 +20,55 @@
         <ui:define name="body">
 
             <h:form id="UserListForm">
-                <p:panel header="Users">
                     <div class="ui-grid ui-grid-responsive">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-1"></div>
                             <div class="ui-grid-col-10">
-                                <p:dataTable id="datalist" value="#{userController.items}" var="item" paginator="true"
-                                             rows="10"
-                                             rowsPerPageTemplate="5,10,15">
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Login"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.login}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Nom"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Prenom"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.prenom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Blocked"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.blocked==false?'false':'true'}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Options"/>
-                                        </f:facet>
-                                        <p:commandButton id="viewButton" class="OptionButton"  icon="ui-icon-search"  actionListener="#{userController.setSelected(item)}" update=":UserViewForm" oncomplete="PF('UserViewDialog').show()" />
-                                        <p:commandButton id="editButton"  class="OptionButton" icon="ui-icon-pencil" actionListener="#{userController.setSelected(item)}" update=":UserEditForm" oncomplete="PF('UserEditDialog').show()" />
-                                        <p:commandButton id="deleteButton" class="OptionButton" icon="ui-icon-trash" actionListener="#{userController.destroy(item)}" update=":growl,datalist" >
-                                        </p:commandButton>
-                                    </p:column>
+                                <b:panel look="info"  collapsible="false" title="Users" style="margin-top: 5%;position: relative;align-self: center;">
+                                    <b:dataTable  ajax="true"  id="datalist" value="#{userController.items}" var="item">
+                                        <b:dataTableColumn class="colData">
+                                            <f:facet name="header">
+                                                <h:outputText value="Login"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.login}"/>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn class="colData">
+                                            <f:facet name="header">
+                                                <h:outputText value="Nom"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn class="colData">
+                                            <f:facet name="header">
+                                                <h:outputText value="Prenom"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.prenom}"/>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn class="colData">
+                                            <f:facet name="header">
+                                                <h:outputText value="Blocked"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.blocked==false?'false':'true'}"/>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn class="colData">
+                                            <f:facet name="header">
+                                                <h:outputText value="Options"/>
+                                            </f:facet>
+                                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{userController.setSelected(item)}" update=":UserViewForm" oncomplete="PF('UserViewDialog').show()" />
+                                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{userController.setSelected(item)}" update=":UserEditForm" oncomplete="PF('UserEditDialog').show()" />
+                                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"   actionListener="#{userController.destroy(item)}" update=":growl,datalist" >
+                                            </b:commandButton>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
                                     <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{userController.prepareCreate}" update=":UserCreateForm" oncomplete="PF('UserCreateDialog').show()"/>
+                                        <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true"    value="#{bundle.Create}" actionListener="#{userController.prepareCreate}" update=":UserCreateForm" oncomplete="PF('UserCreateDialog').show()"/>
                                     </f:facet>
-                                </p:dataTable>
+                                </b:panel>
 
                             </div>
                             <div class="ui-grid-col-1"></div>
                         </div>
                     </div>
-                </p:panel>
             </h:form>
 
 

@@ -71,7 +71,7 @@
                                         <p:selectOneMenu id="paiment" value="#{taxeAnnuelBoissonController.paiement}" >
                                             <f:selectItem itemValue="0" itemLabel="--SELECT--"/>
                                             <f:selectItem itemValue="1" itemLabel="Payé"/>
-                                            <f:selectItem itemValue="-1" itemLabel="Non-Payé"/>
+                                            <f:selectItem itemValue="0" itemLabel="Non-Payé"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
@@ -110,7 +110,7 @@
                                         </p:inputText>
                                     </p:column>
                                     <p:column styleClass="text-font">
-                                        <p:commandButton value="Search" actionListener="#{taxeAnnuelBoissonController.findByCriteria()}" update=":TaxeAnnuelBoissonListForm:datalist"></p:commandButton>
+                                        <p:commandButton value="Search" actionListener="#{taxeAnnuelBoissonController.findByCriteria()}" update=":TaxeAnnuelBoissonListForm:datalist,:TaxeTrimBoissonListForm:datalist"></p:commandButton>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -151,7 +151,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" id="viewButton"   icon="ui-icon-search" update=":TaxeAnnuelBoissonViewForm" oncomplete="PF('TaxeAnnuelBoissonViewDialog').show()" />
+                                        <p:commandButton class="OptionButton" id="viewButton" actionListener="#{taxeAnnuelBoissonController.setSelected(item)}"   icon="ui-icon-search" update=":TaxeAnnuelBoissonViewForm" oncomplete="PF('TaxeAnnuelBoissonViewDialog').show()" />
                                         <p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="#{taxeAnnuelBoissonController.generatPdf(item)}" ajax="false"/>
                                         <p:commandButton class="OptionButton" id="findTrims" actionListener="#{taxeAnnuelBoissonController.findTaxeTrim(item)}" update=":TaxeTrimBoissonListForm:datalist"  icon="ui-icon-plus" />
                                     </p:column>

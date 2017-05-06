@@ -4,6 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="../template.xhtml">
@@ -17,46 +18,111 @@
         </f:metadata>
 
         <ui:define name="body">
-            <h:form id="ActiviteListForm">
-                <p:panel style="padding-left: 15% !important; padding-right: 15% !important" header="#{bundle.ListActiviteTitle}">
-                    <p:dataTable id="datalist" value="#{activiteController.items}" var="item"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="5,10,15"
-                                 >
-                        <p:column class="Ncolumn" >
-                            <f:facet name="header">
-                                <h:outputText value="N°"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListActiviteTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListActiviteTitle_tva}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tva}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Options"/>
-                            </f:facet>
-                            <!--<p:commandButton id="viewButton"   icon="ui-icon-search" actionListener="#{activiteController.setSelected(item)}"  update=":ActiviteViewForm" oncomplete="PF('ActiviteViewDialog').show()" />-->
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" actionListener="#{activiteController.setSelected(item)}" update=":ActiviteEditForm" oncomplete="PF('ActiviteEditDialog').show()" />
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash" actionListener="#{activiteController.destroy(item)}" update=":growl,datalist" />
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+            <div class="ui-grid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <h:form id="ActiviteListForm">
+                            <b:panel look="info"  collapsible="false" title="Activites" style="margin: 2% 2% 2%;position: relative;align-self: center;">
+                                <b:dataTable  ajax="true" id="datalist" value="#{activiteController.items}" var="item" responsive="true"
+                                              >
+                                    <b:dataTableColumn class="Ncolumn"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText  value="#{item.id}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListActiviteTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListActiviteTitle_tva}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tva}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{activiteController.setSelected(item)}" update=":ActiviteEditForm" oncomplete="PF('ActiviteEditDialog').show()" />
+                                        <p:commandButton class="OptionButton" icon="fa fa-trash-o"  actionListener="#{activiteController.destroy(item)}" update=":growl,datalist,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" />
+                                        <p:commandButton class="OptionButton" icon="fa fa-plus"  actionListener="#{activiteController.findTaux(item)}" update=":growl,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" />
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <h:form id="TauxBoissonTaxeListForm">
+                            <b:panel look="info"  collapsible="false" title="Taux" style="margin: 2% 2% 2%;position: relative;align-self: center;">
+                                <b:dataTable  ajax="true" id="datalist" value="#{activiteController.tauxItem}" var="itema" responsive="true"
+                                              >
+                                    <b:dataTableColumn class="Ncolumn"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText  value="#{itema.id}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListActiviteTitle_tva}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{itema.taux}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{tauxBoissonTaxeController.setSelected(itema)}"  update=":TauxBoissonTaxeEditForm" oncomplete="PF('TauxBoissonTaxeEditDialog').show()"  />
+                                        <p:commandButton class="OptionButton" icon="fa fa-plus"  actionListener="#{activiteController.findRetard(itema)}" update=":growl,:TauxRetardBoisonTrimListForm:datalist" />
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <h:form id="TauxRetardBoisonTrimListForm">
+                            <b:panel look="info" collapsible="false" title="Activites" style="margin: 2% 2% 2%;position: relative;align-self: center;">
+                                <b:dataTable  ajax="true" id="datalist" value="#{activiteController.retardItems}" var="itemRetard" responsive="true"
+                                              >
+                                    <b:dataTableColumn class="Ncolumn"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText  value="#{itemRetard.id}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Premier Mois"/>
+                                        </f:facet>
+                                        <h:outputText value="#{itemRetard.tauxRetardPremierMois}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Autre Mois"/>
+                                        </f:facet>
+                                        <h:outputText value="#{itemRetard.tauxRetardAutreMois}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{tauxRetardBoisonTrimController.setSelected(item)}" update=":TauxRetardBoisonTrimEditForm" oncomplete="PF('TauxRetardBoisonTrimEditDialog').show()" />
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
+            <ui:include src="../tauxBoissonTaxe/Edit.xhtml"/>
+            <ui:include src="../tauxRetardBoisonTrim/Edit.xhtml"/>
             <!--<ui:include src="View.xhtml"/>-->
         </ui:define>
     </ui:composition>

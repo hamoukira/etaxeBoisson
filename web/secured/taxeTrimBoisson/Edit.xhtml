@@ -27,33 +27,7 @@
                         <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_chiffreAffaireHT}" for="chiffreAffaireHT" />
                         <p:inputText id="chiffreAffaireHT" value="#{taxeTrimBoissonController.selected.chiffreAffaireHT}" title="#{bundle.EditTaxeTrimBoissonTitle_chiffreAffaireHT}" />
                         <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_user}" for="user" />
-                        <p:selectOneMenu id="user" value="#{taxeTrimBoissonController.selected.user}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
-                                           var="userItem"
-                                           itemValue="#{userItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_taxeAnnuelBoisson}" for="taxeAnnuelBoisson" />
-                        <p:selectOneMenu id="taxeAnnuelBoisson" value="#{taxeTrimBoissonController.selected.taxeAnnuelBoisson}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{taxeAnnuelBoissonController.itemsAvailableSelectOne}"
-                                           var="taxeAnnuelBoissonItem"
-                                           itemValue="#{taxeAnnuelBoissonItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_redevable}" for="redevable" />
-                        <p:selectOneMenu id="redevable" value="#{taxeTrimBoissonController.selected.redevable}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{redevableController.itemsAvailableSelectOne}"
-                                           var="redevableItem"
-                                           itemValue="#{redevableItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_local}" for="local" />
-                        <p:selectOneMenu id="local" value="#{taxeTrimBoissonController.selected.local}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{localeController.itemsAvailableSelectOne}"
-                                           var="localItem"
-                                           itemValue="#{localItem}"/>
-                        </p:selectOneMenu>
+                      
                         <p:outputLabel value="#{bundle.EditTaxeTrimBoissonLabel_id}" for="id" />
                         <p:inputText id="id" value="#{taxeTrimBoissonController.selected.id}" title="#{bundle.EditTaxeTrimBoissonTitle_id}" />
                     </h:panelGrid>

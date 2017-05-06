@@ -35,7 +35,7 @@ public class HistoryFacade extends AbstractFacade<History> {
 
     public void createHistoryElement(Userr loadedUser, int type) {
         History connexionHistory = new History();
-        connexionHistory.setUser(loadedUser);
+        connexionHistory.setUserLogin(loadedUser.getLogin());
         if (type == 1) {
             connexionHistory.setType(1);
             connexionHistory.setInOutTimeStamp(LocalDateTime.now());
@@ -44,13 +44,14 @@ public class HistoryFacade extends AbstractFacade<History> {
             connexionHistory.setType(2);
             connexionHistory.setInOutTimeStamp(LocalDateTime.now());
         }
+        System.out.println("createHistoryElement :: "+connexionHistory);
         create(connexionHistory);
     }
 
     public List<History> findByConditions(String userName, LocalDateTime dateMin, LocalDateTime dateMax, int action) {
         String sqlQuery = "SELECT h FROM History h WHERE 1=1 ";
         if (userName != null && !userName.isEmpty()) {
-            sqlQuery += " AND h.user.login = :userName";
+            sqlQuery += " AND h.user = :userName";
         }
         if (action != -1) {
             sqlQuery += " AND h.type = :actionType";

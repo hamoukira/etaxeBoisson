@@ -13,12 +13,12 @@
                 <h:panelGroup id="display">
                     <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
                         <p:outputLabel value="Activite" for="tauxBoissonTaxe" />
-                        <p:selectOneMenu id="tauxBoissonTaxe" value="#{tauxRetardBoisonTrimController.selected.tauxBoissonTaxe}" >
+                        <b:selectOneMenu id="tauxBoissonTaxe" value="#{tauxRetardBoisonTrimController.selected.tauxBoissonTaxe}" >
                             <f:selectItems value="#{tauxBoissonTaxeController.itemsAvailableSelectOne}"
                                            var="tauxBoissonTaxeItem"
                                            itemValue="#{tauxBoissonTaxeItem}"
                                            itemLabel="#{tauxBoissonTaxeItem.activite.nom}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateTauxRetardBoisonTrimLabel_tauxRetardPremierMois}" for="tauxRetardPremierMois" />
                         <p:inputText id="tauxRetardPremierMois" value="#{tauxRetardBoisonTrimController.selected.tauxRetardPremierMois}" title="#{bundle.CreateTauxRetardBoisonTrimTitle_tauxRetardPremierMois}" />
                         <p:outputLabel value="#{bundle.CreateTauxRetardBoisonTrimLabel_tauxRetardAutreMois}" for="tauxRetardAutreMois" />

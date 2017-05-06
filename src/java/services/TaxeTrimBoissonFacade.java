@@ -149,11 +149,11 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
     }
 
     public Double calculeChiffreAffaireHT(Locale locale, Double chiffreAffaireTTC) {
-        return CalculeUtils.formatAndRoundNumber((chiffreAffaireTTC * 100) / (locale.getTypeLocal().getTva() + 100), RoundingMode.CEILING, 3);
+        return CalculeUtils.formatAndRoundNumber((chiffreAffaireTTC * 100) / (locale.getTypeLocal().getTva() + 100), RoundingMode.CEILING, 2);
     }
 
     public Double calculeChiffreAffaireTTC(Locale locale, Double chiffreAffaireHT) {
-        return CalculeUtils.formatAndRoundNumber(chiffreAffaireHT + ((chiffreAffaireHT * locale.getTypeLocal().getTva()) / 100), RoundingMode.CEILING, 3);
+        return CalculeUtils.formatAndRoundNumber(chiffreAffaireHT + ((chiffreAffaireHT * locale.getTypeLocal().getTva()) / 100), RoundingMode.CEILING, 2);
     }
 
     private int createTaxeTrim(TaxeTrimBoisson taxeTrimBoisson, Long monthsRetard, Userr user, TaxeAnnuelBoisson taxeAnnuelBoisson) {
@@ -162,7 +162,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
             taxeTrimBoisson = initTaxeTrim(taxeTrimBoisson, user, taxeAnnuelBoisson);
             taxeTrimBoisson = calculate(taxeTrimBoisson.getChiffreAffaireHT(), tauxTaxeBoisson, monthsRetard, taxeTrimBoisson);
             if (taxeTrimBoisson != null) {
-                taxeAnnuelBoisson.setMontantTaxeannuel(taxeAnnuelBoisson.getMontantTaxeannuel() + taxeTrimBoisson.getMontantTotalTaxe());
+                taxeAnnuelBoisson.setMontantTaxeannuel(CalculeUtils.formatAndRoundNumber(taxeAnnuelBoisson.getMontantTaxeannuel() + taxeTrimBoisson.getMontantTotalTaxe(), RoundingMode.CEILING, 2));
                 create(taxeTrimBoisson);
                 return 1;
             }
@@ -175,26 +175,26 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         Double montantTetardAutreMois;
         Double montantTetardPremierMois;
         Double montantTaxeNormal = (chiffreAffaireHT * tauxTaxeBoisson.getTaux()) / 100;
-        taxeTrimBoisson.setMontantTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 3));
+        taxeTrimBoisson.setMontantTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 2));
         if (monthsRetard > 0) {
-            TauxRetardBoisonTrim tauxRetardBoisonTrim = tauxRetardBoisonTrimFacade.findTauxTaxeByActivity(tauxTaxeBoisson);
+            TauxRetardBoisonTrim tauxRetardBoisonTrim = tauxRetardBoisonTrimFacade.findTauxRetardByTaux(tauxTaxeBoisson);
             if (tauxRetardBoisonTrim != null) {
                 montantTetardPremierMois = chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardPremierMois() / 100;
-                taxeTrimBoisson.setMontantRetardPremierMois(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 3));
+                taxeTrimBoisson.setMontantRetardPremierMois(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
                 monthsRetard--;
                 if (monthsRetard > 0) {
                     montantTetardAutreMois = (monthsRetard * chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardAutreMois()) / 100;
-                    taxeTrimBoisson.setMontantRetardAutreMois(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois, RoundingMode.CEILING, 3));
-                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois + montantTetardPremierMois, RoundingMode.CEILING, 3));
+                    taxeTrimBoisson.setMontantRetardAutreMois(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois, RoundingMode.CEILING, 2));
+                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois + montantTetardPremierMois, RoundingMode.CEILING, 2));
                 } else {
-                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 3));
+                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
                 }
-                taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal + taxeTrimBoisson.getMontantTotalRetard(), RoundingMode.CEILING, 3));
+                taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal + taxeTrimBoisson.getMontantTotalRetard(), RoundingMode.CEILING, 2));
             } else {
                 return null;
             }
         } else {
-            taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 3));
+            taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 2));
         }
         return taxeTrimBoisson;
     }

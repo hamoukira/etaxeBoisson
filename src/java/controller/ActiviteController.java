@@ -8,6 +8,8 @@ import controller.util.JsfUtil.PersistAction;
 import services.ActiviteFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,7 +26,7 @@ import javax.faces.convert.FacesConverter;
 @Named("activiteController")
 @SessionScoped
 public class ActiviteController implements Serializable {
-    
+
     @EJB
     private services.ActiviteFacade ejbFacade;
     private List<Activite> items = null;
@@ -32,15 +34,41 @@ public class ActiviteController implements Serializable {
     private boolean activiteFinished;
     private boolean tauxTaxeFinished;
     private boolean tauRetardFinished;
-    
+    private List<TauxTaxeBoisson> tauxItem;
+    private List<TauxRetardBoisonTrim> retardItems;
+
     @EJB
     private services.TauxTaxeBoissonFacade tauxTaxeFacade;
+    @EJB
+    private services.TauxRetardBoisonTrimFacade tauxRetardBoisonTrimFacade;
     private TauxTaxeBoisson tauxTaxe;
     private TauxRetardBoisonTrim tauxRetard;
-    
+
     public ActiviteController() {
     }
-    
+
+    public List<TauxTaxeBoisson> getTauxItem() {
+        if (tauxItem == null) {
+            tauxItem = new ArrayList();
+        }
+        return tauxItem;
+    }
+
+    public void setTauxItem(List<TauxTaxeBoisson> tauxItem) {
+        this.tauxItem = tauxItem;
+    }
+
+    public List<TauxRetardBoisonTrim> getRetardItems() {
+        if (retardItems == null) {
+            retardItems = new ArrayList();
+        }
+        return retardItems;
+    }
+
+    public void setRetardItems(List<TauxRetardBoisonTrim> retardItems) {
+        this.retardItems = retardItems;
+    }
+
     public TauxTaxeBoisson getTauxTaxe() {
         if (tauxTaxe == null) {
             tauxTaxe = new TauxTaxeBoisson();
@@ -48,22 +76,22 @@ public class ActiviteController implements Serializable {
         }
         return tauxTaxe;
     }
-    
+
     public void setTauxTaxe(TauxTaxeBoisson tauxTaxe) {
         this.tauxTaxe = tauxTaxe;
     }
-    
+
     public TauxRetardBoisonTrim getTauxRetard() {
         if (tauxRetard == null) {
             tauxRetard = new TauxRetardBoisonTrim();
         }
         return tauxRetard;
     }
-    
+
     public void setTauxRetard(TauxRetardBoisonTrim tauxRetard) {
         this.tauxRetard = tauxRetard;
     }
-    
+
     public Activite getSelected() {
         if (selected == null) {
             selected = new Activite();
@@ -71,55 +99,55 @@ public class ActiviteController implements Serializable {
         }
         return selected;
     }
-    
+
     public void setSelected(Activite selected) {
         this.selected = selected;
     }
-    
+
     public void setItems(List<Activite> items) {
         this.items = items;
     }
-    
+
     public boolean isActiviteFinished() {
         return activiteFinished;
     }
-    
+
     public void setActiviteFinished(boolean activiteFinished) {
         this.activiteFinished = activiteFinished;
     }
-    
+
     public boolean isTauxTaxeFinished() {
         return tauxTaxeFinished;
     }
-    
+
     public void setTauxTaxeFinished(boolean tauxTaxeFinished) {
         this.tauxTaxeFinished = tauxTaxeFinished;
     }
-    
+
     public boolean isTauRetardFinished() {
         return tauRetardFinished;
     }
-    
+
     public void setTauRetardFinished(boolean tauRetardFinished) {
         this.tauRetardFinished = tauRetardFinished;
     }
-    
+
     protected void setEmbeddableKeys() {
     }
-    
+
     protected void initializeEmbeddableKey() {
     }
-    
+
     private ActiviteFacade getFacade() {
         return ejbFacade;
     }
-    
+
     public Activite prepareCreate() {
         selected = null;
         initializeEmbeddableKey();
         return selected;
     }
-    
+
     public void prepareView() {
         selected = null;
         tauxTaxe = null;
@@ -129,7 +157,7 @@ public class ActiviteController implements Serializable {
         tauxTaxeFinished = false;
         initializeEmbeddableKey();
     }
-    
+
     public void activiteFinished() {
         activiteFinished = true;
         getTauxTaxe().setActivite(getSelected());
@@ -146,35 +174,55 @@ public class ActiviteController implements Serializable {
 
     public void create() {
         int res = ejbFacade.createActivite(getSelected(), getTauxRetard(), getTauxTaxe());
-        if(res<0){
+        if (res < 0) {
             JsfUtil.addErrorMessage("erreur pendant la creation de l'activite");
-        }else
+        } else {
             JsfUtil.addSuccessMessage("Success");
+        }
         prepareView();
     }
-    
+
+    public void findTaux(Activite activite) {
+        TauxTaxeBoisson taux = tauxTaxeFacade.findTauxTaxeByActivity(activite);
+        if (taux != null) {
+            tauxItem = Arrays.asList(taux);
+        } else {
+            tauxItem = null;
+        }
+        retardItems=null;
+    }
+    public void findRetard(TauxTaxeBoisson tauxTaxeBoisson) {
+        TauxRetardBoisonTrim retard = tauxRetardBoisonTrimFacade.findTauxRetardByTaux(tauxTaxeBoisson);
+        if (retard != null) {
+            retardItems = Arrays.asList(retard);
+        } else {
+            retardItems = null;
+        }
+    }
+
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ActiviteUpdated"));
     }
-    
+
     public void destroy(Activite activite) {
         if (activite != null) {
-            getFacade().remove(getSelected());
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ActiviteDeleted"));
-            selected = null; // Remove selection
+            int res = ejbFacade.removeActivite(activite);
+            if (res < 0) {
+                JsfUtil.addErrorMessage("erreur pendant la suppression de l'activite");
+            } else {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ActiviteDeleted"));
+            }
             items = null;
-        } else {
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
-    
+
     public List<Activite> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-    
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (getSelected() != null) {
             setEmbeddableKeys();
@@ -200,22 +248,22 @@ public class ActiviteController implements Serializable {
             }
         }
     }
-    
+
     public Activite getActivite(java.lang.Long id) {
         return getFacade().find(id);
     }
-    
+
     public List<Activite> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
-    
+
     public List<Activite> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
+
     @FacesConverter(forClass = Activite.class)
     public static class ActiviteControllerConverter implements Converter {
-        
+
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -225,19 +273,19 @@ public class ActiviteController implements Serializable {
                     getValue(facesContext.getELContext(), null, "activiteController");
             return controller.getActivite(getKey(value));
         }
-        
+
         java.lang.Long getKey(String value) {
             java.lang.Long key;
             key = Long.valueOf(value);
             return key;
         }
-        
+
         String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-        
+
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -251,7 +299,7 @@ public class ActiviteController implements Serializable {
                 return null;
             }
         }
-        
+
     }
-    
+
 }

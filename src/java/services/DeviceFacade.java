@@ -36,7 +36,7 @@ public class DeviceFacade extends AbstractFacade<Device> {
         System.out.println(userDevices);
         if (userDevices != null) {
             for (Device userDevice : userDevices) {
-                if (userDevice.getBrowser() == device.getBrowser() || userDevice.getOperatingSystem() == device.getOperatingSystem() || userDevice.getDeviceCategorie() == device.getDeviceCategorie()) {
+                if (userDevice.getBrowser().equals(device.getBrowser()) && userDevice.getOperatingSystem().equals(device.getOperatingSystem()) && userDevice.getDeviceCategorie().equals(device.getDeviceCategorie())) {
                     return;
                 }
             }

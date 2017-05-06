@@ -12,6 +12,10 @@
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
     </context-param>
+    <context-param>
+        <param-name>net.bootsfaces.get_fontawesome_from_cdn</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>filter.LoginFilter</filter-class>

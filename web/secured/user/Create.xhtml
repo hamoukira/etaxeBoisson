@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
 
@@ -38,13 +39,13 @@
                             <f:validateLength minimum="10" maximum="10" />
                         </p:inputText>
 
-                        <p:outputLabel value="#{bundle.CreateUserLabel_commune}" for="commune" />
-                        <p:selectOneMenu id="commune" value="#{userController.selected.commune}" >
+                        <p:outputLabel value="#{bundle.CreateUserLabel_commune}" />
+                        <b:selectOneMenu  value="#{userController.selected.commune}" >
                             <f:selectItems value="#{communeController.itemsAvailableSelectOne}"
                                            var="communeItem"
                                            itemValue="#{communeItem}"
                                            itemLabel="#{communeItem.name}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
 
                         <p:outputLabel value="Blocker" for="blocked" />
                         <p:selectBooleanCheckbox id="blocked" value="#{userController.selected.blocked}"  />

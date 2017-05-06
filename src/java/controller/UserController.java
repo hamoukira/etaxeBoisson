@@ -85,7 +85,7 @@ public class UserController implements Serializable {
     public String canAccesseAdminBar() throws IOException {
         System.out.println(SessionUtil.getConnectedUser());
         try {
-            System.out.println("canAccesseAdminBar :: "+SessionUtil.getConnectedUser().isAdminn());
+            System.out.println("canAccesseAdminBar :: " + SessionUtil.getConnectedUser().isAdminn());
             if (SessionUtil.getConnectedUser().isAdminn()) {
                 return "true";
             } else {
@@ -101,7 +101,7 @@ public class UserController implements Serializable {
     public String canAccesseRedevable() throws IOException {
 //       
         try {
-             System.out.println("canAccesseRedevable :: "+SessionUtil.getConnectedUser().isRedevable());
+            System.out.println("canAccesseRedevable :: " + SessionUtil.getConnectedUser().isRedevable());
             if (SessionUtil.getConnectedUser().isRedevable()) {
                 return "true";
             } else {
@@ -116,7 +116,7 @@ public class UserController implements Serializable {
     public String canAccesseTaxes() throws IOException {
 //        
         try {
-            System.out.println("canAccesseTaxes :: "+SessionUtil.getConnectedUser().isTaxes());
+            System.out.println("canAccesseTaxes :: " + SessionUtil.getConnectedUser().isTaxes());
             if (SessionUtil.getConnectedUser().isTaxes()) {
                 return "true";
             } else {
@@ -154,11 +154,16 @@ public class UserController implements Serializable {
             return null;
         }
     }
-    
+//    public String getRole(){
+//        return SessionUtil.getConnectedUser().isAdminn()==true?"Admin":"Simple Utilisateure";
+//    }
+//    public String getUserLogin(){
+//        return SessionUtil.getConnectedUser().getLogin();
+//    }
+
 //    public void redirect(String path) throws IOException{
 //        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/"+path);
 //    }
-
     public Userr getSelected() {
         if (selected == null) {
             selected = new Userr();
@@ -220,11 +225,9 @@ public class UserController implements Serializable {
     }
 
     public void destroy(Userr user) {
-        if (user != null) {
-            Userr loadedUser = ejbFacade.find(user.getLogin());
-            user.setPasswrd(loadedUser.getPasswrd());
-            getFacade().remove(user);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
+        int res = ejbFacade.deleteUser(user);
+        if (res > 1) {
+            JsfUtil.addSuccessMessage("User Deleted");
             items = null;
         } else {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));

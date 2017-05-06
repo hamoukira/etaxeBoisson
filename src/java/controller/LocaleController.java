@@ -282,8 +282,8 @@ public class LocaleController implements Serializable {
     public void secteureByCommun() {
         try {
             getThisCommun().setSecteurs(secteurFacade.findSecteureByCommun(getThisCommun()));
-            getThisSecteur().setQuartiers(new ArrayList<Quartier>());//pour enisialiser si la commune et changer
-            getThisQyartie().setRues(new ArrayList<Rue>());//appel avec get pour eviter le cas ou ThisSecteur et ThisQyartie son null
+            getThisSecteur().setQuartiers(new ArrayList<>());//pour enisialiser si la commune et changer
+            getThisQyartie().setRues(new ArrayList<>());//appel avec get pour eviter le cas ou ThisSecteur et ThisQyartie son null
             getSelected().setComplementAdress("");
         } catch (Exception e) {
             JsfUtil.addErrorMessage("veiller choisire une Commune");
@@ -293,7 +293,7 @@ public class LocaleController implements Serializable {
     public void quartierBySecteure() {
         try {
             getThisSecteur().setQuartiers(quartierFacade.findBySecteur(getThisSecteur()));
-            getThisQyartie().setRues(new ArrayList<Rue>());
+            getThisQyartie().setRues(new ArrayList<>());
             getSelected().setComplementAdress("");
         } catch (Exception e) {
             JsfUtil.addErrorMessage("veiller choisire un Secteur");

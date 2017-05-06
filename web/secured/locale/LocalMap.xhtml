@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="/secured/template.xhtml">
 
@@ -17,7 +18,7 @@
             <h:form>
                 <p:commandButton   id="CancelAddPosition" value="Cancel" action="#{localeController.cancelPositionAddition(localeController.isModification)}" style="margin-bottom:20px;margin-top:20px" rendered="#{localeController.desabeledPosition eq 'false'?'true':'false'}" ></p:commandButton>
             </h:form>
-            
+
             <p:fieldset legend="Recherche des locaux" style="margin-bottom:20px" rendered="#{localeController.desabeledPosition eq 'true'?'true':'false'}">
                 <h:form id="searchForm">
                     <p:panelGrid >
@@ -63,7 +64,7 @@
                                 <p:selectOneMenu id="rue" value="#{localeController.selected.rue}" >
                                     <f:selectItem itemLabel="--select--" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
                                     <f:selectItems value="#{localeController.thisQyartie.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
-                               
+
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column styleClass="text-font">
@@ -74,7 +75,7 @@
                                 <p:inputText id="cmpAdr" value="#{localeController.selected.complementAdress}"></p:inputText>
                             </p:column>
                             <p:column colspan="10">
-                                <p:commandButton value="Search" 
+                                <p:commandButton icon="fa fa-search" value="Search"
                                                  actionListener="#{localeController.addLocalesMarkersToMap()}" update=":mapsearch"/>
                             </p:column>
                         </p:row>

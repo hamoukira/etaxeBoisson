@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
@@ -24,10 +23,6 @@
                         <h:outputText value="#{redevableController.selected.nature==1?'Gerant':'Propritaire'}" title="#{bundle.ViewRedevableTitle_nature}"/>
                         <h:outputText value="#{bundle.ViewRedevableLabel_mail}"/>
                         <h:outputText value="#{redevableController.selected.mail}" title="#{bundle.ViewRedevableTitle_mail}"/>
-                        <h:outputText value="#{bundle.ViewRedevableLabel_dateDeCommencement}"/>
-                        <h:outputText value="#{redevableController.selected.dateDeCommencement}" title="#{bundle.ViewRedevableTitle_dateDeCommencement}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="RedevableViewDialog.hide()"/>
                 </h:panelGroup>

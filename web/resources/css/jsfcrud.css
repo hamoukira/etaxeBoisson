@@ -29,8 +29,8 @@
 }
 
 .OptionButton{
-    width: 25px ! important;
-    height: 20px ! important;
+    width: 30px ! important;
+    height: 25px ! important;
     margin-bottom:7px ! important;
     margin-left:7px ! important;
     margin-right:7px ! important;
@@ -47,9 +47,31 @@
     font-weight: 500  !important;
     text-align: center;
 }
+.colData {
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500  !important;
+    text-align: center;
+}
 
 .margFields{
     margin-top: 3% !important;
+}
+
+
+.input{
+    height: 20px;
+    width: 170px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.ui-output{
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 500  !important;
 }
 
 /*

@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="../template.xhtml">
 
@@ -15,24 +16,25 @@
 
         <ui:define name="body">
             <h:form id="HistoryListForm">
-                <p:fieldset legend="Recherche" style="margin-bottom:20px" >
-                    <p:panelGrid >
+                <!--<p:fieldset legend="Recherche" style="margin-bottom:20px" >-->
+                <div  style="margin-top: 1%;padding-left: 13% !important;position: relative;align-self: center;" >             
+                    <p:panelGrid>
                         <p:row>
                             <p:column styleClass="text-font">
-                                <p:outputLabel value="User Name" for="login" />
+                                <p:outputLabel value="User Name" />
                             </p:column>
                             <p:column styleClass="text-font">
-                                <p:inputText id="login" value="#{historyController.userName}"></p:inputText>
+                                <b:inputText style="margin-top: 9px;" value="#{historyController.userName}"></b:inputText>
                             </p:column>
                             <p:column styleClass="text-font">
-                                <p:outputLabel value="Action" for="action" />
+                                <p:outputLabel value="Action" />
                             </p:column>
                             <p:column styleClass="text-font">
-                                <p:selectOneMenu  id="action" value="#{historyController.action}" title="action" >
+                                <b:selectOneMenu style="margin-top: 9px;width: 120px" value="#{historyController.action}" title="action" >
                                     <f:selectItem itemValue="-1" itemLabel="#{bundle.natureRedevableChoice}"></f:selectItem>
                                     <f:selectItem  itemValue="1" itemLabel="Login"></f:selectItem>
                                     <f:selectItem itemValue="2" itemLabel="Logout"></f:selectItem>
-                                </p:selectOneMenu>
+                                </b:selectOneMenu>
                             </p:column>
                             <p:column styleClass="text-font">
                                 <p:outputLabel value="Login Time" for="logintime" />
@@ -51,39 +53,36 @@
                                 </p:calendar>
                             </p:column>
                             <p:column styleClass="text-font">
-                                <p:commandButton value="Search" actionListener="#{historyController.search()}" update="datalist"></p:commandButton>
+                                <b:commandButton ajax="true" look="info" icon-awesome="fa-search" value="Search" actionListener="#{historyController.search()}" update="datalist" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
-                </p:fieldset>
-                <p:panel style="padding-left: 20% !important; padding-right: 20% !important" header="#{bundle.ListHistoryTitle}">
-                    <p:dataTable id="datalist" value="#{historyController.items}" var="item"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+                </div>
+                <!--</p:fieldset>-->
+                <b:panel look="info"  ajax="true" collapsible="false" title="#{bundle.ListHistoryTitle}" style="padding-left: 20% !important; padding-right: 20% !important;position: relative;align-self: center;">
+                    <b:dataTable searching="false"  ajax="true" id="datalist" value="#{historyController.items}" var="item"
+                                  >
 
-                        <p:column>
+                        <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHistoryTitle_user}"/>
                             </f:facet>
-                            <h:outputText value="#{item.user.login}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.userLogin}"/>
+                        </b:dataTableColumn >
+                        <b:dataTableColumn class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHistoryTitle_type}"/>
                             </f:facet>
                             <h:outputText value="#{item.type==1?'Login':'Logout'}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn >
+                        <b:dataTableColumn class="colData">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHistoryTitle_inOutTimeStamp}"/>
                             </f:facet>
                             <h:outputText value="#{item.inOutTimeStamp}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
+                        </b:dataTableColumn >
+                    </b:dataTable>
+                </b:panel>
             </h:form>
         </ui:define>
     </ui:composition>

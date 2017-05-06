@@ -31,7 +31,7 @@ public class TauxRetardBoisonTrimFacade extends AbstractFacade<TauxRetardBoisonT
         super(TauxRetardBoisonTrim.class);
     }
 
-    public TauxRetardBoisonTrim findTauxTaxeByActivity(TauxTaxeBoisson tauxBoissonTaxe) {
+    public TauxRetardBoisonTrim findTauxRetardByTaux(TauxTaxeBoisson tauxBoissonTaxe) {
         try {
             return (TauxRetardBoisonTrim) em.createQuery("SELECT tr FROM TauxRetardBoisonTrim tr WHERE tr.tauxBoissonTaxe.id=" + tauxBoissonTaxe.getId()).getSingleResult();
 

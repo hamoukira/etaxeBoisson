@@ -15,12 +15,12 @@
                         <p:outputLabel value="#{bundle.EditJournalLabel_id}" for="id" />
                         <p:inputText id="id" value="#{journalController.selected.id}" title="#{bundle.EditJournalTitle_id}" />
                         <p:outputLabel value="#{bundle.EditJournalLabel_user}" for="user" />
-                        <p:selectOneMenu id="user" value="#{journalController.selected.user}" >
+                        <b:selectOneMenu id="user" value="#{journalController.selected.user}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{userrController.itemsAvailableSelectOne}"
                                            var="userItem"
                                            itemValue="#{userItem}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditJournalLabel_dateDeModification}" for="dateDeModification" />
                         <p:inputText id="dateDeModification" value="#{journalController.selected.dateDeModification}" title="#{bundle.EditJournalTitle_dateDeModification}" />
                         <p:outputLabel value="#{bundle.EditJournalLabel_typeDaction}" for="typeDaction" />

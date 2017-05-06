@@ -62,4 +62,17 @@ public class ActiviteFacade extends AbstractFacade<Activite> {
         }
     }
 
+    public int removeActivite(Activite activite) {
+        try {
+            TauxTaxeBoisson tauxTaxeBoisson = tauxTaxeFacade.findTauxTaxeByActivity(activite);
+            TauxRetardBoisonTrim tauxRetardBoisonTrim = tauxRetardFacade.findTauxRetardByTaux(tauxTaxeBoisson);
+            tauxRetardFacade.remove(tauxRetardBoisonTrim);
+            tauxTaxeFacade.remove(tauxTaxeBoisson);
+            remove(activite);
+            return 1;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
 }

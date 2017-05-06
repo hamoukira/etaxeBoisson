@@ -16,6 +16,7 @@ import bean.TauxRetardBoisonTrim;
 import bean.TauxTaxeBoisson;
 import bean.Userr;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import controller.util.SessionUtil;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,20 +68,22 @@ public class JournalFacade extends AbstractFacade<Journal> {
         super(Journal.class);
     }
 
-    public void createJournal(Object entity, Object oldEntity, int action) {
+    public void createJournal(Object entity, int action) {
+
         Journal journal = initJournal(action, entity);
         if (action == 1) {
             journal.setOldeValue(entity.toString());
             journal.setMessage("Non");
         }
         if (action == 2) {
+            Object oldEntity = findOldObject(entity);
             journal.setMessage(GenerateMessage(entity, oldEntity));
             journal.setNewValue(entity.toString());
             journal.setOldeValue(oldEntity.toString());
         }
         create(journal);
     }
-    
+
     public boolean recreate(Journal item) {
         boolean res = recreatTheItem(item);
         if (res) {
@@ -92,26 +95,25 @@ public class JournalFacade extends AbstractFacade<Journal> {
     private String GenerateMessage(Object entity, Object oldEntity) {
         String chngesMessage = "";
         Javers javers = JaversBuilder.javers().build();
-        System.out.println("new :: entity :: "+entity.toString());
-        System.out.println("old :: oldEntity :: "+oldEntity.toString());
-        Diff d = javers.compare(entity, oldEntity);
-        List<ValueChange> change = d.getChangesByType(ValueChange.class);
-        for (ValueChange valueChange : change) {
-            chngesMessage += valueChange.getPropertyName() + " avant :" + valueChange.getRight() + " apres :" + valueChange.getLeft() + ",\n";
-        }
-        System.out.println("SaveEdit :: GenerateMessage :: chngesMessage :" + chngesMessage);
-        return chngesMessage;
+        System.out.println("new :: entity :: " + entity.toString());
+        System.out.println("old :: oldEntity :: " + oldEntity.toString());
+        String d = javers.compare(entity, oldEntity).prettyPrint();
+//        List<ValueChange> change = d.getChangesByType(ValueChange.class);
+//        for (ValueChange valueChange : change) {
+//            chngesMessage += valueChange.getPropertyName() + " avant :" + valueChange.getRight() + " apres :" + valueChange.getLeft() + ",\n";
+//        }
+        System.out.println("SaveEdit :: GenerateMessage :: chngesMessage :" + d);
+        return d;
     }
 
     private Journal initJournal(int action, Object entity) {
         Journal journal = new Journal();
         journal.setTypeDaction(action);
-        journal.setUser(SessionUtil.getConnectedUser());
+        journal.setUserLogin(SessionUtil.getConnectedUser().getLogin());
         journal.setClassName(entity.getClass().getSimpleName());
         journal.setDateDeModification(LocalDateTime.now());
         return journal;
     }
-    
 
     private boolean recreatTheItem(Journal item) {
         System.out.println(" recreatTheItem :: ");
@@ -120,68 +122,23 @@ public class JournalFacade extends AbstractFacade<Journal> {
             Object recreated = deletedObjectClass.newInstance();
             Gson gson = new Gson();
             if (recreated instanceof Userr) {
-                Userr userr = gson.fromJson(item.getOldeValue(), Userr.class);
-                if (item.getTypeDaction() == 1) {
-                    userFacade.create(userr);
-                } else {
-                    userFacade.edit(userr);
-                }
+                recreatUser(gson, item);
             } else if (recreated instanceof Locale) {
-                Locale locale = gson.fromJson(item.getOldeValue(), Locale.class);
-                if (item.getTypeDaction() == 1) {
-                    localeFacade.remove(locale);
-                } else {
-                    localeFacade.edit(locale);
-                }
+                recreatLocal(gson, item);
             } else if (recreated instanceof Rue) {
-                Rue rue = gson.fromJson(item.getOldeValue(), Rue.class);
-                if (item.getTypeDaction() == 1) {
-                    rueFacade.create(rue);
-                } else {
-                    rueFacade.edit(rue);
-                }
+                recreatRue(gson, item);
             } else if (recreated instanceof Quartier) {
-                Quartier quartier = gson.fromJson(item.getOldeValue(), Quartier.class);
-                if (item.getTypeDaction() == 1) {
-                    quartierFacade.create(quartier);
-                } else {
-                    quartierFacade.edit(quartier);
-                }
+                recreateQuartier(gson, item);
             } else if (recreated instanceof Activite) {
-                Activite activite = gson.fromJson(item.getOldeValue(), Activite.class);
-                if (item.getTypeDaction() == 1) {
-                    activiteFacade.create(activite);
-                } else {
-                    activiteFacade.edit(activite);
-                }
+                recreateActivite(gson, item);
             } else if (recreated instanceof Secteur) {
-                Secteur secteur = gson.fromJson(item.getOldeValue(), Secteur.class);
-                if (item.getTypeDaction() == 1) {
-                    secteurFacade.create(secteur);
-                } else {
-                    secteurFacade.edit(secteur);
-                }
+                recreateSecteur(gson, item);
             } else if (recreated instanceof TauxTaxeBoisson) {
-                TauxTaxeBoisson tauxTaxeBoisson = gson.fromJson(item.getOldeValue(), TauxTaxeBoisson.class);
-                if (item.getTypeDaction() == 1) {
-                    tauxTaxeBoissonFacade.create(tauxTaxeBoisson);
-                } else {
-                    tauxTaxeBoissonFacade.edit(tauxTaxeBoisson);
-                }
+                recreateTauxTaxe(gson, item);
             } else if (recreated instanceof TauxRetardBoisonTrim) {
-                TauxRetardBoisonTrim tauxRetardBoisonTrim = gson.fromJson(item.getOldeValue(), TauxRetardBoisonTrim.class);
-                if (item.getTypeDaction() == 1) {
-                    tauxRetardBoisonTrimFacade.create(tauxRetardBoisonTrim);
-                } else {
-                    tauxRetardBoisonTrimFacade.edit(tauxRetardBoisonTrim);
-                }
+                recreateTauxRetard(gson, item);
             } else if (recreated instanceof Redevable) {
-                Redevable redevable = gson.fromJson(item.getOldeValue(), Redevable.class);
-                if (item.getTypeDaction() == 1) {
-                    redevableFacade.create(redevable);
-                } else {
-                    redevableFacade.edit(redevable);
-                }
+                recreateRedevable(gson, item);
             }
             return true;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -190,36 +147,35 @@ public class JournalFacade extends AbstractFacade<Journal> {
 
     }
 
-
-    public Object findId(Object entity) {
+    public Object findOldObject(Object entity) {
         System.out.println("findId");
         if (entity instanceof Userr) {
             Userr user = (Userr) entity;
             return userFacade.find(user.getLogin());
         } else if (entity instanceof Locale) {
             Locale locale = (Locale) entity;
-            return localeFacade.find(locale.getId()) ;
+            return localeFacade.find(locale.getId());
         } else if (entity instanceof Rue) {
             Rue rue = (Rue) entity;
-            return rueFacade.find(rue.getId()) ;
+            return rueFacade.find(rue.getId());
         } else if (entity instanceof Quartier) {
             Quartier quartier = (Quartier) entity;
-            return quartierFacade.find(quartier.getId()) ;
+            return quartierFacade.find(quartier.getId());
         } else if (entity instanceof Activite) {
             Activite activite = (Activite) entity;
-            return activiteFacade.find(activite.getId()) ;
+            return activiteFacade.find(activite.getId());
         } else if (entity instanceof Secteur) {
             Secteur secteure = (Secteur) entity;
-            return secteurFacade.find(secteure.getId()) ;
+            return secteurFacade.find(secteure.getId());
         } else if (entity instanceof TauxTaxeBoisson) {
             TauxTaxeBoisson tauxTaxeBoisson = (TauxTaxeBoisson) entity;
-            return tauxTaxeBoissonFacade.find( tauxTaxeBoisson.getId());
+            return tauxTaxeBoissonFacade.find(tauxTaxeBoisson.getId());
         } else if (entity instanceof TauxRetardBoisonTrim) {
             TauxRetardBoisonTrim tauxRetardBoisonTrim = (TauxRetardBoisonTrim) entity;
-            return tauxRetardBoisonTrimFacade.find(tauxRetardBoisonTrim.getId()) ;
+            return tauxRetardBoisonTrimFacade.find(tauxRetardBoisonTrim.getId());
         } else if (entity instanceof Redevable) {
             Redevable redevable = (Redevable) entity;
-            return redevableFacade.find(redevable.getId()) ;
+            return redevableFacade.find(redevable.getId());
         } else {
             return null;
         }
@@ -228,7 +184,7 @@ public class JournalFacade extends AbstractFacade<Journal> {
     public List<Journal> findByConditions(String userName, LocalDateTime dateMin, LocalDateTime dateMax, int action) {
         String sqlQuery = "SELECT j FROM Journal j WHERE 1=1 ";
         if (userName != null && !userName.isEmpty()) {
-            sqlQuery += " AND j.user.login = :userName";
+            sqlQuery += " AND j.user = :userName";
         }
         if (action != -1) {
             sqlQuery += " AND j.typeDaction = :actionType";
@@ -258,5 +214,88 @@ public class JournalFacade extends AbstractFacade<Journal> {
         return query.getResultList();
     }
 
-    
+    private void recreateRedevable(Gson gson, Journal item) throws JsonSyntaxException {
+        Redevable redevable = gson.fromJson(item.getOldeValue(), Redevable.class);
+        if (item.getTypeDaction() == 1) {
+            redevableFacade.create(redevable);
+        } else {
+            redevableFacade.edit(redevable);
+        }
+    }
+
+    private void recreateTauxRetard(Gson gson, Journal item) throws JsonSyntaxException {
+        TauxRetardBoisonTrim tauxRetardBoisonTrim = gson.fromJson(item.getOldeValue(), TauxRetardBoisonTrim.class);
+        if (item.getTypeDaction() == 1) {
+            if (tauxTaxeBoissonFacade.find(tauxRetardBoisonTrim.getTauxBoissonTaxe().getId()) != null) {
+                tauxRetardBoisonTrimFacade.create(tauxRetardBoisonTrim);
+            }
+        } else {
+            tauxRetardBoisonTrimFacade.edit(tauxRetardBoisonTrim);
+        }
+    }
+
+    private void recreateTauxTaxe(Gson gson, Journal item) throws JsonSyntaxException {
+        TauxTaxeBoisson tauxTaxeBoisson = gson.fromJson(item.getOldeValue(), TauxTaxeBoisson.class);
+        if (item.getTypeDaction() == 1) {
+            if (activiteFacade.find(tauxTaxeBoisson.getActivite().getId()) != null) {
+                tauxTaxeBoissonFacade.create(tauxTaxeBoisson);
+            }
+        } else {
+            tauxTaxeBoissonFacade.edit(tauxTaxeBoisson);
+        }
+    }
+
+    private void recreateSecteur(Gson gson, Journal item) throws JsonSyntaxException {
+        Secteur secteur = gson.fromJson(item.getOldeValue(), Secteur.class);
+        if (item.getTypeDaction() == 1) {
+            secteurFacade.create(secteur);
+        } else {
+            secteurFacade.edit(secteur);
+        }
+    }
+
+    private void recreateActivite(Gson gson, Journal item) throws JsonSyntaxException {
+        Activite activite = gson.fromJson(item.getOldeValue(), Activite.class);
+        if (item.getTypeDaction() == 1) {
+            activiteFacade.create(activite);
+        } else {
+            activiteFacade.edit(activite);
+        }
+    }
+
+    private void recreateQuartier(Gson gson, Journal item) throws JsonSyntaxException {
+        Quartier quartier = gson.fromJson(item.getOldeValue(), Quartier.class);
+        if (item.getTypeDaction() == 1) {
+            quartierFacade.create(quartier);
+        } else {
+            quartierFacade.edit(quartier);
+        }
+    }
+
+    private void recreatRue(Gson gson, Journal item) throws JsonSyntaxException {
+        Rue rue = gson.fromJson(item.getOldeValue(), Rue.class);
+        if (item.getTypeDaction() == 1) {
+            rueFacade.create(rue);
+        } else {
+            rueFacade.edit(rue);
+        }
+    }
+
+    private void recreatLocal(Gson gson, Journal item) throws JsonSyntaxException {
+        Locale locale = gson.fromJson(item.getOldeValue(), Locale.class);
+        if (item.getTypeDaction() == 1) {
+            localeFacade.remove(locale);
+        } else {
+            localeFacade.edit(locale);
+        }
+    }
+
+    private void recreatUser(Gson gson, Journal item) throws JsonSyntaxException {
+        Userr userr = gson.fromJson(item.getOldeValue(), Userr.class);
+        if (item.getTypeDaction() == 1) {
+            userFacade.create(userr);
+        } else {
+            userFacade.edit(userr);
+        }
+    }
 }

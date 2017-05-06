@@ -13,12 +13,12 @@
                 <h:panelGroup id="display">
                     <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
                         <p:outputLabel value="#{bundle.CreateTauxBoissonTaxeLabel_activite}" for="activite" />
-                        <p:selectOneMenu id="activite" value="#{tauxBoissonTaxeController.selected.activite}" >
+                        <b:selectOneMenu id="activite" value="#{tauxBoissonTaxeController.selected.activite}" >
                             <f:selectItems value="#{activiteController.itemsAvailableSelectOne}"
                                            var="activiteItem"
                                            itemValue="#{activiteItem}"
                                            itemLabel="#{activiteItem.nom}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateTauxBoissonTaxeLabel_taux}" for="taux" />
                         <p:inputText id="taux" value="#{tauxBoissonTaxeController.selected.taux}" title="#{bundle.CreateTauxBoissonTaxeTitle_taux}" />
                     </h:panelGrid>

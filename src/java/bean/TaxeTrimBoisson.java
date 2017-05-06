@@ -42,10 +42,20 @@ public class TaxeTrimBoisson implements Serializable {
     private Locale local;
     @ManyToOne
     private Userr user;
+    private String userLogin;
 
     public Double getMontantTaxe() {
         return montantTaxe;
     }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+    
 
     public void setMontantTaxe(Double montantTaxe) {
         this.montantTaxe = montantTaxe;

@@ -5,6 +5,7 @@
  */
 package services;
 
+import bean.History;
 import bean.Journal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -38,28 +39,15 @@ public abstract class AbstractFacade<T> {
 
     public void savedEdite(T entity) {
         System.out.println("savedEdite");
-        Object oldEntity = journalFacade.findId(entity);
-//        System.out.println("after findId :: id = " + id.toString());
-//        Object oldEntity = null;
-//        if (id instanceof String) {
-//            System.out.println(" :: id instanceof String");
-//            oldEntity = find((String) id);
-//        }
-//        if (id instanceof Double) {
-//            System.out.println(" :: id instanceof Double");
-//            oldEntity = find((Double) id);
-//        }
-        if (oldEntity != null) {
-            journalFacade.createJournal(entity, oldEntity, 2);
-            edit(entity);
-        }else
-            System.out.println("saveEdit :: oldEntity = null");
-        
+        journalFacade.createJournal(entity, 2);
+        edit(entity);
+        System.out.println("saveEdit :: oldEntity = null");
+
     }
 
     public void remove(T entity) {
-        if (!(entity instanceof Journal)) {
-            journalFacade.createJournal(entity, null, 1);
+        if (!(entity instanceof Journal) || !(entity instanceof History)) {
+            journalFacade.createJournal(entity, 1);
         }
         getEntityManager().remove(getEntityManager().merge(entity));
     }

@@ -15,12 +15,12 @@
                         <p:outputLabel value="#{bundle.EditHistoryLabel_id}" for="id" />
                         <p:inputText id="id" value="#{historyController.selected.id}" title="#{bundle.EditHistoryTitle_id}" />
                         <p:outputLabel value="#{bundle.EditHistoryLabel_user}" for="user" />
-                        <p:selectOneMenu id="user" value="#{historyController.selected.user}" >
+                        <b:selectOneMenu id="user" value="#{historyController.selected.user}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{userrController.itemsAvailableSelectOne}"
                                            var="userItem"
                                            itemValue="#{userItem}"/>
-                        </p:selectOneMenu>
+                        </b:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditHistoryLabel_type}" for="type" />
                         <p:inputText id="type" value="#{historyController.selected.type}" title="#{bundle.EditHistoryTitle_type}" />
                         <p:outputLabel value="#{bundle.EditHistoryLabel_inOutTimeStamp}" for="inOutTimeStamp" />

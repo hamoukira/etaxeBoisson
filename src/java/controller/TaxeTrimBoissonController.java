@@ -66,7 +66,7 @@ public class TaxeTrimBoissonController implements Serializable {
     private BarChartModel barModel;
     private LineChartModel lineModel;
     private DonutChartModel donutModel;
-    private int typeGraphe;
+    private int typeGraphe=1;
     private int anneeDeb;
     private int anneeFin;
     private Rue rue;
@@ -110,8 +110,9 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public BarChartModel getBarModel() {
-        if(barModel==null)
-            barModel=new BarChartModel();
+        if (barModel == null) {
+            barModel = new BarChartModel();
+        }
         return barModel;
     }
 
@@ -120,8 +121,9 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public LineChartModel getLineModel() {
-        if(lineModel==null)
-            lineModel=new LineChartModel();
+        if (lineModel == null) {
+            lineModel = new LineChartModel();
+        }
         return lineModel;
     }
 
@@ -130,8 +132,9 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public DonutChartModel getDonutModel() {
-        if(donutModel==null)
-            donutModel=new DonutChartModel();
+        if (donutModel == null) {
+            donutModel = new DonutChartModel();
+        }
         return donutModel;
     }
 
@@ -389,16 +392,21 @@ public class TaxeTrimBoissonController implements Serializable {
 
     public void prepareCreate() {
         setIsSimulation(false);
-        propCode="";
-        gerantCode="";
-        selected =null;
-        items=null;
+        propCode = "";
+        gerantCode = "";
+        renderYear = "false";
+        localsAvailable=null;
+        selected = null;
+        items = null;
     }
 
     public void prepareSimulation() {
         setIsSimulation(true);
+        propCode = "";
+        gerantCode = "";
+        renderYear = "false";
+        localsAvailable=null;
         anItem = new TaxeTrimBoisson();
-        initializeEmbeddableKey();
     }
 
     public void createTest() {
@@ -437,8 +445,12 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public void cancel() {
-        selected = null;
-        setRenderYear("false");
+        try {
+            selected = null;
+            setRenderYear("false");
+        } catch (Exception e) {
+            System.out.println("cancel");
+        }
     }
 
     public TaxeTrimBoisson getTaxeTrimBoisson(java.lang.Long id) {
@@ -498,9 +510,8 @@ public class TaxeTrimBoissonController implements Serializable {
         ejbFacade.printPdf(taxeTrimBoisson);
         FacesContext.getCurrentInstance().responseComplete();
     }
-    
-    
-    public  List<Commune> communesAvailableSelectOne(){
+
+    public List<Commune> communesAvailableSelectOne() {
         return communeFacade.findAll();
     }
 
