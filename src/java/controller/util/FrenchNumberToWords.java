@@ -151,80 +151,6 @@ public class FrenchNumberToWords {
     }
     return resultat;
   }
-   public static String convert(Double doublNumber) {
-        // 0 à 999 999 999 999
-        if (doublNumber == 0) {
-            return "ZÉRO";
-        }
-        
-        long number = (long) Math.floor(doublNumber);
-        String snumber = Long.toString(number);
-
-        // pad des "0"
-        String mask = "000000000000";
-        DecimalFormat df = new DecimalFormat(mask);
-        snumber = df.format(number);
-
-        // XXXnnnnnnnnn 
-        int lesMilliards = Integer.parseInt(snumber.substring(0, 3));
-        // nnnXXXnnnnnn
-        int lesMillions = Integer.parseInt(snumber.substring(3, 6));
-        // nnnnnnXXXnnn
-        int lesCentMille = Integer.parseInt(snumber.substring(6, 9));
-        // nnnnnnnnnXXX
-        int lesMille = Integer.parseInt(snumber.substring(9, 12));
-
-        String tradMilliards;
-        switch (lesMilliards) {
-            case 0:
-                tradMilliards = "";
-                break;
-            case 1:
-                tradMilliards = convertLessThanOneThousand(lesMilliards)
-                        + " MILLIARD ";
-                break;
-            default:
-                tradMilliards = convertLessThanOneThousand(lesMilliards)
-                        + " MILLIARDS ";
-        }
-        String resultat = tradMilliards;
-
-        String tradMillions;
-        switch (lesMillions) {
-            case 0:
-                tradMillions = "";
-                break;
-            case 1:
-                tradMillions = convertLessThanOneThousand(lesMillions)
-                        + " MILLION ";
-                break;
-            default:
-                tradMillions = convertLessThanOneThousand(lesMillions)
-                        + " MILLIONS ";
-        }
-        resultat = resultat + tradMillions;
-
-        String tradCentMille;
-        switch (lesCentMille) {
-            case 0:
-                tradCentMille = "";
-                break;
-            case 1:
-                tradCentMille = "MILLE ";
-                break;
-            default:
-                tradCentMille = convertLessThanOneThousand(lesCentMille)
-                        + " MILLE ";
-        }
-        resultat = resultat + tradCentMille;
-
-        String tradMille;
-        tradMille = convertLessThanOneThousand(lesMille);
-        resultat = resultat + tradMille;
-
-        return resultat;
-    }
-
 
   public static String convert(long number) {
     // 0 à 999 999 999 999
@@ -297,44 +223,44 @@ public class FrenchNumberToWords {
     return resultat;
   }
 
-//  public static void main(String[] args) {
-//
-//    System.out.println("*** " + FrenchNumberToWords.convert(2000000));
-//
-//    /*
-//     *** OUTPUT
-//     *** zéro
-//     *** neuf
-//     *** dix-neuf
-//     *** vingt et un
-//     *** vingt-huit
-//     *** soixante et onze
-//     *** soixante-douze
-//     *** quatre-vingt
-//     *** quatre-vingt-un
-//     *** quatre-vingt-neuf
-//     *** quatre-vingt-dix
-//     *** quatre-vingt-onze
-//     *** quatre-vingt-dix-sept
-//     *** cent
-//     *** cent un
-//     *** cent dix
-//     *** cent vingt
-//     *** deux cents
-//     *** deux cent un
-//     *** deux cent trente-deux
-//     *** neuf cent quatre-vingt-dix-neuf
-//     *** mille
-//     *** mille un
-//     *** dix mille
-//     *** dix mille un
-//     *** cent mille
-//     *** deux millions
-//     *** trois milliards
-//     *** deux milliards cent quarante-sept millions 
-//     **          quatre cent quatre-vingt-trois mille six cent quarante-sept
-//     */
-//  }
+  public static void main(String[] args) {
+
+    System.out.println("*** " + FrenchNumberToWords.convert(2000000));
+
+    /*
+     *** OUTPUT
+     *** zéro
+     *** neuf
+     *** dix-neuf
+     *** vingt et un
+     *** vingt-huit
+     *** soixante et onze
+     *** soixante-douze
+     *** quatre-vingt
+     *** quatre-vingt-un
+     *** quatre-vingt-neuf
+     *** quatre-vingt-dix
+     *** quatre-vingt-onze
+     *** quatre-vingt-dix-sept
+     *** cent
+     *** cent un
+     *** cent dix
+     *** cent vingt
+     *** deux cents
+     *** deux cent un
+     *** deux cent trente-deux
+     *** neuf cent quatre-vingt-dix-neuf
+     *** mille
+     *** mille un
+     *** dix mille
+     *** dix mille un
+     *** cent mille
+     *** deux millions
+     *** trois milliards
+     *** deux milliards cent quarante-sept millions 
+     **          quatre cent quatre-vingt-trois mille six cent quarante-sept
+     */
+  }
    public static BigDecimal  deuxChiffre(BigDecimal myNumber){
        BigDecimal partie1= new BigDecimal(myNumber.toBigInteger());
        BigDecimal partie2 =myNumber.subtract(new BigDecimal(myNumber.toBigInteger()));

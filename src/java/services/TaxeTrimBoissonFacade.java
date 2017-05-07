@@ -402,7 +402,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         params.put("nomLocale", taxeTrim.getLocal().getNom());
         params.put("natureRedevable", nature);
         params.put("adresseLocale", adresse);
-        params.put("totalEnLettre", FrenchNumberToWords.convert(taxeTrim.getMontantTotalTaxe()));
+        params.put("totalEnLettre", FrenchNumberToWords.convert(Math.round(taxeTrim.getMontantTotalTaxe())));
         params.put("userName", taxeTrim.getUser().getNom());
         return params;
     }

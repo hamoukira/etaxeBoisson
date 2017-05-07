@@ -138,15 +138,15 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
             if (propr != null) {
                 query += SearchUtil.addConstraint("tax", "redevable.id", "=", propr.getId());
             } else {
-                query="SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
+                query = "SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
             }
         }
         if (gerantCode != null && !"".equals(gerantCode)) {
             gerant = redevableFacade.findRedevable(null, gerantCode);
             if (gerant != null) {
                 query += SearchUtil.addConstraint("tax", "redevable.id", "=", gerant.getId());
-            }else {
-                query="SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
+            } else {
+                query = "SELECT tax FROM TaxeAnnuelBoisson tax where 1=2 ";
             }
         }
         if (paiement != 0) {
@@ -182,9 +182,14 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         String nature;
         String status = "NoN";
         String cinOuRcRedevable;
-        String adresse = taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName() + " "
-                + taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " "
-                + taxeAnnuelBoisson.getLocale().getRue().getName() + " " + taxeAnnuelBoisson.getLocale().getComplementAdress();
+        String adresse = taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName() + " ";
+        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName())) {
+            adresse += "Quartier " + taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " ";
+        }
+        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getName())) {
+            adresse += "Rue " + taxeAnnuelBoisson.getLocale().getRue().getName() + " ";
+        }
+        adresse += taxeAnnuelBoisson.getLocale().getComplementAdress();
         if (taxeAnnuelBoisson.getRedevable().getNature() == 1) {
             nature = "Gerant";
         } else {
@@ -213,7 +218,7 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         params.put("natureRedevable", nature);
         params.put("adresseLocale", adresse);
         params.put("idTaxeAnn", taxeAnnuelBoisson.getId());
-        params.put("totalEnLettre", FrenchNumberToWords.convert(taxeAnnuelBoisson.getMontantTaxeannuel()));
+        params.put("totalEnLettre", FrenchNumberToWords.convert(Math.round(taxeAnnuelBoisson.getMontantTaxeannuel())));
         params.put("status", status);
         params.put("userName", SessionUtil.getConnectedUser().getNom());
         return params;
