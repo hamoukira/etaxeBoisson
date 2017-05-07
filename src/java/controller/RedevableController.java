@@ -174,12 +174,15 @@ public class RedevableController implements Serializable {
 
     //EntityType : personnePhysique ou entreprise
     public void create(Redevable redevable, int EntityType) {
+        if(redevable.getCin()==null || redevable.getCin()=="")redevable.setCin("Non");
+        if(redevable.getRc()==null || redevable.getRc()=="")redevable.setRc("Non");
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("RedevableCreated"), redevable);
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(redevable));
             prepareCreate();// Invalidate list of items to trigger re-query.
         }
         setDesabalePropritaireSave("true");
+        setDesabaleGerantSave("false");
         disableOrEnableInput(redevable.getNature(), EntityType, "false");
     }
 

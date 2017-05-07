@@ -16,6 +16,10 @@
         <param-name>net.bootsfaces.get_fontawesome_from_cdn</param-name>
         <param-value>true</param-value>
     </context-param>
+    <mime-mapping>  
+        <extension>woff2</extension>  
+        <mime-type>application/x-font-woff2</mime-type>  
+    </mime-mapping>
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>filter.LoginFilter</filter-class>
