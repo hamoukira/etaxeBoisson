@@ -16,11 +16,15 @@
         <f:metadata>
             <f:viewAction action="#{journalController.prepareCreate()}" />
         </f:metadata>
+        
+        
 
         <ui:define name="body">
+            <b:growl id="jGrowl" />
             <h:form id="JournalListForm">
+                
                 <!--<p:fieldset legend="Recherche" style="margin-bottom:20px" >-->
-                <div  style="margin-top: 1%;padding-left: 16% !important;position: relative;align-self: center;" >       
+                <div  style="margin-top: 1%;padding-left: 13% !important;position: relative;align-self: center;" >       
                     <p:panelGrid >
                         <p:row>
                             <p:column styleClass="text-font">
@@ -56,15 +60,14 @@
                                 </p:calendar>
                             </p:column>
                             <p:column styleClass="text-font">
-                                <b:commandButton ajax="true" look="info" icon-awesome="fa-search" value="Search"  actionListener="#{journalController.search()}" update="datalist" />
+                                <b:commandButton ajax="true" look="info" icon-awesome="fa-search" value="Search"  actionListener="#{journalController.search()}" update="datalist,jGrowl" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
                 </div>
                 <!--</p:fieldset>-->
-                <b:panel look="info"  ajax="true" collapsible="false" title="#{bundle.ListJournalTitle}" style="padding-left: 15% !important; padding-right: 15% !important;position: relative;align-self: center;">
-                    <b:dataTable  searching="false"  ajax="true" id="datalist" value="#{journalController.items}" var="item"
-                                 
+                <b:panel look="info" collapsible="false" title="#{bundle.ListJournalTitle}" style="padding-left: 15% !important; padding-right: 15% !important;position: relative;align-self: center;">
+                    <b:dataTable responsive="false" ajax="true"  searching="false" id="datalist" value="#{journalController.items}" var="item"
                                  >
 
                         <b:dataTableColumn  class="colData" >
@@ -101,8 +104,8 @@
                             <f:facet name="header">
                                 <h:outputText value="Options"/>
                             </f:facet>
-                            <b:commandButton look="success" value="" ajax="true" icon-awesome="fa-reply" rendered="#{item.className!='Journal'}" id="reconstruct" actionListener="#{journalController.recreate(item)}" update=":growl,datalist" />
-                            <b:commandButton look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{journalController.destroy(item)}" update=":growl,datalist" />
+                            <b:commandButton look="success" value="" ajax="true" icon-awesome="fa-reply" rendered="#{item.className!='Journal'}" id="reconstruct" actionListener="#{journalController.recreate(item)}" update="jGrowl,datalist" />
+                            <b:commandButton look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{journalController.destroy(item)}" update="jGrowl,datalist" />
                         </b:dataTableColumn>
 
                     </b:dataTable>

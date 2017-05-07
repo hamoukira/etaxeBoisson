@@ -46,7 +46,7 @@ public abstract class AbstractFacade<T> {
     }
 
     public void remove(T entity) {
-        if (!(entity instanceof Journal) || !(entity instanceof History)) {
+        if (!(entity instanceof Journal) && !(entity instanceof History)) {
             journalFacade.createJournal(entity, 1);
         }
         getEntityManager().remove(getEntityManager().merge(entity));

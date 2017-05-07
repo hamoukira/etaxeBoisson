@@ -47,9 +47,11 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{activiteController.setSelected(item)}" update=":ActiviteEditForm" oncomplete="PF('ActiviteEditDialog').show()" />
-                                        <p:commandButton class="OptionButton" icon="fa fa-trash-o"  actionListener="#{activiteController.destroy(item)}" update=":growl,datalist,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" />
-                                        <p:commandButton class="OptionButton" icon="fa fa-plus"  actionListener="#{activiteController.findTaux(item)}" update=":growl,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o"  actionListener="#{activiteController.setSelected(item)}" update=":ActiviteEditForm" oncomplete="PF('ActiviteEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" icon-awesome="fa-trash-o"  look="danger" value="" ajax="true" actionListener="#{activiteController.destroy(item)}" update=":growl,datalist,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{activiteController.findTaux(item)}" update=":growl,:TauxBoissonTaxeListForm:datalist,:TauxRetardBoisonTrimListForm:datalist" >
+                                            <f:ajax  execute="@this" render="TauxBoissonTaxeListForm" />
+                                        </b:commandButton>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
@@ -76,8 +78,10 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{tauxBoissonTaxeController.setSelected(itema)}"  update=":TauxBoissonTaxeEditForm" oncomplete="PF('TauxBoissonTaxeEditDialog').show()"  />
-                                        <p:commandButton class="OptionButton" icon="fa fa-plus"  actionListener="#{activiteController.findRetard(itema)}" update=":growl,:TauxRetardBoisonTrimListForm:datalist" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o"   actionListener="#{tauxBoissonTaxeController.setSelected(itema)}"  update=":TauxBoissonTaxeEditForm" oncomplete="PF('TauxBoissonTaxeEditDialog').show()"  />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"   actionListener="#{activiteController.findRetard(itema)}" update=":growl,:TauxRetardBoisonTrimListForm:datalist" >
+                                            <f:ajax  execute="@this" render="TauxRetardBoisonTrimListForm" />
+                                        </b:commandButton>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
@@ -110,7 +114,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" icon="fa fa-pencil-square-o" actionListener="#{tauxRetardBoisonTrimController.setSelected(item)}" update=":TauxRetardBoisonTrimEditForm" oncomplete="PF('TauxRetardBoisonTrimEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o"  actionListener="#{tauxRetardBoisonTrimController.setSelected(itemRetard)}" update=":TauxRetardBoisonTrimEditForm" oncomplete="PF('TauxRetardBoisonTrimEditDialog').show()" />
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>

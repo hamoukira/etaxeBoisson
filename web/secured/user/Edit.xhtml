@@ -63,8 +63,7 @@
                         <p:selectBooleanCheckbox id="taxes" value="#{userController.selected.taxes}"  />
 
                     </h:panelGrid>
-                    <p:commandButton actionListener="#{userController.update}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UserEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" actionListener="#{userController.setSelected(null)}" onclick="UserEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{userController.update}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:hGrowl" oncomplete="handleSubmit(args, 'UserEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

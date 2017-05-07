@@ -37,8 +37,10 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" id="commune" icon="fa fa-plus"  actionListener="#{communeController.secteureByCommun(item)}" update=":SecteurListForm:datalist,:QuartierListForm:datalist,:RueListForm:datalist" />
-                                        <p:commandButton class="OptionButton" id="editButton"   icon="fa fa-pencil-square-o" actionListener="#{communeController.setSelected(item)}" update=":CommuneEditForm" oncomplete="PF('CommuneEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{communeController.setSelected(item)}" update=":CommuneEditForm" oncomplete="PF('CommuneEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{communeController.secteureByCommun(item)}" update=":SecteurListForm:datalist,:QuartierListForm:datalist,:RueListForm:datalist" >
+                                            <f:ajax  execute="@this" render="SecteurListForm" />
+                                        </b:commandButton>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">
@@ -69,8 +71,10 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" id="secteur" icon="fa fa-plus"  actionListener="#{communeController.quartierBySecteure(item)}" update=":QuartierListForm:datalist,:RueListForm:datalist" />
-                                        <p:commandButton class="OptionButton" id="editButton"   icon="fa fa-pencil-square-o" actionListener="#{secteurController.setSelected(item)}" update=":SecteurEditForm" oncomplete="PF('SecteurEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{secteurController.setSelected(item)}" update=":SecteurEditForm" oncomplete="PF('SecteurEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{communeController.quartierBySecteure(item)}" update=":QuartierListForm:datalist,:RueListForm:datalist" >
+                                            <f:ajax  execute="@this" render="QuartierListForm" />
+                                        </b:commandButton>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">
@@ -100,8 +104,10 @@
                                         <f:facet name="header">
                                             <h:outputText value="Options"/>
                                         </f:facet>
-                                        <p:commandButton class="OptionButton" id="quartier" icon="fa fa-plus"  actionListener="#{communeController.rueByQuartier(item)}" update=":RueListForm:datalist" />
-                                        <p:commandButton class="OptionButton" id="editButton"   icon="fa fa-pencil-square-o" actionListener="#{quartierController.setSelected(item)}" update=":QuartierEditForm" oncomplete="PF('QuartierEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{quartierController.setSelected(item)}" update=":QuartierEditForm" oncomplete="PF('QuartierEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{communeController.rueByQuartier(item)}" update=":RueListForm:datalist" >
+                                            <f:ajax  execute="@this" render="RueListForm" />
+                                        </b:commandButton>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">
@@ -127,9 +133,8 @@
                                         </f:facet>
                                         <h:outputText value="#{item.name}"/>
                                     </b:dataTableColumn>
-
-                                    <b:dataTableColumn>
-                                        <p:commandButton class="OptionButton" id="editButton"   icon="fa fa-pencil-square-o" actionListener="#{rueController.setSelected(item)}" update=":RueEditForm" oncomplete="PF('RueEditDialog').show()" />
+                                    <b:dataTableColumn  class="colData" >
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{rueController.setSelected(item)}" update=":RueEditForm" oncomplete="PF('RueEditDialog').show()" />
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">

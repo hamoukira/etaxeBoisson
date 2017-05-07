@@ -208,6 +208,8 @@ public class ActiviteController implements Serializable {
         if (activite != null) {
             int res = ejbFacade.removeActivite(activite);
             if (res < 0) {
+                tauxItem=null;
+                retardItems=null;
                 JsfUtil.addErrorMessage("erreur pendant la suppression de l'activite");
             } else {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ActiviteDeleted"));

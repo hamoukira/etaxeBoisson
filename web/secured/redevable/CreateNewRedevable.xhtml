@@ -26,7 +26,7 @@
                 *hadi tab lwla dyal l redevable
                 *
                 -->
-                <p:tab  title="#{bundle.TableViewRedevable}"  > 
+                <p:tab  rendered="#{userController.canAccesseRedevable()}" title="#{bundle.TableViewRedevable}"  > 
                     <!--
                     *
                     *form lwal dyal l Propritaire
@@ -159,7 +159,7 @@
                 *hadi tab  dyal l LOCAL
                 *
                 -->
-                <p:tab  title="#{bundle.TableViewLocal}">
+                <p:tab  rendered="#{userController.canAccesseLocals()}"  title="#{bundle.TableViewLocal}">
                     <!--hanane ktbi lformulaire dyal local fhad lblasa -->
                                 <h:form id="localeCreateForm">
                                     <p:fieldset legend="#{bundle.CreateLocaleTitle}" style="margin-top: 35px !important" >

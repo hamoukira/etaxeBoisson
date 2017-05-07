@@ -119,7 +119,7 @@ public class JournalController implements Serializable {
 
     public void search() {
         items = getFacade().findByConditions(userName, dateMin, dateMax, action);
-        if (items == null) {
+        if (items == null || items.isEmpty()) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
             JsfUtil.addSuccessMessage("successe");

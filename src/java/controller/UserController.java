@@ -204,7 +204,7 @@ public class UserController implements Serializable {
             getSelected().setPasswrd(HashageUtil.sha256(getSelected().getPasswrd()));
             getFacade().create(getSelected());
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
-            items = null;
+            items.add(getFacade().clone(selected));
             selected = null;
         } else {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -225,8 +225,9 @@ public class UserController implements Serializable {
     }
 
     public void destroy(Userr user) {
+        System.out.println("User Controller");
         int res = ejbFacade.deleteUser(user);
-        if (res > 1) {
+        if (res > 0) {
             JsfUtil.addSuccessMessage("User Deleted");
             items = null;
         } else {
@@ -238,6 +239,7 @@ public class UserController implements Serializable {
         if (items == null) {
             items = getFacade().findAll();
         }
+        items.remove(SessionUtil.getConnectedUser());
         return items;
     }
 

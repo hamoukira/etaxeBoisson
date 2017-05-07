@@ -18,14 +18,14 @@
         </f:metadata>
 
         <ui:define name="body">
-
+            <b:growl id="hGrowl" />
             <h:form id="UserListForm">
                     <div class="ui-grid ui-grid-responsive">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-1"></div>
                             <div class="ui-grid-col-10">
                                 <b:panel look="info"  collapsible="false" title="Users" style="margin-top: 5%;position: relative;align-self: center;">
-                                    <b:dataTable  ajax="true"  id="datalist" value="#{userController.items}" var="item">
+                                    <b:dataTable ajax="true" id="datalist" value="#{userController.items}" var="item">
                                         <b:dataTableColumn class="colData">
                                             <f:facet name="header">
                                                 <h:outputText value="Login"/>
@@ -56,8 +56,7 @@
                                             </f:facet>
                                             <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{userController.setSelected(item)}" update=":UserViewForm" oncomplete="PF('UserViewDialog').show()" />
                                             <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{userController.setSelected(item)}" update=":UserEditForm" oncomplete="PF('UserEditDialog').show()" />
-                                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"   actionListener="#{userController.destroy(item)}" update=":growl,datalist" >
-                                            </b:commandButton>
+                                            <b:commandButton style="margin: 1% 1% 1% 1%;"  look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"   actionListener="#{userController.destroy(item)}" update=":hGrowl,datalist" />
                                         </b:dataTableColumn>
                                     </b:dataTable>
                                     <f:facet name="footer">

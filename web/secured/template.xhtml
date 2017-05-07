@@ -9,6 +9,7 @@
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
         <link src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
     </h:head>
 
@@ -23,51 +24,41 @@
         <p:layout fullPage="true">
             <p:layoutUnit position="north" size="60" header="#{bundle.AppName}">
                 <h:form id="menuForm">
-                    <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/secured/home/accueil" icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Activite" outcome="/secured/activite/List.xhtml" />
-                            <p:menuitem value="Commune" outcome="/secured/commune/List.xhtml" />
-                            <p:menuitem value="Locale" outcome="/secured/locale/List.xhtml" />
-                            <p:menuitem value="Quartier" outcome="/secured/quartier/List.xhtml" />
-                            <p:menuitem value="Redevable" outcome="/secured/redevable/List.xhtml" />
-                            <p:menuitem value="Rue" outcome="/secured/rue/List.xhtml" />
-                            <p:menuitem value="Secteur" outcome="/secured/secteur/List.xhtml" />
-                            <p:menuitem value="TauxBoissonTaxe" outcome="/secured/tauxBoissonTaxe/List.xhtml" />
-                            <p:menuitem value="TauxRetardBoisonTrim" outcome="/secured/tauxRetardBoisonTrim/List.xhtml" />
-                            <p:menuitem value="TaxeAnnuelBoisson" outcome="/secured/taxeAnnuelBoisson/List.xhtml" />
-                            <p:menuitem value="TaxeTrimBoisson" outcome="/secured/taxeTrimBoisson/List.xhtml" />
+                    <p:menubar style="margin-bottom: 3%">
 
-                            <p:menuitem value="Chart" outcome="/secured/statistics/Statistique.xhtml" />
+                        <p:menuitem style="margin: 4% 4% 4% " value="#{bundle.Home}" outcome="/secured/home/accueil" icon="ui-icon-home"/>
+
+                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-university" rendered="#{userController.canAccesseAdressage()}" value="Adressage" outcome="/secured/commune/List.xhtml" />
+
+                        <p:submenu style="margin: 5px 5px 5px "  icon="fa fa-users"  rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}"  label="Redevable/Locale">
+                            <p:menuitem rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}" value="Crée" outcome="/secured/redevable/CreateNewRedevable"/>
+                            <p:menuitem rendered="#{userController.canAccesseLocals()}" value="Locales" outcome="/secured/locale/List.xhtml" />
+                            <p:menuitem  rendered="#{userController.canAccesseRedevable()}"  value="Redevables" outcome="/secured/redevable/List.xhtml" />
                         </p:submenu>
 
-                        <p:menuitem rendered="#{userController.canAccesseRedevable()}" value="Redevable" outcome="/secured/redevable/CreateNewRedevable"/>
-
-                        <p:submenu rendered="#{userController.canAccesseAdminBar()}" label="Admin Bar">
+                        <p:submenu style="margin: 5px 5px 5px "  icon="fa fa-cog" rendered="#{userController.canAccesseAdminBar()}" label="Reglage">
                             <p:menuitem value="Utilisateurs" outcome="/secured/user/List.xhtml" />
-                            <p:menuitem value="History" outcome="/secured/history/List.xhtml" />
-                            <p:menuitem value="Journal" outcome="/secured/journal/List.xhtml" />
-                            <p:menuitem value="Taux Taxe" outcome="/secured/tauxBoissonTaxe/List.xhtml" />
-                            <p:menuitem value="Taux Retard Taxe" outcome="/secured/tauxRetardBoisonTrim/List.xhtml" />
+                            <p:menuitem value="Journal d'Utilisateur" outcome="/secured/history/List.xhtml" />
+                            <p:menuitem value="Journal d'Activite" outcome="/secured/journal/List.xhtml" />
                         </p:submenu>
-                        <p:submenu rendered="#{userController.canAccesseTaxes()}" label="Taxes">
-                            <p:menuitem value="Cree/sumiler" outcome="/secured/taxeTrimBoisson/List.xhtml" />
-                            <p:menuitem value="Taxe Annuel" outcome="/secured/taxeAnnuelBoisson/List.xhtml" />
 
-                        </p:submenu>
-                        <p:submenu rendered="#{userController.canAccesseAdressage()}" label="Adressage">
-                            <p:menuitem value="Commune" outcome="/secured/commune/List.xhtml" />
-                            <p:menuitem value="Secteur" outcome="/secured/secteur/List.xhtml" />
-                            <p:menuitem value="Quartier" outcome="/secured/quartier/List.xhtml" />
-                            <p:menuitem value="Rue" outcome="/secured/rue/List.xhtml" />
-                        </p:submenu>
-                        <p:submenu rendered="#{userController.canAccesseLocals()}" label="Locals">
-                            <p:menuitem value="Locales" outcome="/secured/locale/List.xhtml" />
-                            <p:menuitem value="Map" outcome="/secured/locale/LocalMap.xhtml" />
+                        <p:submenu style="margin: 5px 5px 5px "  icon="fa fa-money" rendered="#{userController.canAccesseTaxes()}" label="Taxes">
+
+                            <p:submenu icon="fa fa-glass" label="Taxe">
+                                <p:menuitem value="Crée/sumiler" outcome="/secured/taxeTrimBoisson/List.xhtml" />
+                                <p:menuitem value="Taxe Annuel" outcome="/secured/taxeAnnuelBoisson/List.xhtml" />
+                            </p:submenu>
+
                             <p:menuitem value="Activite" outcome="/secured/activite/List.xhtml" />
-                            <p:menuitem value="Cree Activite" outcome="/secured/activite/CreateActivite.xhtml" />
+                            <p:menuitem  rendered="#{userController.canAccesseAdminBar()}"  value="Crée Activite" outcome="/secured/activite/CreateActivite.xhtml" />
                         </p:submenu>
-                        <p:menuitem value="Logout" style="position: absolute;right: 20px;" action="#{userController.seDeConnnecter()}" />
+
+                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-bar-chart" value="Statistiques" outcome="/secured/statistics/Statistique.xhtml" />
+
+                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-map-marker" value="Locals Map" outcome="/secured/locale/LocalMap.xhtml" />
+
+
+                        <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 5px 5px 5px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>
@@ -76,7 +67,7 @@
                 <ui:insert name="footer"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center">
+            <p:layoutUnit position="center" style="margin-top: 1%">
                 <ui:insert name="body"/>
             </p:layoutUnit>
 

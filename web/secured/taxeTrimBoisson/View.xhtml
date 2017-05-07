@@ -15,6 +15,8 @@
                         <h:outputText rendered="#{taxeTrimBoissonController.isSimulation eq false}" value="#{taxeTrimBoissonController.anItem.id}" title="#{bundle.ViewTaxeTrimBoissonTitle_id}"/>
                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_local}"/>
                         <h:outputText value="#{taxeTrimBoissonController.anItem.local.nom}" title="#{bundle.ViewTaxeTrimBoissonTitle_local}"/>
+                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_chiffreAffaireHT}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.chiffreAffaireHT}" title="#{bundle.ViewTaxeTrimBoissonTitle_chiffreAffaireHT}"/>
                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_chiffreAffaireTTC}"/>
                         <h:outputText value="#{taxeTrimBoissonController.anItem.chiffreAffaireTTC}" title="#{bundle.ViewTaxeTrimBoissonTitle_chiffreAffaireTTC}"/>
                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_montantTotalTaxe}"/>
@@ -27,9 +29,7 @@
                         <h:outputText value="#{taxeTrimBoissonController.anItem.montantRetardAutreMois}" title="#{bundle.ViewTaxeTrimBoissonTitle_montantRetardAutreMois}"/>
                         <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_numeroTrim}"/>
                         <h:outputText value="#{taxeTrimBoissonController.anItem.numeroTrim}" title="#{bundle.ViewTaxeTrimBoissonTitle_numeroTrim}"/>
-                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_chiffreAffaireHT}"/>
-                        <h:outputText value="#{taxeTrimBoissonController.anItem.chiffreAffaireHT}" title="#{bundle.ViewTaxeTrimBoissonTitle_chiffreAffaireHT}"/>
-                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_user}"/>
+                       <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_user}"/>
                         <h:outputText value="#{taxeTrimBoissonController.anItem.user.login}" title="#{bundle.ViewTaxeTrimBoissonTitle_user}"/>
                         <h:outputText rendered="#{taxeTrimBoissonController.isSimulation eq false}" value="#{bundle.ViewTaxeTrimBoissonLabel_taxeAnnuelBoisson}"/>
                         <h:outputText rendered="#{taxeTrimBoissonController.isSimulation eq false}" value="#{taxeTrimBoissonController.anItem.taxeAnnuelBoisson}" title="#{bundle.ViewTaxeTrimBoissonTitle_taxeAnnuelBoisson}"/>

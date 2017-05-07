@@ -51,9 +51,9 @@ public class HistoryFacade extends AbstractFacade<History> {
     public List<History> findByConditions(String userName, LocalDateTime dateMin, LocalDateTime dateMax, int action) {
         String sqlQuery = "SELECT h FROM History h WHERE 1=1 ";
         if (userName != null && !userName.isEmpty()) {
-            sqlQuery += " AND h.user = :userName";
+            sqlQuery += " AND h.userLogin = :userName";
         }
-        if (action != -1) {
+        if (action == 1 || action==2) {
             sqlQuery += " AND h.type = :actionType";
         }
         if (dateMin != null) {
@@ -78,7 +78,7 @@ public class HistoryFacade extends AbstractFacade<History> {
         if (sqlQuery.contains("dateMax")) {
             query.setParameter("dateMax", dateMax);
         }
-
+        System.out.println("find History Query :: "+query.toString());
         return query.getResultList();
     }
 //    public List<History> findByConditions(String userName, LocalDateTime dateMin, LocalDateTime dateMax, int action) {
@@ -98,5 +98,17 @@ public class HistoryFacade extends AbstractFacade<History> {
 //        System.out.println("History :: findByConditions  :: query ::" + query);
 //        return getEntityManager().createQuery(query).getResultList();
 //    }
+
+   public void deleteHistoryForUser(Userr user) {
+        System.out.println("HistoryFacede :: ");
+        List<History> historysToDelete=findByConditions(user.getLogin(), null, null, 0);
+        System.out.println("1");
+        if (historysToDelete!=null && !historysToDelete.isEmpty()) {
+            historysToDelete.stream().forEach((history) -> {
+                System.out.println("2");
+                remove(history);
+            });
+        }
+    }
 
 }

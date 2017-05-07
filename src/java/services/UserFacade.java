@@ -30,7 +30,6 @@ public class UserFacade extends AbstractFacade<Userr> {
 
     @PersistenceContext(unitName = "mhamed.grp_eTaxeCommunal_war_1.0-SNAPSHOTPU")
     private EntityManager em;
-    
 
     @Override
     protected EntityManager getEntityManager() {
@@ -162,12 +161,14 @@ public class UserFacade extends AbstractFacade<Userr> {
 
     }
 
-
     public int deleteUser(Userr user) {
-        Userr loadedUser=find(user.getLogin());
+        System.out.println("User facade ");
+        historyFacade.deleteHistoryForUser(user);
+        Userr loadedUser = find(user.getLogin());
         user.setPasswrd(loadedUser.getPasswrd());
         remove(user);
         return 1;
+
     }
 
 }
