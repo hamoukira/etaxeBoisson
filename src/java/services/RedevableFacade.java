@@ -65,6 +65,9 @@ public class RedevableFacade extends AbstractFacade<Redevable> {
         query += SearchUtil.addConstraint("r", "cin", "=", cin);
         query += SearchUtil.addConstraint("r", "nom", "=", nom);
         query += SearchUtil.addConstraint("r", "prenom", "=", prenom);
+        System.out.println("*********************************************************************************");
+        System.out.println("this is Find Redevable :: QUERY :: "+query);
+        System.out.println("*********************************************************************************");
         return em.createQuery(query).getResultList();
     }
 //    public List<Redevable> findRedevableRc(int nature, String rc) {

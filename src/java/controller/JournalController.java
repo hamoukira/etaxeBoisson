@@ -25,7 +25,6 @@ import javax.persistence.Convert;
 @Named("journalController")
 @SessionScoped
 public class JournalController implements Serializable {
-
     @EJB
     private services.JournalFacade ejbFacade;
     private List<Journal> items = null;

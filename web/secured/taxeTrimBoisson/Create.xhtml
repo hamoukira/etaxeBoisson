@@ -33,7 +33,7 @@
                                            var="localItem"
                                            itemValue="#{localItem}"
                                            itemLabel="#{localItem.nom}"/>
-                            <p:ajax update="tva" ></p:ajax>
+                            <!--<p:ajax update="tva" ></p:ajax>-->
                         </b:selectOneMenu>
 
                         <p:outputLabel rendered="#{taxeTrimBoissonController.renderYear}" value="annee" for="year" />
@@ -51,21 +51,18 @@
                         </b:selectOneMenu>
 
                         <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_chiffreAffaireTTC}" for="chiffreAffaireTTC" />
-                        <h:panelGroup >
+                        <h:panelGroup style="padding-left: 6px"  >
                             <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.calculateChiffreAffaireHT(taxeTrimBoissonController.selected)}" icon="ui-icon-search"  update=":growlForm,chiffreAffaireHT"   />
                             <p:inputText id="chiffreAffaireTTC" value="#{taxeTrimBoissonController.selected.chiffreAffaireTTC}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireTTC}" />
                         </h:panelGroup> 
-                        
-                        <p:outputLabel value="TVA" />
-                        <p:outputLabel id="tva"  value="#{taxeTrimBoissonController.selected.local.typeLocal.tva}" />
-
+        
                         <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_chiffreAffaireHT}" for="chiffreAffaireHT" /> 
-                        <h:panelGroup >
+                        <h:panelGroup style="padding-left: 6px" >
                             <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.calculateChiffreAffaireTTC(taxeTrimBoissonController.selected)}"  icon="ui-icon-search"  update=":growlForm,chiffreAffaireTTC"   />
                             <p:inputText id="chiffreAffaireHT" value="#{taxeTrimBoissonController.selected.chiffreAffaireHT}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireHT}" />
                         </h:panelGroup>
                     </h:panelGrid>
-                    <p:commandButton actionListener="#{taxeTrimBoissonController.createTest()}" value="#{bundle.Save}" update="display,:TaxeTrimBoissonListForm:datalist,:growl" oncomplete="handleSubmit(args,'TaxeTrimBoissonCreateDialog');"/>
+                    <p:commandButton actionListener="#{taxeTrimBoissonController.create()}" value="#{bundle.Save}" update="display,:TaxeTrimBoissonListForm:datalist,:growl" oncomplete="handleSubmit(args,'TaxeTrimBoissonCreateDialog');"/>
                 </h:panelGroup>
 
             </h:form>

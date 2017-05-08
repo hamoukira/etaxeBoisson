@@ -33,7 +33,6 @@
                                            var="localItem"
                                            itemValue="#{localItem}"
                                            itemLabel="#{localItem.nom}"/>
-                            <p:ajax update="tva" ></p:ajax>
                         </b:selectOneMenu>
 
                         <p:outputLabel rendered="#{taxeTrimBoissonController.renderYear}" value="annee" for="year" />
@@ -56,16 +55,13 @@
                             <p:inputText id="chiffreAffaireTTC" value="#{taxeTrimBoissonController.anItem.chiffreAffaireTTC}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireTTC}" />
                         </h:panelGroup> 
                         
-                        <p:outputLabel value="TVA" />
-                        <p:outputLabel id="tva"  value="#{taxeTrimBoissonController.anItem.local.typeLocal.tva}" />
-
                         <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_chiffreAffaireHT}" for="chiffreAffaireHT" /> 
                         <h:panelGroup >
                             <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.calculateChiffreAffaireTTC(taxeTrimBoissonController.anItem)}"  icon="ui-icon-search"  update=":growlForm,chiffreAffaireTTC"   />
                             <p:inputText id="chiffreAffaireHT" value="#{taxeTrimBoissonController.anItem.chiffreAffaireHT}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireHT}" />
                         </h:panelGroup>
                     </h:panelGrid>
-                    <p:commandButton action="#{taxeTrimBoissonController.simuler()}" value="Simuler" update=":TaxeTrimBoissonViewForm" oncomplete="PF('TaxeTrimBoissonViewDialog').show()"/>
+                    <p:commandButton action="#{taxeTrimBoissonController.simuler()}" value="Simuler" update=":TaxeTrimBoissonViewForm,:trowl" oncomplete="PF('TaxeTrimBoissonViewDialog').show()"/>
                 </h:panelGroup>
 
             </h:form>

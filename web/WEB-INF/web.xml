@@ -20,10 +20,45 @@
         <extension>woff2</extension>  
         <mime-type>application/x-font-woff2</mime-type>  
     </mime-mapping>
+    <mime-mapping>  
+        <extension>woff</extension>  
+        <mime-type>application/x-font-woff</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>eot</extension>  
+        <mime-type>application/x-font-eot</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>ttf</extension>  
+        <mime-type>application/x-font-ttf</mime-type>  
+    </mime-mapping>
+    
+    <listener>
+        <listener-class>org.ocpsoft.rewrite.servlet.impl.RewriteServletRequestListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.ocpsoft.rewrite.servlet.impl.RewriteServletContextListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>OCPsoft Rewrite Filter</filter-name>
+        <filter-class>org.ocpsoft.rewrite.servlet.RewriteFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>filter.LoginFilter</filter-class>
     </filter>
+    <filter-mapping>
+        <filter-name>OCPsoft Rewrite Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
     
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>

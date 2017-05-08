@@ -55,7 +55,7 @@ public class UserController implements Serializable {
                 break;
             default:
                 try {
-                    SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/home/accueil");
+                    SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/home");
                 } catch (IOException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -66,7 +66,7 @@ public class UserController implements Serializable {
 
     public void seDeConnnecter() throws IOException {
         ejbFacade.seDeConnnecter();
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
     }
 
     public void resetPassword() throws IOException {
@@ -77,10 +77,19 @@ public class UserController implements Serializable {
             JsfUtil.addErrorMessage("exepton Send");
         } else {
             JsfUtil.addSuccessMessage("Nouveau password envoyer a votre email");
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
         }
 
     }
+
+//    public String getUserLogin() throws IOException {
+//        try {
+//            return SessionUtil.getConnectedUser().getLogin();
+//        } catch (Exception e) {
+//            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
+//            return "";
+//        }
+//    }
 
     public String canAccesseAdminBar() throws IOException {
         System.out.println(SessionUtil.getConnectedUser());
@@ -92,7 +101,7 @@ public class UserController implements Serializable {
                 return "false";
             }
         } catch (Exception e) {
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
             return null;
         }
 
@@ -108,7 +117,7 @@ public class UserController implements Serializable {
                 return "false";
             }
         } catch (Exception e) {
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
             return null;
         }
     }
@@ -123,7 +132,7 @@ public class UserController implements Serializable {
                 return "false";
             }
         } catch (Exception e) {
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
             return null;
         }
     }
@@ -137,7 +146,7 @@ public class UserController implements Serializable {
                 return "false";
             }
         } catch (Exception e) {
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
             return null;
         }
     }
@@ -150,7 +159,7 @@ public class UserController implements Serializable {
                 return "false";
             }
         } catch (Exception e) {
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/Login.xhtml");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/login");
             return null;
         }
     }
@@ -194,9 +203,7 @@ public class UserController implements Serializable {
     }
 
     public void prepareCreate() {
-        selected = new Userr();
-        items = null;
-        initializeEmbeddableKey();
+        selected = null;
     }
 
     public void create() {

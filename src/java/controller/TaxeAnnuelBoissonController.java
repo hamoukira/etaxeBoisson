@@ -258,7 +258,7 @@ public class TaxeAnnuelBoissonController implements Serializable {
     }
 
     public void redirectToTaxeTrim() throws IOException {
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/taxeTrimBoisson/List");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/taxe/trimestre");
     }
 
     public int getTrimMin() {
@@ -341,7 +341,7 @@ public class TaxeAnnuelBoissonController implements Serializable {
 
     public void generatPdf(TaxeAnnuelBoisson taxeAnnuelBoisson) throws JRException, IOException {
         System.out.println("print pdf controller");
-        ejbFacade.printPdf(taxeAnnuelBoisson);
+        ejbFacade.printPdf(taxeAnnuelBoisson,SessionUtil.getConnectedUser());
         FacesContext.getCurrentInstance().responseComplete();
     }
 

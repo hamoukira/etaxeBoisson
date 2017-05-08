@@ -409,7 +409,7 @@ public class TaxeTrimBoissonController implements Serializable {
         anItem = new TaxeTrimBoisson();
     }
 
-    public void createTest() {
+    public void create() {
         int res = getFacade().createTaxeTrimBoisson(selected, SessionUtil.getConnectedUser());
         switch (res) {
             case -1:
@@ -507,7 +507,7 @@ public class TaxeTrimBoissonController implements Serializable {
     // jasper
     public void generatPdf(TaxeTrimBoisson taxeTrimBoisson) throws JRException, IOException {
         System.out.println("print pdf controller");
-        ejbFacade.printPdf(taxeTrimBoisson);
+        ejbFacade.printPdf(taxeTrimBoisson,SessionUtil.getConnectedUser());
         FacesContext.getCurrentInstance().responseComplete();
     }
 

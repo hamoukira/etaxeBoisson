@@ -26,9 +26,9 @@
                 <h:form id="menuForm">
                     <p:menubar style="margin-bottom: 3%">
 
-                        <p:menuitem style="margin: 4% 4% 4% " value="#{bundle.Home}" outcome="/secured/home/accueil" icon="ui-icon-home"/>
+                        <p:menuitem style="margin-top: 4% " value="#{bundle.Home}" outcome="/secured/home/accueil" icon="ui-icon-home"/>
 
-                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-university" rendered="#{userController.canAccesseAdressage()}" value="Adressage" outcome="/secured/commune/List.xhtml" />
+                        <p:menuitem style="margin-top: 4% "  icon="fa fa-university" rendered="#{userController.canAccesseAdressage()}" value="Adressage" outcome="/secured/commune/List.xhtml" />
 
                         <p:submenu style="margin: 5px 5px 5px "  icon="fa fa-users"  rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}"  label="Redevable/Locale">
                             <p:menuitem rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}" value="Crée" outcome="/secured/redevable/CreateNewRedevable"/>
@@ -53,12 +53,12 @@
                             <p:menuitem  rendered="#{userController.canAccesseAdminBar()}"  value="Crée Activite" outcome="/secured/activite/CreateActivite.xhtml" />
                         </p:submenu>
 
-                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-bar-chart" value="Statistiques" outcome="/secured/statistics/Statistique.xhtml" />
+                        <p:menuitem style="margin-top: 4% "  icon="fa fa-bar-chart" value="Statistiques" outcome="/secured/statistics/Statistique.xhtml" />
 
-                        <p:menuitem style="margin: 4% 4% 4% "  icon="fa fa-map-marker" value="Locals Map" outcome="/secured/locale/LocalMap.xhtml" />
+                        <p:menuitem style="margin-top: 4% "  icon="fa fa-map-marker" value="Locals Map" outcome="/secured/locale/LocalMap.xhtml" />
 
 
-                        <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 5px 5px 5px "   value="Logout" action="#{userController.seDeConnnecter()}" />
+                        <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>
@@ -67,7 +67,7 @@
                 <ui:insert name="footer"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" style="margin-top: 1%">
+            <p:layoutUnit position="center" style="margin-top: 9px">
                 <ui:insert name="body"/>
             </p:layoutUnit>
 

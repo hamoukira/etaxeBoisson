@@ -79,7 +79,8 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         destination.setRedevable(source.getRedevable());
         destination.setTaxeAnnuelBoisson(source.getTaxeAnnuelBoisson());
         destination.setTaxeYear(source.getTaxeYear());
-        destination.setUser(source.getUser());
+//        destination.setUser(source.getUser());
+        destination.setUserLogin(source.getUserLogin());
     }
 
     public TaxeTrimBoisson clone(TaxeTrimBoisson source) {
@@ -90,6 +91,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
 
     //1:success -1:annee paye -2:trimester payee -3:anne sassi superrieur a anne actuel -4:trim pas passe  -5:tauxTaxeBoisson pas trouver 
     public int createTaxeTrimBoisson(TaxeTrimBoisson taxeTrimBoisson, Userr user) {
+        //verifi l annee dyal taxe
         if (taxeTrimBoisson.getTaxeYear().until(LocalDate.now(), ChronoUnit.DAYS) > 0) {
             Object[] respons = taxeAnnuelBoissonFacade.getTaxeAnnuel(taxeTrimBoisson.getLocal(), taxeTrimBoisson.getTaxeYear().getYear(), taxeTrimBoisson.getNumeroTrim());
             int codeRespons = (int) respons[1];
@@ -99,7 +101,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
                 TaxeAnnuelBoisson taxeAnnuelBoisson = (TaxeAnnuelBoisson) respons[0];
                 LocalDate taxeDate = setTaxeDate(taxeTrimBoisson.getNumeroTrim(), taxeTrimBoisson.getTaxeYear().getYear());
                 Long months = taxeDate.until(LocalDate.now(), ChronoUnit.MONTHS);
-                if (months < 0) {
+                if (months < 0) {//verifi wach wslat w9it l khlas dyal trim ola ba9i
                     return -4;
                 } else {
                     return createTaxeTrim(taxeTrimBoisson, months, user, taxeAnnuelBoisson);
@@ -124,7 +126,8 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
 
     private TaxeTrimBoisson initTaxeTrim(TaxeTrimBoisson taxeTrimBoisson, Userr user, TaxeAnnuelBoisson taxeAnnuelBoisson) {
         taxeTrimBoisson.setDateActuel(LocalDate.now());
-        taxeTrimBoisson.setUser(user);
+//        taxeTrimBoisson.setUser(user);
+        taxeTrimBoisson.setUserLogin(user.getLogin());//in case the user is deleted
         taxeTrimBoisson.setTaxeAnnuelBoisson(taxeAnnuelBoisson);
         return taxeTrimBoisson;
     }
@@ -148,14 +151,6 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         return taxeDate;
     }
 
-    public Double calculeChiffreAffaireHT(Locale locale, Double chiffreAffaireTTC) {
-        return CalculeUtils.formatAndRoundNumber((chiffreAffaireTTC * 100) / (locale.getTypeLocal().getTva() + 100), RoundingMode.CEILING, 2);
-    }
-
-    public Double calculeChiffreAffaireTTC(Locale locale, Double chiffreAffaireHT) {
-        return CalculeUtils.formatAndRoundNumber(chiffreAffaireHT + ((chiffreAffaireHT * locale.getTypeLocal().getTva()) / 100), RoundingMode.CEILING, 2);
-    }
-
     private int createTaxeTrim(TaxeTrimBoisson taxeTrimBoisson, Long monthsRetard, Userr user, TaxeAnnuelBoisson taxeAnnuelBoisson) {
         TauxTaxeBoisson tauxTaxeBoisson = tauxTaxeBoissonFacade.findTauxTaxeByActivity(taxeTrimBoisson.getLocal().getTypeLocal());
         if (tauxTaxeBoisson != null) {
@@ -172,38 +167,52 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
     }
 
     private TaxeTrimBoisson calculate(Double chiffreAffaireHT, TauxTaxeBoisson tauxTaxeBoisson, Long monthsRetard, TaxeTrimBoisson taxeTrimBoisson) {
-        Double montantTetardAutreMois;
-        Double montantTetardPremierMois;
+
         Double montantTaxeNormal = (chiffreAffaireHT * tauxTaxeBoisson.getTaux()) / 100;
         taxeTrimBoisson.setMontantTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 2));
         if (monthsRetard > 0) {
-            TauxRetardBoisonTrim tauxRetardBoisonTrim = tauxRetardBoisonTrimFacade.findTauxRetardByTaux(tauxTaxeBoisson);
-            if (tauxRetardBoisonTrim != null) {
-                montantTetardPremierMois = chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardPremierMois() / 100;
-                taxeTrimBoisson.setMontantRetardPremierMois(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
-                monthsRetard--;
-                if (monthsRetard > 0) {
-                    montantTetardAutreMois = (monthsRetard * chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardAutreMois()) / 100;
-                    taxeTrimBoisson.setMontantRetardAutreMois(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois, RoundingMode.CEILING, 2));
-                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois + montantTetardPremierMois, RoundingMode.CEILING, 2));
-                } else {
-                    taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
-                }
-                taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal + taxeTrimBoisson.getMontantTotalRetard(), RoundingMode.CEILING, 2));
-            } else {
-                return null;
-            }
+            taxeTrimBoisson = calculerRetard(montantTaxeNormal,chiffreAffaireHT, tauxTaxeBoisson, monthsRetard, taxeTrimBoisson);
         } else {
             taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal, RoundingMode.CEILING, 2));
         }
         return taxeTrimBoisson;
     }
 
+    private TaxeTrimBoisson calculerRetard(Double montantTaxeNormal,Double chiffreAffaireHT, TauxTaxeBoisson tauxTaxeBoisson, Long monthsRetard, TaxeTrimBoisson taxeTrimBoisson) {
+        Double montantTetardAutreMois;
+        Double montantTetardPremierMois;
+        TauxRetardBoisonTrim tauxRetardBoisonTrim = tauxRetardBoisonTrimFacade.findTauxRetardByTaux(tauxTaxeBoisson);
+        if (tauxRetardBoisonTrim != null) {
+            montantTetardPremierMois = chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardPremierMois() / 100;
+            taxeTrimBoisson.setMontantRetardPremierMois(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
+            monthsRetard--;
+            if (monthsRetard > 0) {
+                montantTetardAutreMois = (monthsRetard * chiffreAffaireHT * tauxRetardBoisonTrim.getTauxRetardAutreMois()) / 100;
+                taxeTrimBoisson.setMontantRetardAutreMois(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois, RoundingMode.CEILING, 2));
+                taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardAutreMois + montantTetardPremierMois, RoundingMode.CEILING, 2));
+            } else {
+                taxeTrimBoisson.setMontantTotalRetard(CalculeUtils.formatAndRoundNumber(montantTetardPremierMois, RoundingMode.CEILING, 2));
+            }
+            taxeTrimBoisson.setMontantTotalTaxe(CalculeUtils.formatAndRoundNumber(montantTaxeNormal + taxeTrimBoisson.getMontantTotalRetard(), RoundingMode.CEILING, 2));
+        } else {
+            return null;
+        }
+        return taxeTrimBoisson;
+    }
+
+    public Double calculeChiffreAffaireHT(Locale locale, Double chiffreAffaireTTC) {
+        return CalculeUtils.formatAndRoundNumber((chiffreAffaireTTC * 100) / (locale.getTypeLocal().getTva() + 100), RoundingMode.CEILING, 2);
+    }
+
+    public Double calculeChiffreAffaireTTC(Locale locale, Double chiffreAffaireHT) {
+        return CalculeUtils.formatAndRoundNumber(chiffreAffaireHT + ((chiffreAffaireHT * locale.getTypeLocal().getTva()) / 100), RoundingMode.CEILING, 2);
+    }
+
     public List<TaxeTrimBoisson> findByTaxeAnnuel(TaxeAnnuelBoisson taxeAnnuelBoisson) {
         return em.createQuery("SELECT ttb FROM TaxeTrimBoisson ttb WHERE ttb.taxeAnnuelBoisson.id=" + taxeAnnuelBoisson.getId()).getResultList();
     }
 
-    //rrecherche dial chart
+    //methode pour les tatistiques 
     public List<TaxeTrimBoisson> findStat(int anneeDeb, int anneeFin, Rue rue, Quartier quartier, Commune commune, Secteur secteur) {
         String query = "SELECT tax FROM TaxeTrimBoisson tax where 1=1 ";
 
@@ -334,49 +343,14 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         return max;
     }
 
-    // jasper
-//    public void printPdf(TaxeTrimBoisson taxeTrim) throws JRException, IOException {
-//        System.out.println("prind pdf facade");
-//        List myList = new ArrayList();
-//        myList.add(taxeTrim);
-//        Quartier quartier = taxeTrim.getLocal().getRue().getQuartier();
-//        String nature;
-//        if (taxeTrim.getRedevable().getNature() == 1) {
-//            nature = "Gerant";
-//        } else {
-//            nature = "proprietaire";
-//        }
-//        Map<String, Object> params = new HashMap();
-//        params.put("nomLocale", taxeTrim.getLocal().getNom());
-//        params.put("adresse", taxeTrim.getLocal().getRue() + " " + quartier + " " + quartier.getSecteur() + " " + quartier.getSecteur().getCommune());
-//        params.put("cin", taxeTrim.getRedevable().getCin());
-//        params.put("nature ", nature);
-//        params.put("nomRedevable", taxeTrim.getRedevable().getPrenom() + " " + taxeTrim.getRedevable().getNom());
-//        params.put("Mail", taxeTrim.getRedevable().getMail());
-////        params.put("lettre", FrenchNumberToWords.convert(152L));
-////        params.put("lettre", FrenchNumberToWords.convert(150L));
-//        params.put("annee", taxeTrim.getTaxeAnnuelBoisson().getAnnee());
-//        params.put("numeroTrim", taxeTrim.getNumeroTrim());
-//        params.put("dateActuel", taxeTrim.getDateActuel());
-//        System.out.println(params);
-//        System.out.println(taxeTrim);
-//        PdfUtil.generatePdf(myList, params, "versementTrim" + taxeTrim.getId() + ".pdf", "/jasper/versementTrim.jasper");
-//    }
-    
-    
-    
-    
-    public void printPdf(TaxeTrimBoisson taxeTrim) throws JRException, IOException {
+    public void printPdf(TaxeTrimBoisson taxeTrim,Userr user) throws JRException, IOException {
         List myList = new ArrayList();
         myList.add(taxeTrim);
-        Map<String, Object> params = prepareParams(taxeTrim);
+        Map<String, Object> params = prepareParams(taxeTrim,user);
         PdfUtil.generatePdf(myList, params, "bordereau" + taxeTrim.getId() + ".pdf", "jasper/taxeTrimRapport.jasper");
     }
 
-
-    
-    
-    private Map<String, Object> prepareParams(TaxeTrimBoisson taxeTrim) {
+    private Map<String, Object> prepareParams(TaxeTrimBoisson taxeTrim,Userr user) {
         String nature;
         String cinOuRcRedevable;
         String adresse = taxeTrim.getLocal().getRue().getQuartier().getSecteur().getName() + " "
@@ -403,7 +377,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         params.put("natureRedevable", nature);
         params.put("adresseLocale", adresse);
         params.put("totalEnLettre", FrenchNumberToWords.convert(Math.round(taxeTrim.getMontantTotalTaxe())));
-        params.put("userName", taxeTrim.getUser().getNom());
+        params.put("userName", user.getNom());
         return params;
     }
 }

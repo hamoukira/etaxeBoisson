@@ -91,17 +91,19 @@ public class JournalFacade extends AbstractFacade<Journal> {
         return res;
     }
 
+    //doesn't work when the chaged attribute of a class is a bean
+    //to make it work u can use :
+    //String diffMessage=javers.compare(entity, oldEntity).prettyPrint();
+    //instead of 
+    //Diff d = javers.compare(entity, oldEntity);
     private String GenerateMessage(Object entity, Object oldEntity) {
         String chngesMessage = "";
         Javers javers = JaversBuilder.javers().build();
-        System.out.println("new :: entity :: " + entity.toString());
-        System.out.println("old :: oldEntity :: " + oldEntity.toString());
         Diff d = javers.compare(entity, oldEntity);
         List<ValueChange> change = d.getChangesByType(ValueChange.class);
         for (ValueChange valueChange : change) {
             chngesMessage += valueChange.getPropertyName() + " avant :" + valueChange.getRight() + " apres :" + valueChange.getLeft() + ", ";
         }
-        System.out.println("SaveEdit :: GenerateMessage :: chngesMessage :" + d);
         return chngesMessage;
     }
 
@@ -179,6 +181,7 @@ public class JournalFacade extends AbstractFacade<Journal> {
         }
     }
 
+    //Should use TypedQuery unstead of normal ones with localDate and localDateTime
     public List<Journal> findByConditions(String userName, LocalDateTime dateMin, LocalDateTime dateMax, int action) {
         String sqlQuery = "SELECT j FROM Journal j WHERE 1=1 ";
         if (userName != null && !userName.isEmpty()) {

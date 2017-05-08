@@ -83,6 +83,10 @@ public class SessionUtil {
         FacesContext.getCurrentInstance().getExternalContext().redirect(pagePath);
 
     }
+    public static void redirectNoXhtml(String pagePath) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(pagePath);
+
+    }
 
     private static boolean isContextOk(FacesContext fc) {
         boolean res = (fc != null

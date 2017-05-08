@@ -28,7 +28,7 @@ public class LoginFilter implements Filter {
         Userr user = SessionUtil.getConnectedUser();
         if (user == null || !user.isBlocked()) {
             String contextPath = ((HttpServletRequest) request).getContextPath();
-            ((HttpServletResponse) response).sendRedirect(contextPath+"/faces/Login.xhtml");
+            ((HttpServletResponse) response).sendRedirect(contextPath+"/login");
 //            ((HttpServletResponse) response).sendRedirect(contextPath+"/Login.xhtml");
         } else {
             chain.doFilter(request, response);

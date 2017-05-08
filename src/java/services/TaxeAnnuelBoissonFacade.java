@@ -13,10 +13,10 @@ import bean.Rue;
 import bean.Secteur;
 import bean.TaxeAnnuelBoisson;
 import bean.TaxeTrimBoisson;
+import bean.Userr;
 import controller.util.FrenchNumberToWords;
 import controller.util.PdfUtil;
 import controller.util.SearchUtil;
-import controller.util.SessionUtil;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -170,15 +170,15 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         return getEntityManager().createQuery(query).getResultList();
     }
 
-    public void printPdf(TaxeAnnuelBoisson taxeAnnuelBoisson) throws JRException, IOException {
+    public void printPdf(TaxeAnnuelBoisson taxeAnnuelBoisson,Userr user) throws JRException, IOException {
         List myList = taxeTrimFacade.findByTaxeAnnuel(taxeAnnuelBoisson);
         if (myList != null) {
-            Map<String, Object> params = prepareParams(taxeAnnuelBoisson);
+            Map<String, Object> params = prepareParams(taxeAnnuelBoisson,user);
             PdfUtil.generatePdf(myList, params, "bordereauAnnuel" + taxeAnnuelBoisson.getId() + ".pdf", "jasper/taxeAnnuelleRapport.jasper");
         }
     }
 
-    private Map<String, Object> prepareParams(TaxeAnnuelBoisson taxeAnnuelBoisson) {
+    private Map<String, Object> prepareParams(TaxeAnnuelBoisson taxeAnnuelBoisson,Userr user) {
         String nature;
         String status = "NoN";
         String cinOuRcRedevable;
@@ -220,7 +220,7 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         params.put("idTaxeAnn", taxeAnnuelBoisson.getId());
         params.put("totalEnLettre", FrenchNumberToWords.convert(Math.round(taxeAnnuelBoisson.getMontantTaxeannuel())));
         params.put("status", status);
-        params.put("userName", SessionUtil.getConnectedUser().getNom());
+        params.put("userName", user.getNom());
         return params;
     }
 

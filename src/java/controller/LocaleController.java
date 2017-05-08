@@ -319,14 +319,14 @@ public class LocaleController implements Serializable {
         setActivateMarkeMethode(true);
         setIsModification(false);
         setDesabeledPosition("false");
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap.xhtml");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/map");
     }
 
     public void toEditPosition() throws IOException {
         setActivateMarkeMethode(true);
         setIsModification(true);
         setDesabeledPosition("false");
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap.xhtml");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/map");
     }
 
     public void cancelCreation() {
@@ -410,7 +410,7 @@ public class LocaleController implements Serializable {
     public void findLocalsInMap() throws IOException {
         setLocals(ejbFacade.findLocals(selected.getNom(), thisCommun, thisSecteur, thisQyartie, selected.getRue(), selected.getComplementAdress(), selected.getTypeLocal(), selected.getGerant(), selected.getPropriete()));
         addMarkers();
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/map");
     }
 
     public void showInMap(Locale locale) throws IOException {
@@ -419,7 +419,7 @@ public class LocaleController implements Serializable {
             System.out.println("name :" + locale.getNom() + ", lat :" + locale.getPosition().getLat() + ", lng :" + locale.getPosition().getLng());
             localsModel.addOverlay(new Marker(new LatLng(locale.getPosition().getLat(), locale.getPosition().getLng()), locale.getNom()));
             setEmptyModel(localsModel);
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/LocalMap");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/map");
         } else {
             JsfUtil.addErrorMessage("Local ne possede Pas une position");
         }
@@ -442,7 +442,7 @@ public class LocaleController implements Serializable {
                 getFacade().edit(getSelected());
                 cancelCreation();
                 isModification = false;
-                SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/List");
+                SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/locales");
             } else {
                 getSelected().setPosition(getPosition());
                 positionFacade.create(getPosition());
@@ -454,7 +454,7 @@ public class LocaleController implements Serializable {
     }
 
     public void redirect() throws IOException {
-        SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/redevable/CreateNewRedevable.xhtml");
+        SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/redevableEtLocale");
     }
 
     public void cancelPositionAddition(boolean modification) throws IOException {
@@ -462,7 +462,7 @@ public class LocaleController implements Serializable {
         if (modification) {
             setActivateMarkeMethode(false);
             isModification = false;
-            SessionUtil.redirect("/eTaxeCommunalNoMavenV2/faces/secured/locale/List");
+            SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/locales");
         } else {
             setActivateMarkeMethode(false);
             redirect();

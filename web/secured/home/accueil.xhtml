@@ -2,12 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Accueil</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <link rel="icon" type="image/png" href="image/maroc.png" />
-
     </h:head>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -45,7 +45,7 @@
 
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <img src="image/maroc.png" alt="Submit this form" name="sub_but" style="width:30px;height:30px" />
+                            <h:graphicImage value="/resources/image/maroc.png" alt="Royaum de Maroc" name="sub_but" style="width:30px;height:30px;padding-top: 18%" />
                         </div>
                         <a class="navbar-brand" href="#">GESTION DES TAXES</a>
                         <ul class="nav navbar-nav">
@@ -66,21 +66,21 @@
                 <br/>
                 <center>
                     
-                    <a href="/eTaxeCommunalNoMavenV2/faces/secured/statistics/Statistique.xhtml">
-                        <h:graphicImage class="imagelink" id="imag1" value="image/chart.png" title="chart" style="width:130px;height:130px" ></h:graphicImage>
+                    <a href="/eTaxeCommunalNoMavenV2/statistiques">
+                        <h:graphicImage class="imagelink" id="imag1" value="/resources/image/chart.png" title="chart" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                    <a href="/eTaxeCommunalNoMavenV2/faces/secured/commune/List.xhtml">
-                        <h:graphicImage rendered="#{userController.canAccesseAdressage()}" class="imagelink" id="imag2" value="image/map.png" title="map" style="width:130px;height:130px" ></h:graphicImage>
+                    <a href="/eTaxeCommunalNoMavenV2/adressage">
+                        <h:graphicImage rendered="#{userController.canAccesseAdressage()}" class="imagelink" id="imag2" value="/resources/image/map.png" title="map" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                    <a href="/eTaxeCommunalNoMavenV2/faces/secured/redevable/CreateNewRedevable.xhtml">
-                        <h:graphicImage rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}" class="imagelink" id="imag3" value="image/redevable1.png" title="redevable" style="width:130px;height:130px" ></h:graphicImage>
+                    <a href="/eTaxeCommunalNoMavenV2/redevableEtLocale">
+                        <h:graphicImage rendered="#{userController.canAccesseRedevable() or userController.canAccesseLocals()}" class="imagelink" id="imag3" value="/resources/image/redevable1.png" title="redevable" style="width:130px;height:130px" ></h:graphicImage>
                     </a>
                     <br/>
-                    <a href="/eTaxeCommunalNoMavenV2/faces/secured/user/List.xhtml">
-                        <h:graphicImage rendered="#{userController.canAccesseAdminBar()}" class="imagelink" id="imag4" value="image/users.png" title="utilisateur" style="width:130px;height:130px" ></h:graphicImage>
+                    <a href="/eTaxeCommunalNoMavenV2/admin/users">
+                        <h:graphicImage rendered="#{userController.canAccesseAdminBar()}" class="imagelink" id="imag4" value="/resources/image/users.png" title="utilisateur" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                    <a href="/eTaxeCommunalNoMavenV2/faces/secured/taxeAnnuelBoisson/List.xhtml">
-                        <h:graphicImage rendered="#{userController.canAccesseTaxes()}" class="imagelink" id="imag5" value="image/taxe.png" title="taxes" style="width:130px;height:130px" ></h:graphicImage>
+                    <a href="/eTaxeCommunalNoMavenV2/taxe/annuel">
+                        <h:graphicImage rendered="#{userController.canAccesseTaxes()}" class="imagelink" id="imag5" value="/resources/image/taxe.png" title="taxes" style="width:130px;height:130px" ></h:graphicImage>
                     </a>
                 </center>
             </h:form>

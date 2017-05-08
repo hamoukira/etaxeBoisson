@@ -38,10 +38,8 @@ public abstract class AbstractFacade<T> {
     }
 
     public void savedEdite(T entity) {
-        System.out.println("savedEdite");
         journalFacade.createJournal(entity, 2);
         edit(entity);
-        System.out.println("saveEdit :: oldEntity = null");
 
     }
 
@@ -53,7 +51,6 @@ public abstract class AbstractFacade<T> {
     }
 
     public T find(Object id) {
-        System.out.println("my Entity :: " + entityClass);
         return getEntityManager().find(entityClass, id);
     }
 

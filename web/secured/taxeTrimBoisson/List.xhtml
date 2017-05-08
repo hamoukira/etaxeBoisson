@@ -18,8 +18,12 @@
         </f:metadata>
 
         <ui:define name="body">
+            <b:growl id="trowl"></b:growl>
             <h:form id="TaxeTrimBoissonListForm">
                 <b:panel look="info"  collapsible="false" title="Taxe Trimestielle" style="margin-top: 5%;position: relative;align-self: center;">
+                    <b:commandButton style="margin:  1% 1% 1% 1%;padding: 1% 1% 1% 1%" look="success" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true"     value="#{bundle.Create}" actionListener="#{taxeTrimBoissonController.prepareCreate}" update=":TaxeTrimBoissonCreateForm" oncomplete="PF('TaxeTrimBoissonCreateDialog').show()"/>
+                    <b:commandButton style="margin: 1% 1% 1% 1%;padding: 1% 1% 1% 1%" look="primary" id="SimulerButton" icon-awesome="fa-refresh" ajax="true"   value="simuler" actionListener="#{taxeTrimBoissonController.prepareSimulation()}" update=":TaxeTrimBoissonSimilationForm" oncomplete="PF('TaxeTrimBoissonSimilationDialog').show()"/>
+
                     <b:dataTable  ajax="true"   id="datalist" value="#{taxeTrimBoissonController.items}" var="item"
                                   >
                         <b:dataTableColumn class="colData">
@@ -85,12 +89,9 @@
                             </f:facet>
                             <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{taxeTrimBoissonController.setAnItem(item)}" id="viewButton"   update=":TaxeTrimBoissonViewForm" oncomplete="PF('TaxeTrimBoissonViewDialog').show()" />
                         </b:dataTableColumn>
-                        
+
                     </b:dataTable>
-                    <f:facet name="footer">
-                            <b:commandButton look="success" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true"     value="#{bundle.Create}" actionListener="#{taxeTrimBoissonController.prepareCreate}" update=":TaxeTrimBoissonCreateForm" oncomplete="PF('TaxeTrimBoissonCreateDialog').show()"/>
-                            <b:commandButton look="primary" id="SimulerButton" icon-awesome="fa-refresh" ajax="true"   value="simuler" actionListener="#{taxeTrimBoissonController.prepareSimulation()}" update=":TaxeTrimBoissonSimilationForm" oncomplete="PF('TaxeTrimBoissonSimilationDialog').show()"/>
-                        </f:facet>
+
                 </b:panel>
             </h:form>
 

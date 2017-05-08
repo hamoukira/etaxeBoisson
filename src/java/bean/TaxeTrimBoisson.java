@@ -41,7 +41,7 @@ public class TaxeTrimBoisson implements Serializable {
     @ManyToOne
     private Locale local;
     @ManyToOne
-    private Userr user;
+//    private Userr user;
     private String userLogin;
 
     public Double getMontantTaxe() {
@@ -136,13 +136,13 @@ public class TaxeTrimBoisson implements Serializable {
         this.dateActuel = dateActuel;
     }
 
-    public Userr getUser() {
-        return user;
-    }
-
-    public void setUser(Userr user) {
-        this.user = user;
-    }
+//    public Userr getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(Userr user) {
+//        this.user = user;
+//    }
 
     public TaxeAnnuelBoisson getTaxeAnnuelBoisson() {
         return taxeAnnuelBoisson;
@@ -226,11 +226,11 @@ public class TaxeTrimBoisson implements Serializable {
         if (local != null) {
             localString = local.toString();
         }
-        String userString = "{}";
-        if (user != null) {
-            userString = user.toString();
-        }
-        return "{" + "\"serialVersionUID\":" + serialVersionUIDString + ",\"id\":" + idString + ",\"chiffreAffaireHT\":" + chiffreAffaireHT + ",\"chiffreAffaireTTC\":" + chiffreAffaireTTC + ",\"montantTotalTaxe\":" + montantTotalTaxe + ",\"montantTaxe\":" + montantTaxe + ",\"montantTotalRetard\":" + montantTotalRetard + ",\"montantRetardPremierMois\":" + montantRetardPremierMois + ",\"montantRetardAutreMois\":" + montantRetardAutreMois + ",\"dateActuel\":" + dateActuelString + ",\"taxeYear\":" + taxeYearString + ",\"numeroTrim\":" + numeroTrim + ",\"taxeAnnuelBoisson\":" + taxeAnnuelBoissonString + ",\"redevable\":" + redevableString + ",\"local\":" + localString + ",\"user\":" + userString + "}";
+//        String userString = "{}";
+//        if (user != null) {
+//            userString = user.toString();
+//        }
+        return "{" + "\"serialVersionUID\":" + serialVersionUIDString + ",\"id\":" + idString + ",\"chiffreAffaireHT\":" + chiffreAffaireHT + ",\"chiffreAffaireTTC\":" + chiffreAffaireTTC + ",\"montantTotalTaxe\":" + montantTotalTaxe + ",\"montantTaxe\":" + montantTaxe + ",\"montantTotalRetard\":" + montantTotalRetard + ",\"montantRetardPremierMois\":" + montantRetardPremierMois + ",\"montantRetardAutreMois\":" + montantRetardAutreMois + ",\"dateActuel\":" + dateActuelString + ",\"taxeYear\":" + taxeYearString + ",\"numeroTrim\":" + numeroTrim + ",\"taxeAnnuelBoisson\":" + taxeAnnuelBoissonString + ",\"redevable\":" + redevableString + ",\"local\":" + localString + ",\"userLogin\":" + userLogin + "}";
     }
 
     

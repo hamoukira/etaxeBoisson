@@ -34,13 +34,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_nom}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nom!=null&&item.nom!=''?item.nom:'Non'}"/>
+                            <h:outputText value="#{item.nom!=null and item.nom!=''?item.nom:'Non'}"/>
                         </b:dataTableColumn>
                         <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRedevableTitle_prenom}"/>
                             </f:facet>
-                            <h:outputText value="#{item.prenom!=null&&item.prenom!=''?item.prenom:'Non'}"/>
+                            <h:outputText value="#{item.prenom!=null and item.prenom!=''?item.prenom:'Non'}"/>
                         </b:dataTableColumn>
                         <b:dataTableColumn  class="colData" >
                             <f:facet name="header">
