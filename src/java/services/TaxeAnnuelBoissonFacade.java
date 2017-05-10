@@ -182,14 +182,7 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         String nature;
         String status = "NoN";
         String cinOuRcRedevable;
-        String adresse = taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName() + " ";
-        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName())) {
-            adresse += "Quartier " + taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " ";
-        }
-        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getName())) {
-            adresse += "Rue " + taxeAnnuelBoisson.getLocale().getRue().getName() + " ";
-        }
-        adresse += taxeAnnuelBoisson.getLocale().getComplementAdress();
+        String adresse = generateAdress(taxeAnnuelBoisson);
         if (taxeAnnuelBoisson.getRedevable().getNature() == 1) {
             nature = "Gerant";
         } else {
@@ -207,6 +200,11 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
             status = "Non Termine";
         }
 
+        Map<String, Object> params = setParamsHashMap(taxeAnnuelBoisson, cinOuRcRedevable, nature, adresse, status, user);
+        return params;
+    }
+
+    private Map<String, Object> setParamsHashMap(TaxeAnnuelBoisson taxeAnnuelBoisson, String cinOuRcRedevable, String nature, String adresse, String status, Userr user) {
         Map<String, Object> params = new HashMap();
         params.put("redevableName", taxeAnnuelBoisson.getRedevable().getNom());
         params.put("activite", taxeAnnuelBoisson.getLocale().getTypeLocal().getNom());
@@ -222,6 +220,24 @@ public class TaxeAnnuelBoissonFacade extends AbstractFacade<TaxeAnnuelBoisson> {
         params.put("status", status);
         params.put("userName", user.getNom());
         return params;
+    }
+
+    //example : si le nome de secteure et le meme que le nom de quartier  on ajout Quartier 
+    //ay lieu de Hivernage hivernage ... on aura : Hivernage quartier Hivernage ...
+    private String generateAdress(TaxeAnnuelBoisson taxeAnnuelBoisson) {
+        String adresse = taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName() + " ";
+        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getSecteur().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName())) {
+            adresse += "Quartier " + taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " ";
+        }else{
+            adresse +=taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName() + " ";
+        }
+        if (taxeAnnuelBoisson.getLocale().getRue().getQuartier().getName().equals(taxeAnnuelBoisson.getLocale().getRue().getName())) {
+            adresse += "Rue " + taxeAnnuelBoisson.getLocale().getRue().getName() + " ";
+        }else{
+            adresse +=taxeAnnuelBoisson.getLocale().getRue().getName() + " ";
+        }
+        adresse += taxeAnnuelBoisson.getLocale().getComplementAdress();
+        return adresse;
     }
 
 }

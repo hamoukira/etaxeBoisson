@@ -114,7 +114,7 @@ et des Finances]]></text>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="233" splitType="Stretch">
+		<band height="251" splitType="Stretch">
 			<staticText>
 				<reportElement x="5" y="5" width="85" height="20" uuid="bc31413e-fea2-47fd-824c-c732f72eefa2"/>
 				<textElement>
@@ -207,7 +207,7 @@ et des Finances]]></text>
 				<text><![CDATA[Adresse Locale]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="161" y="189" width="100" height="20" uuid="a26f5c92-7d0f-43a9-a366-ba8639789789"/>
+				<reportElement x="161" y="189" width="370" height="35" uuid="a26f5c92-7d0f-43a9-a366-ba8639789789"/>
 				<textElement>
 					<font size="11"/>
 				</textElement>

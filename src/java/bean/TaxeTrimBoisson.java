@@ -40,9 +40,9 @@ public class TaxeTrimBoisson implements Serializable {
     private Redevable redevable;
     @ManyToOne
     private Locale local;
-    @ManyToOne
-//    private Userr user;
     private String userLogin;
+    @ManyToOne
+    private Userr userr;
 
     public Double getMontantTaxe() {
         return montantTaxe;
@@ -136,13 +136,15 @@ public class TaxeTrimBoisson implements Serializable {
         this.dateActuel = dateActuel;
     }
 
-//    public Userr getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(Userr user) {
-//        this.user = user;
-//    }
+    public Userr getUserr() {
+        return userr;
+    }
+
+    public void setUserr(Userr userr) {
+        this.userr = userr;
+    }
+
+
 
     public TaxeAnnuelBoisson getTaxeAnnuelBoisson() {
         return taxeAnnuelBoisson;

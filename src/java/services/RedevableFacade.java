@@ -66,7 +66,7 @@ public class RedevableFacade extends AbstractFacade<Redevable> {
         query += SearchUtil.addConstraint("r", "nom", "=", nom);
         query += SearchUtil.addConstraint("r", "prenom", "=", prenom);
         System.out.println("*********************************************************************************");
-        System.out.println("this is Find Redevable :: QUERY :: "+query);
+        System.out.println("this is Find Redevable :: QUERY :: " + query);
         System.out.println("*********************************************************************************");
         return em.createQuery(query).getResultList();
     }
@@ -82,7 +82,7 @@ public class RedevableFacade extends AbstractFacade<Redevable> {
                 redevables = findRedevable(2, null, propCode, null, null);
             }
             if (!redevables.isEmpty()) {
-                return  redevables.get(0);
+                return redevables.get(0);
             }
         } else if (gerantCode != null && !"".equals(gerantCode)) {
             redevables = findRedevable(1, gerantCode, null, null, null);
@@ -94,6 +94,34 @@ public class RedevableFacade extends AbstractFacade<Redevable> {
             }
         }
         return null;
-
     }
+
+    public Redevable findPropritaire(String propCode) {
+        List<Redevable> redevables;
+        if (propCode != null && !"".equals(propCode)) {
+            redevables = findRedevable(2, propCode, null, null, null);
+            if (redevables.isEmpty()) {
+                redevables = findRedevable(2, null, propCode, null, null);
+            }
+            if (!redevables.isEmpty()) {
+                return redevables.get(0);
+            }
+        }
+        return null;
+    }
+
+    public Redevable findGerant(String gerantCode) {
+        List<Redevable> redevables;
+        if (gerantCode != null && !"".equals(gerantCode)) {
+            redevables = findRedevable(1, gerantCode, null, null, null);
+            if (redevables.isEmpty()) {
+                redevables = findRedevable(1, null, gerantCode, null, null);
+            }
+            if (!redevables.isEmpty()) {
+                return redevables.get(0);
+            }
+        }
+        return null;
+    }
+
 }

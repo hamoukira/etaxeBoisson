@@ -403,12 +403,16 @@ public class LocaleController implements Serializable {
     }
 
     public void findLocals() {
-        items = ejbFacade.findLocals(selected.getNom(), thisCommun, thisSecteur, thisQyartie, selected.getRue(), selected.getComplementAdress(), selected.getTypeLocal(), selected.getGerant(), selected.getPropriete());
+        Redevable propritaire=redevableFacade.findPropritaire(proprieteId);
+        Redevable gerant=redevableFacade.findGerant(gerantId);
+        items = ejbFacade.findLocals(selected.getNom(), thisCommun, thisSecteur, thisQyartie, selected.getRue(), selected.getComplementAdress(), selected.getTypeLocal(), gerant,propritaire);
 
     }
 
     public void findLocalsInMap() throws IOException {
-        setLocals(ejbFacade.findLocals(selected.getNom(), thisCommun, thisSecteur, thisQyartie, selected.getRue(), selected.getComplementAdress(), selected.getTypeLocal(), selected.getGerant(), selected.getPropriete()));
+        Redevable propritaire=redevableFacade.findPropritaire(proprieteId);
+        Redevable gerant=redevableFacade.findGerant(gerantId);
+        setLocals(ejbFacade.findLocals(selected.getNom(), thisCommun, thisSecteur, thisQyartie, selected.getRue(), selected.getComplementAdress(), selected.getTypeLocal(), gerant, propritaire));
         addMarkers();
         SessionUtil.redirectNoXhtml("/eTaxeCommunalNoMavenV2/map");
     }

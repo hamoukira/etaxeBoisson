@@ -143,6 +143,7 @@ public class TaxeTrimBoissonController implements Serializable {
     }
 
     public int getTypeGraphe() {
+        System.out.println("getTypeGraphe :: "+typeGraphe);
         return typeGraphe;
     }
 

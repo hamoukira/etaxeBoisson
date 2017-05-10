@@ -1,3 +1,5 @@
+package routing;
+
 import javax.servlet.ServletContext;
 import org.ocpsoft.logging.Logger.Level;
 import org.ocpsoft.rewrite.annotation.RewriteConfiguration;

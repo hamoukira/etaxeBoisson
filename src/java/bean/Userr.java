@@ -26,7 +26,7 @@ public class Userr implements Serializable {
     private String passwrd;
     @ManyToOne
     private Commune commune;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userr")
     private List<TaxeTrimBoisson> taxeTrimBoissons;
     private String nom;
     private String prenom;

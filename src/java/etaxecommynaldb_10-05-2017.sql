@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 08 Mai 2017 à 12:39
+-- Généré le :  Mer 10 Mai 2017 à 02:28
 -- Version du serveur :  5.7.14
 -- Version de PHP :  7.0.10
 
@@ -30,7 +30,7 @@ CREATE TABLE `activite` (
   `ID` bigint(20) NOT NULL,
   `NOM` varchar(255) DEFAULT NULL,
   `TVA` double DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `activite`
@@ -51,7 +51,7 @@ INSERT INTO `activite` (`ID`, `NOM`, `TVA`) VALUES
 CREATE TABLE `commune` (
   `ID` bigint(20) NOT NULL,
   `NAME` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `commune`
@@ -76,14 +76,14 @@ CREATE TABLE `device` (
   `DEVICECATEGORIE` varchar(255) DEFAULT NULL,
   `OPERATINGSYSTEM` varchar(255) DEFAULT NULL,
   `USER_LOGIN` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `device`
 --
 
 INSERT INTO `device` (`ID`, `BROWSER`, `DEVICECATEGORIE`, `OPERATINGSYSTEM`, `USER_LOGIN`) VALUES
-(1, 'Firefox', 'Personal computer', 'Windows', 'test');
+(1, 'Firefox', 'Personal computer', 'Windows', 'admin');
 
 -- --------------------------------------------------------
 
@@ -96,59 +96,31 @@ CREATE TABLE `history` (
   `INOUTTIMESTAMP` datetime DEFAULT NULL,
   `TYPE` int(11) DEFAULT NULL,
   `USERLOGIN` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `history`
 --
 
 INSERT INTO `history` (`ID`, `INOUTTIMESTAMP`, `TYPE`, `USERLOGIN`) VALUES
-(1, '2017-05-07 06:10:51', 1, 'test'),
-(2, '2017-05-07 06:41:27', 1, 'test'),
-(3, '2017-05-07 06:44:41', 2, 'test'),
-(4, '2017-05-07 06:45:05', 1, 'test'),
-(5, '2017-05-07 06:46:11', 2, 'test'),
-(6, '2017-05-07 06:46:15', 1, 'test'),
-(7, '2017-05-07 08:42:48', 1, 'test'),
-(8, '2017-05-07 08:43:30', 2, 'test'),
-(9, '2017-05-07 08:44:28', 1, 'test'),
-(10, '2017-05-07 09:03:42', 1, 'test'),
-(11, '2017-05-07 09:06:05', 2, 'test'),
-(12, '2017-05-07 09:06:48', 1, 'test'),
-(13, '2017-05-07 09:43:59', 2, 'test'),
-(14, '2017-05-07 09:50:18', 1, 'test'),
-(15, '2017-05-07 09:50:21', 2, 'test'),
-(16, '2017-05-07 09:50:25', 1, 'test'),
-(17, '2017-05-07 10:06:34', 1, 'test'),
-(18, '2017-05-07 10:06:37', 2, 'test'),
-(19, '2017-05-07 10:06:40', 1, 'test'),
-(20, '2017-05-07 10:17:09', 2, 'test'),
-(21, '2017-05-07 10:17:13', 1, 'test'),
-(22, '2017-05-07 10:17:27', 2, 'test'),
-(23, '2017-05-07 10:21:23', 1, 'test'),
-(24, '2017-05-07 10:27:01', 1, 'test'),
-(25, '2017-05-07 10:43:23', 2, 'test'),
-(26, '2017-05-07 10:44:00', 1, 'test'),
-(27, '2017-05-07 11:22:51', 2, 'test'),
-(28, '2017-05-07 11:22:54', 1, 'test'),
-(29, '2017-05-07 11:33:59', 2, 'test'),
-(30, '2017-05-07 11:34:10', 2, 'test'),
-(31, '2017-05-07 11:34:28', 2, 'test'),
-(32, '2017-05-07 11:34:54', 1, 'test'),
-(33, '2017-05-07 12:21:50', 1, 'test'),
-(34, '2017-05-07 12:28:56', 2, 'test'),
-(35, '2017-05-07 12:59:11', 1, 'test'),
-(36, '2017-05-07 13:03:07', 1, 'test'),
-(37, '2017-05-07 13:07:26', 1, 'test'),
-(38, '2017-05-07 13:14:25', 2, 'test'),
-(39, '2017-05-07 13:57:07', 1, 'test'),
-(40, '2017-05-07 14:23:28', 2, 'test'),
-(41, '2017-05-08 12:19:40', 1, 'test'),
-(42, '2017-05-08 12:33:11', 2, 'test'),
-(43, '2017-05-08 12:53:32', 1, 'test'),
-(44, '2017-05-08 12:53:37', 2, 'test'),
-(45, '2017-05-08 12:53:45', 1, 'test'),
-(46, '2017-05-08 12:53:53', 2, 'test');
+(1, '2017-05-10 01:37:08', 1, 'admin'),
+(2, '2017-05-10 02:33:46', 2, 'admin'),
+(3, '2017-05-10 02:33:56', 1, 'admin'),
+(4, '2017-05-10 02:34:52', 1, 'admin'),
+(5, '2017-05-10 02:44:59', 1, 'admin'),
+(6, '2017-05-10 02:46:02', 1, 'admin'),
+(7, '2017-05-10 02:48:24', 1, 'admin'),
+(8, '2017-05-10 02:49:03', 2, 'admin'),
+(9, '2017-05-10 02:49:07', 1, 'admin'),
+(10, '2017-05-10 02:55:06', 1, 'admin'),
+(11, '2017-05-10 02:56:27', 1, 'admin'),
+(12, '2017-05-10 02:57:19', 2, 'admin'),
+(13, '2017-05-10 02:57:53', 1, 'admin'),
+(14, '2017-05-10 03:00:37', 2, 'admin'),
+(15, '2017-05-10 03:01:17', 1, 'admin'),
+(16, '2017-05-10 03:02:44', 2, 'admin'),
+(17, '2017-05-10 03:02:55', 1, 'admin'),
+(18, '2017-05-10 03:28:15', 2, 'admin');
 
 -- --------------------------------------------------------
 
@@ -165,7 +137,7 @@ CREATE TABLE `journal` (
   `OLDEVALUE` text,
   `TYPEDACTION` int(11) DEFAULT NULL,
   `USERLOGIN` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -182,7 +154,7 @@ CREATE TABLE `locale` (
   `RUE_ID` bigint(20) DEFAULT NULL,
   `POSITION_ID` bigint(20) DEFAULT NULL,
   `TYPELOCAL_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `locale`
@@ -205,7 +177,7 @@ CREATE TABLE `position` (
   `LAT` double DEFAULT NULL,
   `LNG` double DEFAULT NULL,
   `COMMUNE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `position`
@@ -227,7 +199,7 @@ CREATE TABLE `quartier` (
   `ID` bigint(20) NOT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `SECTEUR_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `quartier`
@@ -257,7 +229,7 @@ CREATE TABLE `redevable` (
   `NOM` varchar(255) DEFAULT NULL,
   `PRENOM` varchar(255) DEFAULT NULL,
   `RC` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `redevable`
@@ -280,7 +252,7 @@ CREATE TABLE `rue` (
   `ID` bigint(20) NOT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `QUARTIER_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `rue`
@@ -304,7 +276,7 @@ CREATE TABLE `secteur` (
   `ID` bigint(20) NOT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `COMMUNE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `secteur`
@@ -329,7 +301,7 @@ CREATE TABLE `tauxretardboisontrim` (
   `TAUXRETARDAUTREMOIS` double DEFAULT NULL,
   `TAUXRETARDPREMIERMOIS` double DEFAULT NULL,
   `TAUXBOISSONTAXE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `tauxretardboisontrim`
@@ -351,7 +323,7 @@ CREATE TABLE `tauxtaxeboisson` (
   `ID` bigint(20) NOT NULL,
   `TAUX` double DEFAULT NULL,
   `ACTIVITE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `tauxtaxeboisson`
@@ -376,7 +348,7 @@ CREATE TABLE `taxeannuelboisson` (
   `MONTANTTAXEANNUEL` double DEFAULT NULL,
   `LOCALE_ID` bigint(20) DEFAULT NULL,
   `REDEVABLE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `taxeannuelboisson`
@@ -390,7 +362,7 @@ INSERT INTO `taxeannuelboisson` (`ID`, `ANNEE`, `FINISHED`, `MONTANTTAXEANNUEL`,
 (5, 2015, 0, 41610.39, 2, 4),
 (6, 2016, 0, 118396.45, 1, 2),
 (7, 2014, 0, 47550.87, 1, 2),
-(8, 2015, 0, 1285.73, 5, 2);
+(8, 2014, 0, 62574.64, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -414,23 +386,24 @@ CREATE TABLE `taxetrimboisson` (
   `LOCAL_ID` bigint(20) DEFAULT NULL,
   `REDEVABLE_ID` bigint(20) DEFAULT NULL,
   `TAXEANNUELBOISSON_ID` bigint(20) DEFAULT NULL,
-  `USER_LOGIN` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `USERR_LOGIN` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `taxetrimboisson`
 --
 
-INSERT INTO `taxetrimboisson` (`ID`, `CHIFFREAFFAIREHT`, `CHIFFREAFFAIRETTC`, `DATEACTUEL`, `MONTANTRETARDAUTREMOIS`, `MONTANTRETARDPREMIERMOIS`, `MONTANTTAXE`, `MONTANTTOTALRETARD`, `MONTANTTOTALTAXE`, `NUMEROTRIM`, `TAXEYEAR`, `USERLOGIN`, `LOCAL_ID`, `REDEVABLE_ID`, `TAXEANNUELBOISSON_ID`, `USER_LOGIN`) VALUES
-(1, 2142.86, 2400, '2017-05-07', 3085.72, 171.43, 214.29, 3257.15, 3471.44, 1, '2015-01-01', NULL, 1, 1, 1, 'test'),
-(2, 1800, 2016, '2017-05-07', 2268, 144, 180, 2412, 2592, 2, '2015-01-01', NULL, 1, 1, 1, 'test'),
-(3, 66964.29, 75000, '2017-05-07', 36160.72, 5357.15, 6696.43, 41517.86, 48214.29, 2, '2016-01-01', NULL, 2, 4, 2, 'test'),
-(4, 217312.39, 245563, '2017-05-07', 136906.81, 17385, 19558.12, 154291.8, 173849.92, 2, '2016-01-01', NULL, 3, 5, 3, 'test'),
-(5, 8035.72, 9000, '2017-05-07', 8678.58, 642.86, 803.58, 9321.44, 10125.02, 3, '2015-01-01', NULL, 1, 2, 1, 'test'),
-(6, 141238.94, 159600, '2017-05-07', 207621.25, 11299.12, 12711.51, 218920.36, 231631.87, 2, '2015-01-01', NULL, 3, 5, 4, 'test'),
-(7, 33024.11, 36987, '2017-05-07', 35666.04, 2641.93, 3302.42, 38307.97, 41610.39, 3, '2015-01-01', NULL, 2, 4, 5, 'test'),
-(8, 219252.68, 245563, '2017-05-07', 78930.97, 17540.22, 21925.27, 96471.18, 118396.45, 3, '2016-01-01', NULL, 1, 2, 6, 'test'),
-(9, 22014.29, 24656, '2017-05-07', 43588.3, 1761.15, 2201.43, 45349.44, 47550.87, 2, '2014-01-01', NULL, 1, 1, 7, 'test');
+INSERT INTO `taxetrimboisson` (`ID`, `CHIFFREAFFAIREHT`, `CHIFFREAFFAIRETTC`, `DATEACTUEL`, `MONTANTRETARDAUTREMOIS`, `MONTANTRETARDPREMIERMOIS`, `MONTANTTAXE`, `MONTANTTOTALRETARD`, `MONTANTTOTALTAXE`, `NUMEROTRIM`, `TAXEYEAR`, `USERLOGIN`, `LOCAL_ID`, `REDEVABLE_ID`, `TAXEANNUELBOISSON_ID`, `USERR_LOGIN`) VALUES
+(1, 2142.86, 2400, '2017-05-07', 3085.72, 171.43, 214.29, 3257.15, 3471.44, 1, '2015-01-01', 'admin', 1, 1, 1, 'admin'),
+(2, 1800, 2016, '2017-05-07', 2268, 144, 180, 2412, 2592, 2, '2015-01-01', 'admin', 1, 1, 1, 'admin'),
+(3, 66964.29, 75000, '2017-05-07', 36160.72, 5357.15, 6696.43, 41517.86, 48214.29, 2, '2016-01-01', 'admin', 2, 4, 2, 'admin'),
+(4, 217312.39, 245563, '2017-05-07', 136906.81, 17385, 19558.12, 154291.8, 173849.92, 2, '2016-01-01', 'admin', 3, 5, 3, 'admin'),
+(5, 8035.72, 9000, '2017-05-07', 8678.58, 642.86, 803.58, 9321.44, 10125.02, 3, '2015-01-01', 'admin', 1, 2, 1, 'admin'),
+(6, 141238.94, 159600, '2017-05-07', 207621.25, 11299.12, 12711.51, 218920.36, 231631.87, 2, '2015-01-01', 'admin', 3, 5, 4, 'admin'),
+(7, 33024.11, 36987, '2017-05-07', 35666.04, 2641.93, 3302.42, 38307.97, 41610.39, 3, '2015-01-01', 'admin', 2, 4, 5, 'admin'),
+(8, 219252.68, 245563, '2017-05-07', 78930.97, 17540.22, 21925.27, 96471.18, 118396.45, 3, '2016-01-01', 'admin', 1, 2, 6, 'admin'),
+(9, 22014.29, 24656, '2017-05-07', 43588.3, 1761.15, 2201.43, 45349.44, 47550.87, 2, '2014-01-01', 'admin', 1, 1, 7, 'admin'),
+(10, 21356.53, 24560, '2017-05-10', 57662.64, 2349.22, 2562.79, 60011.85, 62574.64, 3, '2014-01-01', 'admin', 4, 3, 8, 'admin');
 
 -- --------------------------------------------------------
 
@@ -453,15 +426,16 @@ CREATE TABLE `userr` (
   `TAXES` tinyint(1) DEFAULT '0',
   `TEL` varchar(255) DEFAULT NULL,
   `COMMUNE_ID` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `userr`
 --
 
 INSERT INTO `userr` (`LOGIN`, `ADMINN`, `ADRESSAGE`, `BLOCKED`, `EMAIL`, `LOCALS`, `NBRCNX`, `NOM`, `PASSWRD`, `PRENOM`, `REDEVABLE`, `TAXES`, `TEL`, `COMMUNE_ID`) VALUES
-('user1', 0, 1, 0, 'hamoukira@gmail.com', 1, 0, 'Lmarbouh', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Mhamed', 1, 0, '0679462424', 2),
 ('admin', 1, 1, 0, 'test@test.test', 1, 0, 'Lmarbouh', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Mhamed', 1, 1, '0679462424', 1),
+('test', 1, 1, 0, 'test@test.test', 1, 0, 'Lmarbouh', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Mhamed', 1, 1, '0679462424', 1),
+('user1', 0, 1, 0, 'hamoukira@gmail.com', 1, 0, 'Lmarbouh', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Mhamed', 1, 0, '0679462424', 2),
 ('user2', 0, 0, 0, 'hamoukira@gmail.com', 1, 0, 'el jemli', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'safae', 0, 1, '0679462424', 2);
 
 --
@@ -574,7 +548,7 @@ ALTER TABLE `taxetrimboisson`
   ADD KEY `FK_TAXETRIMBOISSON_REDEVABLE_ID` (`REDEVABLE_ID`),
   ADD KEY `FK_TAXETRIMBOISSON_TAXEANNUELBOISSON_ID` (`TAXEANNUELBOISSON_ID`),
   ADD KEY `FK_TAXETRIMBOISSON_LOCAL_ID` (`LOCAL_ID`),
-  ADD KEY `FK_TAXETRIMBOISSON_USER_LOGIN` (`USER_LOGIN`);
+  ADD KEY `FK_TAXETRIMBOISSON_USERR_LOGIN` (`USERR_LOGIN`);
 
 --
 -- Index pour la table `userr`
@@ -601,12 +575,12 @@ ALTER TABLE `device`
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `journal`
 --
 ALTER TABLE `journal`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `quartier`
 --
@@ -637,6 +611,84 @@ ALTER TABLE `tauxretardboisontrim`
 --
 ALTER TABLE `taxetrimboisson`
   MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `device`
+--
+ALTER TABLE `device`
+  ADD CONSTRAINT `FK_DEVICE_USER_LOGIN` FOREIGN KEY (`USER_LOGIN`) REFERENCES `userr` (`LOGIN`);
+
+--
+-- Contraintes pour la table `locale`
+--
+ALTER TABLE `locale`
+  ADD CONSTRAINT `FK_LOCALE_GERANT_ID` FOREIGN KEY (`GERANT_ID`) REFERENCES `redevable` (`ID`),
+  ADD CONSTRAINT `FK_LOCALE_POSITION_ID` FOREIGN KEY (`POSITION_ID`) REFERENCES `position` (`ID`),
+  ADD CONSTRAINT `FK_LOCALE_PROPRIETE_ID` FOREIGN KEY (`PROPRIETE_ID`) REFERENCES `redevable` (`ID`),
+  ADD CONSTRAINT `FK_LOCALE_RUE_ID` FOREIGN KEY (`RUE_ID`) REFERENCES `rue` (`ID`),
+  ADD CONSTRAINT `FK_LOCALE_TYPELOCAL_ID` FOREIGN KEY (`TYPELOCAL_ID`) REFERENCES `activite` (`ID`);
+
+--
+-- Contraintes pour la table `position`
+--
+ALTER TABLE `position`
+  ADD CONSTRAINT `FK_POSITION_COMMUNE_ID` FOREIGN KEY (`COMMUNE_ID`) REFERENCES `commune` (`ID`);
+
+--
+-- Contraintes pour la table `quartier`
+--
+ALTER TABLE `quartier`
+  ADD CONSTRAINT `FK_QUARTIER_SECTEUR_ID` FOREIGN KEY (`SECTEUR_ID`) REFERENCES `secteur` (`ID`);
+
+--
+-- Contraintes pour la table `rue`
+--
+ALTER TABLE `rue`
+  ADD CONSTRAINT `FK_RUE_QUARTIER_ID` FOREIGN KEY (`QUARTIER_ID`) REFERENCES `quartier` (`ID`);
+
+--
+-- Contraintes pour la table `secteur`
+--
+ALTER TABLE `secteur`
+  ADD CONSTRAINT `FK_SECTEUR_COMMUNE_ID` FOREIGN KEY (`COMMUNE_ID`) REFERENCES `commune` (`ID`);
+
+--
+-- Contraintes pour la table `tauxretardboisontrim`
+--
+ALTER TABLE `tauxretardboisontrim`
+  ADD CONSTRAINT `FK_TAUXRETARDBOISONTRIM_TAUXBOISSONTAXE_ID` FOREIGN KEY (`TAUXBOISSONTAXE_ID`) REFERENCES `tauxtaxeboisson` (`ID`);
+
+--
+-- Contraintes pour la table `tauxtaxeboisson`
+--
+ALTER TABLE `tauxtaxeboisson`
+  ADD CONSTRAINT `FK_TAUXTAXEBOISSON_ACTIVITE_ID` FOREIGN KEY (`ACTIVITE_ID`) REFERENCES `activite` (`ID`);
+
+--
+-- Contraintes pour la table `taxeannuelboisson`
+--
+ALTER TABLE `taxeannuelboisson`
+  ADD CONSTRAINT `FK_TAXEANNUELBOISSON_LOCALE_ID` FOREIGN KEY (`LOCALE_ID`) REFERENCES `locale` (`ID`),
+  ADD CONSTRAINT `FK_TAXEANNUELBOISSON_REDEVABLE_ID` FOREIGN KEY (`REDEVABLE_ID`) REFERENCES `redevable` (`ID`);
+
+--
+-- Contraintes pour la table `taxetrimboisson`
+--
+ALTER TABLE `taxetrimboisson`
+  ADD CONSTRAINT `FK_TAXETRIMBOISSON_LOCAL_ID` FOREIGN KEY (`LOCAL_ID`) REFERENCES `locale` (`ID`),
+  ADD CONSTRAINT `FK_TAXETRIMBOISSON_REDEVABLE_ID` FOREIGN KEY (`REDEVABLE_ID`) REFERENCES `redevable` (`ID`),
+  ADD CONSTRAINT `FK_TAXETRIMBOISSON_TAXEANNUELBOISSON_ID` FOREIGN KEY (`TAXEANNUELBOISSON_ID`) REFERENCES `taxeannuelboisson` (`ID`),
+  ADD CONSTRAINT `FK_TAXETRIMBOISSON_USERR_LOGIN` FOREIGN KEY (`USERR_LOGIN`) REFERENCES `userr` (`LOGIN`);
+
+--
+-- Contraintes pour la table `userr`
+--
+ALTER TABLE `userr`
+  ADD CONSTRAINT `FK_USERR_COMMUNE_ID` FOREIGN KEY (`COMMUNE_ID`) REFERENCES `commune` (`ID`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -126,7 +126,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
 
     private TaxeTrimBoisson initTaxeTrim(TaxeTrimBoisson taxeTrimBoisson, Userr user, TaxeAnnuelBoisson taxeAnnuelBoisson) {
         taxeTrimBoisson.setDateActuel(LocalDate.now());
-//        taxeTrimBoisson.setUser(user);
+        taxeTrimBoisson.setUserr(user);
         taxeTrimBoisson.setUserLogin(user.getLogin());//in case the user is deleted
         taxeTrimBoisson.setTaxeAnnuelBoisson(taxeAnnuelBoisson);
         return taxeTrimBoisson;
@@ -353,9 +353,7 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
     private Map<String, Object> prepareParams(TaxeTrimBoisson taxeTrim,Userr user) {
         String nature;
         String cinOuRcRedevable;
-        String adresse = taxeTrim.getLocal().getRue().getQuartier().getSecteur().getName() + " "
-                + taxeTrim.getLocal().getRue().getQuartier().getName() + " "
-                + taxeTrim.getLocal().getRue().getName() + " " + taxeTrim.getLocal().getComplementAdress();
+        String adresse = generateAdresse(taxeTrim);
         if (taxeTrim.getRedevable().getNature() == 1) {
             nature = "Gerant";
         } else {
@@ -366,6 +364,11 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         } else {
             cinOuRcRedevable = taxeTrim.getRedevable().getRc();
         }
+        Map<String, Object> params = setParamsHashMap(taxeTrim, cinOuRcRedevable, nature, adresse, user);
+        return params;
+    }
+
+    private Map<String, Object> setParamsHashMap(TaxeTrimBoisson taxeTrim, String cinOuRcRedevable, String nature, String adresse, Userr user) {
         Map<String, Object> params = new HashMap();
         params.put("redevableName", taxeTrim.getRedevable().getNom());
         params.put("activite", taxeTrim.getLocal().getTypeLocal().getNom());
@@ -379,5 +382,21 @@ public class TaxeTrimBoissonFacade extends AbstractFacade<TaxeTrimBoisson> {
         params.put("totalEnLettre", FrenchNumberToWords.convert(Math.round(taxeTrim.getMontantTotalTaxe())));
         params.put("userName", user.getNom());
         return params;
+    }
+
+    private String generateAdresse(TaxeTrimBoisson taxeTrim) {
+        String adresse = taxeTrim.getLocal().getRue().getQuartier().getSecteur().getName() + " ";
+        if (taxeTrim.getLocal().getRue().getQuartier().getSecteur().getName().equals(taxeTrim.getLocal().getRue().getQuartier().getName())) {
+            adresse += "Quartier " + taxeTrim.getLocal().getRue().getQuartier().getName() + " ";
+        }else{
+            adresse +=taxeTrim.getLocal().getRue().getQuartier().getName() + " ";
+        }
+        if (taxeTrim.getLocal().getRue().getQuartier().getName().equals(taxeTrim.getLocal().getRue().getName())) {
+            adresse += "Rue " + taxeTrim.getLocal().getRue().getName() + " ";
+        }else{
+            adresse +=taxeTrim.getLocal().getRue().getName() + " ";
+        }
+        adresse += taxeTrim.getLocal().getComplementAdress();
+        return adresse;
     }
 }
